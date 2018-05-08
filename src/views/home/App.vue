@@ -61,11 +61,21 @@
     <div class="advantage container">
       <div class="feature">
         <div>
-          <img src="" alt="">
+          <img src="./../../assets/img/ad1.png" alt="">
         </div>
         <span>顶级</span>
         <p>
           
+        </p>
+      </div>
+      <div class="feature">
+        <div>
+          <img src="./../../assets/img/ad1.png" alt="">
+        </div>
+        <span>顶级</span>
+        <p>
+          重金千万注册顶级域名<br>
+          是您选择的信心保证
         </p>
       </div>
     </div>
@@ -77,7 +87,7 @@
     <div class="data_section">
         <div class="line"></div>
         <div class="container">
-          <div class="tilte">
+          <div class="title">
             <p class="w_en">THE DATA SECTION</p>
             <p class="w_zh">数据专区</p>
             <div class="short_line"></div>
@@ -86,8 +96,10 @@
         
     </div>
     <div class="data_info">
+      <div class="container">
         <div class="currency">USDT</div>
-
+        <div class="currency">USDT</div>
+      </div>
     </div>
   </div>
 
@@ -192,15 +204,21 @@ export default {
 }
 .advantage{
   height: 220px;
+  display: flex;
+  justify-content: space-around;
   .feature{
-    margin: 40px 50px 38px 50px
+    margin: 40px 0 38px 0;
+    text-align: center;
   }
-  .feature div{
-      border-radius:50%;
-      border: 1px solid #1B79F9;
-      height: 74px;
-      width: 74px;
-    }
+  .feature img{
+    height: 75px;
+    width: 75px;
+  }
+  .feature span{
+    display: block;
+    margin: 15px auto  7px;
+    text-align: center;
+  }
 }
 
 .notice{
@@ -214,8 +232,8 @@ export default {
     border-bottom: 1px solid #1B79F9;
     width: 531px;
   }
-  .title{
-    padding: 15px 0 34px 0 ;
+  .container .title{
+    margin: 15px 0 34px 0 ;
     .w_en{
       font-size: 18px;
       font-family: "MicrosoftYaHeiUI";
@@ -236,15 +254,23 @@ export default {
   }
 
 }
-
-.currency{
-  width:600px;
+.data_info{
   height: 52px;
-  background-color: #1B79F9;
-  line-height: 52px;
-  text-align: center;
-  color: #fff;
-  font-size: 18px;
-}
+  .currency{
+    max-width:600px;
+    width: 50%;
+    height: 52px;
+    background-color: #f9f9f9;
+    line-height: 52px;
+    text-align: center;
+    color: #000;
+    font-size: 18px;
+    float: left;
+  }
 
+}
+  .currency .selected {
+  color: #fff;
+  background-color:#1B79F9;
+}
 </style>
