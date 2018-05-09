@@ -97,12 +97,222 @@
     </div>
     <div class="data_info">
       <div class="container">
-        <div class="currency">USDT</div>
-        <div class="currency">USDT</div>
+        <div class="row">
+          <div class="currency selected col-md-6">USDT</div>
+          <div class="currency col-md-6">USDT</div>
+          <div class="col-md-12">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>币种兑(USDT)</th>
+                    <th>价格(USDT)</th>
+                    <th>最高价(USDT)</th>
+                    <th>最低价(USDT)</th>
+                    <th>交易量</th>
+                    <th>日涨跌</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td >Tanmay</td>
+                    <td>Bangalore</td>
+                    <td>560001</td>
+                    <td >Tanmay</td>
+                    <td>Bangalore</td>
+                    <td>560001</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
+    </div>
+    
+    <div class="client_section">
+        <div class="line"></div>
+        <div class="container">
+          <div class="title">
+            <p class="w_en">THE CLIENT</p>
+            <p class="w_zh">客户端</p>
+            <div class="short_line"></div>
+          </div>
+          <div>
+              <img src="../../assets/img/phone1.png" alt="">
+              <img src="../../assets/img/phone2.png" alt="">
+          </div>  
+        </div>
+    </div>
+
+    <div class="dynamics_section">
+        <div class="line"></div>
+        <div class="container">
+          <div class="title">
+            <p class="w_en">INDUSTRY DYNAMICS</p>
+            <p class="w_zh">行业动态</p>
+            <div class="short_line"></div>
+          </div>  
+        </div>
+        <div class="container dynamics_content">
+              <div class="row">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6">
+                </div>
+              </div>
+        </div>
+    </div>
+
+    <div class="coverage_section">
+        <div class="line"></div>
+        <div class="container">
+          <div class="title">
+            <p class="w_en">MEDIA COVERAGE</p>
+            <p class="w_zh">媒体报道</p>
+            <div class="short_line"></div>  
+          </div>  
+        </div>
+        <div class="container coverage_content">
+              <div class="row">
+                <div class="col-xs-3">
+                  <div class="fist_content">
+                    <div>
+                      <img src="../../assets/img/coverage.png" alt="">
+                    </div>
+                    <div>
+                      <h5>关于提币手续费调整</h5>
+                      <p><span class="show_date">2018.3.10</span></p>
+                    </div>
+                    <div class="detail">
+                      <p>
+                        经广大用户建议，平台提币手续由以前按比例...
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-3">
+                <div class="date"><span>01/20</span><br><span class="year">2018</span></div>
+                <h5>关于提币手续费调整</h5>
+                <p class="report">经广大用户建议，平台提币手续由以前按比例的方式调整为固定手续费。提币按每笔只收固定的提币费用,详情请点击查看...</p>
+                <span class="more">更多 >></span>
+                </div>
+                <div class="col-xs-3">
+                  <div class="date"><span>01/20</span><br><span>2018</span></div>
+                <h5>关于提币手续费调整</h5>
+                <p class="report">经广大用户建议，平台提币手续由以前按比例的方式调整为固定手续费。提币按每笔只收固定的提币费用,详情请点击查看...</p>
+                </div>
+                <div class="col-xs-3">
+                  <div class="date"><span>01/20</span><br><span>2018</span></div>
+                   <h5>关于提币手续费调整</h5>
+                <p class="report">经广大用户建议，平台提币手续由以前按比例的方式调整为固定手续费。提币按每笔只收固定的提币费用,详情请点击查看...</p>
+                </div>
+              </div>
+            </div>
+    </div>
+
+
+    <div class="guide_section">
+        <div class="line"></div>
+        <div class="container">
+          <div class="title">
+            <p class="w_en">BEGINNER’S GUIDE</p>
+            <p class="w_zh">新手指南</p>
+            <div class="short_line"></div>
+          </div>  
+        </div>
+        <div class="container guide_content">
+              <div class="row">
+                <div class="col-xs-3">
+                <h4>如何充值提现</h4>
+                <p class="link"><a href="" target="_blank">数字资产充值</a></p>
+                <p class="link"><a href="" target="_blank">数字资产充值</a></p>
+                <h4>如何充值提现</h4>
+                <p class="link"><a href="" target="_blank">数字资产充值</a></p>
+                <p class="link"><a href="" target="_blank">数字资产充值</a></p>
+                </div>
+                <div class="col-xs-3">
+                <h4>认证</h4>
+                <p class="link"><a href="" target="_blank">交易认证</a></p>
+                <p class="link"><a href="" target="_blank">谷歌认证</a></p>
+                <h4>认证</h4>
+                <p class="link"><a href="" target="_blank">邀请人奖励如何获得？</a></p>
+                <p class="link"><a href="" target="_blank"></a></p>
+                <p class="link"><a href="" target="_blank"></a></p>
+                <button type="button" class="btn guide_btn">新手指南</button>
+                </div>
+                <div class="col-xs-6">
+                    <img class="guide_img" src="../../assets/img/guide.png" alt="">
+                </div>
+              </div>
+            </div>
+    </div>
+
+
+    <footer class="footer">
+      <div class="bottom_nav">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-2">
+              <div class="footer-contact">
+                <h5>下载支持</h5>
+                <p class="link"><a href="" target="_blank">API文档</a></p>
+                <p class="link"><a href="" target="_blank">APP下载</a></p>
+                <p class="link"><a href="" target="_blank">其它下载</a></p>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="footer-contact">
+                <h5>客户服务</h5>
+                <p class="link"><a href="" target="_blank">使用教程</a></p>
+                <p class="link"><a href="" target="_blank">常见问题</a></p>
+                <p class="link"><a href="" target="_blank">服务协议</a></p>
+                <p class="link"><a href="" target="_blank">交易费率</a></p>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="footer-contact">
+                <h5>其它</h5>
+                  <p class="link"><a href="" target="_blank">官方公告</a></p>
+                  <p class="link"><a href="" target="_blank">上币申请</a></p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="footer-contact">
+                <h5>联系我们</h5>
+                
+                <p class="link">服务邮箱：<a href="" target="_self">support@nb.com</a></p>
+                <p class="link">服务邮箱：<a href="" target="_self">support@nb.com</a></p>
+                <p class="link">业务邮箱：<a href="" target="_self">info@nb.com</a></p>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="footer-contact">
+                <h5>联系我们</h5>
+                <a><img src="../../assets/img/qq.png" alt=""></a>
+                <a><img src="../../assets/img/wechat.png" alt=""></a>
+                <a><img src="../../assets/img/weibo.png" alt=""></a>
+              </div>
+
+            </div>
+          </div>
+        
+        </div>
+      </div>
+      <div class="copyright">
+        <div class="container">
+          <div class="row">
+              <div class="col-xs-12">
+                  <p >
+                      <span >版权所有@武汉XXXXXX有限公司</span> 
+                  </p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
 </template>
 
 <script>
@@ -112,165 +322,5 @@ export default {
 </script>
 
 <style lang = "less">
-*{
-  box-sizing:content-box;
-}
-.b_blue{
-  color: #1B79F9;
-}
-.b_333{
-  color: #333;
-}
-.roof{
-  height: 40px;
-  background-color: #2264D4;
-  color: #fff;
-  width: 100%;
-  font-size: 14px;
-  .notice_text{
-    display: flex;
-    justify-content: space-around;
-    align-items:center;
-  }
-}
-.banner{
-  height: 559px;
-  background-image: url('../../assets/img/banner1.png');
-  position: relative;
-}
-
-.home_nav {
-  position: absolute;
-  list-style: none;
-  left: 50%;
-  top: 25px;
-  height: 36px;
-}
-.home_nav > li {
-  position: relative;
-  display: block;
-  float: left;
-  font-size: 16px;
-  font-family: "Adobe Heiti Std R"
-}
-.home_nav > li > a {
-  position: relative;
-  display: block;
-  padding: 7px 15px;
-  color: #c2c2c2;
-}
-.home_nav > li > a:hover{
-  text-decoration: none;
-  color: #fff;
-}
-.home_nav > li > a:focus {
-  text-decoration: none;
-  color: #fff;
-  border-bottom: 1px solid #fff;
-}
-.home_title{
-  text-align: center;
-  padding-top: 183px;
-  font-size:100px;
-  line-height: 90px;
-  height: 90px;
-  color: #fff;
-  font-family:Microsoft Sans Serif;
-  text-shadow: 5px 5px 5px #000D2C;
-}
-.home_info{
-  width: 668px;
-  height: 44px;
-  border-radius: 20px;
-  background: linear-gradient(to right,#3FD2FF, #63A4FF, #4AC0FE);
-  margin: 75px auto;
-  line-height: 44px;
-  font-size: 18px;
-  text-align: center;
-  color: #fff;
-  font-family: SimHei;
-}
-.carousel-indicators{
-  bottom:60px;
-}
-.trade_info{
-  height: 50px;
-  line-height: 50px;
-  font-size: 16px;
-  display: flex;
-  justify-content: space-around;
-  align-items:center;
-
-}
-.advantage{
-  height: 220px;
-  display: flex;
-  justify-content: space-around;
-  .feature{
-    margin: 40px 0 38px 0;
-    text-align: center;
-  }
-  .feature img{
-    height: 75px;
-    width: 75px;
-  }
-  .feature span{
-    display: block;
-    margin: 15px auto  7px;
-    text-align: center;
-  }
-}
-
-.notice{
-  background-color: #f1f1f1;
-  height: 46px;
-}
-
-.data_section{
-  .line{
-    margin-top: 41px;
-    border-bottom: 1px solid #1B79F9;
-    width: 531px;
-  }
-  .container .title{
-    margin: 15px 0 34px 0 ;
-    .w_en{
-      font-size: 18px;
-      font-family: "MicrosoftYaHeiUI";
-      color: #1B79F9;
-      margin-bottom: 0;
-    }
-    .w_zh{
-      font-size: 18px;
-      color: #333;
-      font-family: "SourceHanSansCN-Normal";
-      margin-bottom: 0;
-    }
-    .short_line{
-      width: 21px;
-      border: 1px solid #1B79F9;
-      margin-top: 31px;
-    }
-  }
-
-}
-.data_info{
-  height: 52px;
-  .currency{
-    max-width:600px;
-    width: 50%;
-    height: 52px;
-    background-color: #f9f9f9;
-    line-height: 52px;
-    text-align: center;
-    color: #000;
-    font-size: 18px;
-    float: left;
-  }
-
-}
-  .currency .selected {
-  color: #fff;
-  background-color:#1B79F9;
-}
+@import "index.less";
 </style>
