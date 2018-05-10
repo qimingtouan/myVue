@@ -1,0 +1,32 @@
+[
+    {
+        "currency":"LTC/CT",
+        "value":"1089.452",
+        "positive":true
+    },
+    {
+        "currency":"MVS.CMC/CT",
+        "value":"1089.452",
+        "positive":false
+    },
+    {
+        "currency":"LTC/CT",
+        "value":"1089.452",
+        "positive":true
+    },
+    {
+        "currency":"MVS.CMC/CT",
+        "value":"1089.452",
+        "positive":false
+    },
+    {
+        "currency":"LTC/CT",
+        "value":"1089.452",
+        "positive":true
+    },
+    {
+        "currency":"LTC/CT",
+        "value":"1089.452",
+        "positive":false
+    }
+]

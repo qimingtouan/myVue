@@ -3,17 +3,9 @@
     <div class="roof"> 
       <div class="container">
         <div class="notice_text">
-          <div>
-            <span class="b_white">LTC/CT:</span>
-            <span class="b_blue">↓1089.452</span>
-          </div>
-          <div>
-            <span class="b_white">MVS.CMC/CT:</span>
-            <span class="b_red">↑0.409</span>
-          </div>
-          <div>
-            <span class="b_white">MVS.CMC/CT:</span>
-            <span class="b_red">↑0.409</span>
+          <div v-for="item in currencyData" :key="item.index">
+            <span class="b_white">{{item.currency+" :"}}</span>
+            <span class=""><i class="fa" :class="item.positive?'fa-long-arrow-up':'fa-long-arrow-down'" aria-hidden="true"></i>{{item.value}}</span>
           </div>
         </div>
       </div> 
@@ -138,9 +130,22 @@
             <p class="w_zh">客户端</p>
             <div class="short_line"></div>
           </div>
-          <div>
+          <div class="phone_img">
               <img src="../../assets/img/phone1.png" alt="">
               <img src="../../assets/img/phone2.png" alt="">
+          </div> 
+          <div class="phone_word">
+              <h1>XXXX看行情专用</h1>
+              <div class="short_line"></div>
+              <p class="intro">币行情：支持90+全球主流交易所实时价格跟踪</p>
+              <p class="intro">币资产：帮你记账，随时了解总资产变化</p>
+              <p class="intro">币资料：帮你记账，众筹成本、流通量、总量，项目介绍等</p>
+              <p class="intro">币资讯：交易所公告、币聊，各种教程</p>
+              <div class="button_down">
+                <button  class="apple_btn common_btn"><i class="fa fa-apple" aria-hidden="true"></i><span>App Store</span></button>
+                <button type="button" class="android_btn common_btn"><i class="fa fa-android" aria-hidden="true"></i><span>Android</span></button>
+                
+              </div>
           </div>  
         </div>
     </div>
@@ -151,14 +156,56 @@
           <div class="title">
             <p class="w_en">INDUSTRY DYNAMICS</p>
             <p class="w_zh">行业动态</p>
-            <div class="short_line"></div>
+            <div ><span class="short_line"></span><span class="more_detail">更多详情>></span></div>
           </div>  
         </div>
         <div class="container dynamics_content">
               <div class="row">
                 <div class="col-xs-6">
+                    <div>
+                      <div class="date">
+                        <p class="year">2018</p>
+                        <div class="time">
+                          <p class="day">12</p>
+                          <p class="month">一月</p>
+                        </div>
+                      </div>
+                      <div class="page">
+                        <p class="title">关于提币手续费调整</p>
+                        <p class="content">经广大用户建议，平台提币手续由以前按比例的方式调整为固定手续费。提币按每笔只收固定的提币费用,详情请点击查看...<span>更多>></span></p>
+
+                      </div>
+                    </div>
+                    <div>
+                      <div class="date">
+                        <p class="year">2018</p>
+                        <div class="time">
+                          <p class="day">12</p>
+                          <p class="month">一月</p>
+                        </div>
+                      </div>
+                      <div class="page">
+                        <p class="title">关于提币手续费调整</p>
+                        <p class="content">经广大用户建议，平台提币手续由以前按比例的方式调整为固定手续费。提币按每笔只收固定的提币费用,详情请点击查看...<span>更多>></span></p>
+
+                      </div>
+                    </div>
                 </div>
                 <div class="col-xs-6">
+                  <div>
+                      <div class="date">
+                        <p class="year">2018</p>
+                        <div class="time">
+                          <p class="day">12</p>
+                          <p class="month">一月</p>
+                        </div>
+                      </div>
+                      <div class="page">
+                        <p class="title">关于提币手续费调整</p>
+                        <p class="content">经广大用户建议，平台提币手续由以前按比例的方式调整为固定手续费。提币按每笔只收固定的提币费用,详情请点击查看...<span>更多>></span></p>
+
+                      </div>
+                    </div>
                 </div>
               </div>
         </div>
@@ -247,77 +294,34 @@
               </div>
             </div>
     </div>
-
-
-    <footer class="footer">
-      <div class="bottom_nav">
-        <div class="container">
-          <div class="row">
-            <div class="col-xs-2">
-              <div class="footer-contact">
-                <h5>下载支持</h5>
-                <p class="link"><a href="" target="_blank">API文档</a></p>
-                <p class="link"><a href="" target="_blank">APP下载</a></p>
-                <p class="link"><a href="" target="_blank">其它下载</a></p>
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="footer-contact">
-                <h5>客户服务</h5>
-                <p class="link"><a href="" target="_blank">使用教程</a></p>
-                <p class="link"><a href="" target="_blank">常见问题</a></p>
-                <p class="link"><a href="" target="_blank">服务协议</a></p>
-                <p class="link"><a href="" target="_blank">交易费率</a></p>
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="footer-contact">
-                <h5>其它</h5>
-                  <p class="link"><a href="" target="_blank">官方公告</a></p>
-                  <p class="link"><a href="" target="_blank">上币申请</a></p>
-              </div>
-            </div>
-            <div class="col-xs-3">
-              <div class="footer-contact">
-                <h5>联系我们</h5>
-                
-                <p class="link">服务邮箱：<a href="" target="_self">support@nb.com</a></p>
-                <p class="link">服务邮箱：<a href="" target="_self">support@nb.com</a></p>
-                <p class="link">业务邮箱：<a href="" target="_self">info@nb.com</a></p>
-              </div>
-            </div>
-            <div class="col-xs-3">
-              <div class="footer-contact">
-                <h5>联系我们</h5>
-                <a><img src="../../assets/img/qq.png" alt=""></a>
-                <a><img src="../../assets/img/wechat.png" alt=""></a>
-                <a><img src="../../assets/img/weibo.png" alt=""></a>
-              </div>
-
-            </div>
-          </div>
-        
-        </div>
-      </div>
-      <div class="copyright">
-        <div class="container">
-          <div class="row">
-              <div class="col-xs-12">
-                  <p >
-                      <span >版权所有@武汉XXXXXX有限公司</span> 
-                  </p>
-              </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <footer-bottom></footer-bottom>
+    
   </div>
   
 </template>
 
 <script>
+import footerBottom from '@/components/footerNav'
+import mockData from './mock.json'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{footerBottom},
+  data () {
+    return {
+      currencyData:{},
+      msg:"hello"
+    }
+  },
+  methods: {
+    getData() {
+        console.log(this)
+        this.currencyData = mockData;
+        
+    }
+  },
+  mounted() {
+      this.getData()
+  }
 }
 </script>
 
