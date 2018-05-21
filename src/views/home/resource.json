@@ -6,22 +6,22 @@
     "recommendNews":"XX推出全新PC客户端",
     "advantage":[
         {
-            "img":"",
+            "img":"./static/img/ad1.png",
             "title":"顶级",
             "content":"重金千万注册顶级域名是您选择的信心保证"
         },
         {
-            "img":"",
+            "img":"./static/img/ad2.png",
             "title":"安全",
             "content":"一流团队打造专业安全多重防御让您资产无忧"
         },
         {
-            "img":"",
+            "img":"./static/img/ad3.png",
             "title":"快捷",
             "content":"资产流转快速交易畅通无阻"
         },
         {
-            "img":"",
+            "img":"./static/img/ad4.png",
             "title":"服务",
             "content":"全天候客服在线服务保障您的优质使用"
         }

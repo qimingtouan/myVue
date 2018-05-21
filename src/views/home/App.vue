@@ -15,7 +15,7 @@
           <li class="active"><a href="#">首页</a></li>
           <li><a href="#">交易中心</a></li>
           <li><a href="#">用户中心</a></li>
-          <li><a href="#">登录</a></li>
+          <li><a href="views/login/login.html">登录</a></li>
         </ul>
       <div class="home_title">
         XXXBTC 上线
@@ -51,23 +51,13 @@
       </div>
 
     <div class="advantage container">
-      <div class="feature">
+      <div class="feature" v-for="item in resource.advantage" :key="item.index">
         <div>
-          <img src="./../../assets/img/ad1.png" alt="">
+          <img :src="item.img" alt="">
         </div>
-        <span>顶级</span>
+        <span>{{item.title}}</span>
         <p>
-          
-        </p>
-      </div>
-      <div class="feature">
-        <div>
-          <img src="./../../assets/img/ad1.png" alt="">
-        </div>
-        <span>顶级</span>
-        <p>
-          重金千万注册顶级域名<br>
-          是您选择的信心保证
+          {{item.content}}
         </p>
       </div>
     </div>
@@ -93,9 +83,9 @@
             <div class="container">
                 <div class="tabs">
                     <div class="tab" :class="{active: moneyType == 'optional'}" @click="changeMoneyType('optional')">自选市场</div>
-                    <div class="tab" :class="{active: moneyType == 'qc'}" @click="changeMoneyType('qc')">QC交易区</div>
-                    <div class="tab" :class="{active: moneyType == 'usdt'}" @click="changeMoneyType('usdt')">USDT交易区</div>
-                    <div class="tab" :class="{active: moneyType == 'btc'}" @click="changeMoneyType('btc')">BTC交易区</div>
+                    <div class="tab" :class="{active: moneyType == 'qc'}" @click="changeMoneyType('qc')">QC</div>
+                    <div class="tab" :class="{active: moneyType == 'usdt'}" @click="changeMoneyType('usdt')">USDT</div>
+                    <div class="tab" :class="{active: moneyType == 'btc'}" @click="changeMoneyType('btc')">BTC</div>
                 </div>
                 <div class="data-table">
                     <div class="table-grid">
@@ -103,30 +93,32 @@
                             <div class="tr">
 
                                 <div class="td textLeft" style="width:20%;">
-                                    <div class="cell"><span class="sindex"></span>交易对</div>
+                                    <div class="cell"><span class="sindex"></span>{{resource.currencyNav[0]
+    }}</div>
                                 </div>
                                 <div class="td num real-time-price sort" @click="orderData('lastPrice')">
                                     <div class="cell">
-                                        实时价格
+                                        {{resource.currencyNav[1]}}
                                         <span :class="['risefall', orderField == 'lastPrice' ? arrowClass : '']"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="td num">
+                                    <div class="cell">{{resource.currencyNav[2]}}</div>
+                                </div>
+                                <div class="td num">
+                                    <div class="cell">{{resource.currencyNav[3]}}</div>
+                                </div>
+                                <div class="td num sort" @click="orderData('vol')">
+                                    <div class="cell">
+                                        {{resource.currencyNav[4]}}
+                                        <span :class="['risefall', orderField == 'vol' ? arrowClass : '']"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
                                 <div class="td quote-change sort" @click="orderData('change')" style="width: 12%;">
                                     <div class="cell">
-                                        24H涨跌幅
+                                        {{resource.currencyNav[5]}}
                                         <span :class="['risefall', orderField == 'change' ? arrowClass : '']"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>
-                                    </div>
-                                </div>
-                                <div class="td num">
-                                    <div class="cell">24H最高价</div>
-                                </div>
-                                <div class="td num">
-                                    <div class="cell">24H最低价</div>
-                                </div>
-                                <div class="td num sort" @click="orderData('vol')">
-                                    <div class="cell">
-                                        成交量
-                                        <span :class="['risefall', orderField == 'vol' ? arrowClass : '']"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
                                 <div class="td links" style="width: 15%;">
@@ -154,9 +146,40 @@
                                 <div class="td num real-time-price">
                                     <div class="cell" :class="[item.riseRate < 0 ? 'text-second' : 'text-primary']">
                                         {{item.lastPrice | number}}
+                                        <br>
+                                        <span class="computed">
+                                            $3.30
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="td quote-change">
+                                <div class="td num">
+                                    <div class="cell">
+                                        {{item.hightPrice | number}}
+                                        <br>
+                                        <span class="computed">
+                                            $3.30
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="td num">
+                                    <div class="cell">
+                                        {{item.lowPrice | number}}
+                                        <br>
+                                        <span class="computed">
+                                            ￥3.30
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="td num">
+                                    <div class="cell">
+                                        {{item.vol}} {{item.market.split('/')[0]}}
+                                        <!-- <br />
+                                        <span class="computed">
+                                            ≈ {{item.vol * item.lastPrice | fixNumber(item.market.split('/')[1] == 'BTC' ? 4 : 2)}} {{item.market.split('/')[1]}}
+                                        </span> -->
+                                    </div>
+                                </div>
+                                                                <div class="td quote-change">
                                     <div class="cell" >
                                         <div class="btn btn-sm" :class="[item.riseRate < 0 ? 'btn-second' : 'btn-primary']">
                                             {{item.riseRate | number}}%
@@ -164,33 +187,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="td num">
-                                    <div class="cell">
-                                        {{item.hightPrice | number}}
-                                    </div>
-                                </div>
-                                <div class="td num">
-                                    <div class="cell">
-                                        {{item.lowPrice | number}}
-                                    </div>
-                                </div>
-                                <div class="td num">
-                                    <div class="cell">
-                                        {{item.vol}} {{item.market.split('/')[0]}}
-                                        <br />
-                                        <span class="computed">
-                                            ≈ {{item.vol * item.lastPrice | fixNumber(item.market.split('/')[1] == 'BTC' ? 4 : 2)}} {{item.market.split('/')[1]}}
-                                        </span>
-                                    </div>
-                                </div>
-
                                 <div class="td links">
                                     <div class="cell">
-                                        <a :href="'https://trans.zb.com/markets/' + item.market.replace(/\//,'').toLowerCase()">
-                                            K线交易
-                                        </a>
-                                        <a :href="'https://trans.zb.com/' + item.market.replace(/\//,'').toLowerCase()">
-                                            现货交易
+                                        <a href="./views/trade/trade.html">
+                                            去交易
+                                            <i class="fa fa-arrow-circle-o-right" ></i>
                                         </a>
                                     </div>
                                 </div>
@@ -390,7 +391,35 @@
 <script>
 import footerBottom from '@/components/footerNav'
 import mockData from './mock.json'
-import mockData2 from './mock.json'
+import mockData2 from './mock2.json'
+import resource from './resource.json'
+import method from '@/assets/js/common.js'
+var compareTopall = function(a,b) {
+    //一点点容错处理，没数据默认为0
+    var aNum = a.riseRate ? Number(a.riseRate) : 0;
+    var bNum = b.riseRate ? Number(b.riseRate) : 0;
+    if (aNum < bNum)
+        return -1;
+    if (aNum > bNum)
+        return 1;
+    return 0;
+};
+var compareLastPrice = function(a,b) {
+    var aNum = a.lastPrice ? Number(a.lastPrice) : 0;
+    var bNum = b.lastPrice ? Number(b.lastPrice) : 0;
+    return aNum - bNum;
+};
+var compareVol = function(a,b) {
+    var aNum = a.vol ? Number(a.vol) : 0;
+    var bNum = b.vol ? Number(b.vol) : 0;
+    return aNum - bNum;
+};
+
+function getCookie(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null) return unescape(arr[2]);
+    return null;
+}
 export default {
   name: 'App',
   components:{footerBottom},
@@ -399,11 +428,13 @@ export default {
       currencyData:{},
       msg:"hello",
       moneyType:"btc",
-      topall:mockData2,
+      topall:mockData2.btc,
       orderField:'',
-                          coinFilter: '',
-                    isMore: false,
-                    userMarkets: [],
+      sortType:'',
+      coinFilter: '',
+      isMore: false,
+      userMarkets: [],
+      resource:resource
     }
   },
   computed: {
@@ -417,7 +448,7 @@ export default {
             //对自选市场过滤
             partitionTopall: function() {
                 var topall = JSON.parse(JSON.stringify(this.topall));
-                if (this.moneyType == 'optional' && ajaxRun) {
+                if (this.moneyType == 'optional') {
                     topall = this.topall.filter(function(item){
                         var marketName = item.market.replace('/', '_');
                         return this.userMarkets.includes(marketName);
@@ -440,6 +471,7 @@ export default {
                     }.bind(this))
 
                 }
+                console.log(topall)
                 return topall;
             },
             orderTopall: function() {
@@ -477,7 +509,65 @@ export default {
   methods: {
     getData() {
         this.currencyData = mockData;
+        this.$store.commit("userNameChange","world");
 
+    },
+    changeOrderType: function(type) {
+        this.orderType = type;
+    },
+    isOptional: function(marketName) {
+        return marketName ? this.userMarkets.includes(marketName.replace('/', '_')) : false;
+    },
+    changeMoneyType: function(type) {
+        if (!this.isLogined && type == 'optional') {
+            // return JuaBox.showWrong('请登录后再查看自选的市场');
+            console.log('请登录后再查看自选的市场')
+        }
+        this.moneyType = type;
+        this.topall = mockData2[type];
+
+    },
+    orderData: function(field) {
+        this.orderField = field;
+        this.sortType = this.sortType == 'up' ? 'down' : 'up';
+    },
+    gotoUrl: function(url) {
+        window.location.href = url;
+    },
+    getUserMarkets: function() {
+        $.ajax({
+            type: "GET",
+            url: "https://vip.zb.com/user/marketList",
+            // contentType: "application/json",
+            dataType: "jsonp",
+            success: function(res) {
+                if (res.datas.length) {
+                    var userMarkets = res.datas.map(function(item){
+                        return item.marketName;
+                    });
+                    this.userMarkets = userMarkets;
+                }
+            }.bind(this)
+        })
+    },
+    editUserMarket: function(name) {
+        var status = this.userMarkets.includes(name.replace('/', '_')) ? '2' : '1';
+        var data = {
+            marketName: name,
+            status: status
+        }
+        $.ajax({
+            type: "POST",
+            url: "https://vip.zb.com/user/doEditUserMarket",
+            dataType: "jsonp",
+            data: data,
+            success: function(res) {
+                if(res.isSuc) {
+                    JuaBox.showRight('操作成功');
+                    this.getUserMarkets();
+                }
+            }.bind(this)
+        })
     }
   },
   created() {
@@ -506,8 +596,11 @@ export default {
 }
 
 .table-grid .thead {
-    display: table-row-group;
-    color: #797986
+    display: table-row-group; 
+    height: 14px;
+    line-height: 14px;
+    text-align: left;
+    background-color: #f1f1f1;
 }
 
 .table-grid .tbody {
@@ -537,15 +630,13 @@ export default {
 }
 
 .market-data .tab {
-    padding: 12px 0;
-    width: 50%;
-    margin: 30px 0 10px 0;
-    font-size: 14px;
-    border: 1px solid #EEE;
-    background: #EEE;
-    cursor: pointer;
-    position: relative;
+    background-color: #f9f9f9;
+    text-align: center;
+    color: #000;
+    font-size: 18px;
     float: left;
+    height: 52px;
+    line-height: 52px;
 }
 
 #globalMarket .market-data .tab {
@@ -557,8 +648,8 @@ export default {
 }
 
 .market-data .tab.active {
-    color: #de211b;
-    background: #FFF
+    color: #fff;
+    background-color:#1B79F9;
 }
 
 .market-data .tab.tab-topten.active {
@@ -582,9 +673,14 @@ export default {
     color: #fe5c5c
 }
 
-.market-data .td {
-    padding: 10px 5px;
-    height: 52px;
+.market-data .thead .td {
+    padding: 5px 5px;
+    height: 42px;
+    border-top: 1px solid #dfe5ea;
+}
+.market-data .tbody .td {
+    padding: 5px;
+    height: 54px;
     border-top: 1px solid #dfe5ea
 }
 
@@ -607,7 +703,7 @@ export default {
 }
 
 .market-data .thead .tr .td {
-    color: #888a95;
+    color: #666;
     font-size: 12px
 }
 
@@ -641,7 +737,10 @@ export default {
 }
 
 .market-data span.money {
-    color: #a7a9b7
+    color: #a7a9b7;
+    font-size: 12px;
+    transform:scale(0.8);
+    display: inline-block;
 }
 
 .market-data .textLeft {
@@ -664,8 +763,22 @@ export default {
 .market_tab_bd .tr .td {
     position: relative;
     font-size: 14px;
-    text-align: left;
+    text-align: center;
     color: #333
+}
+.market_tab_bd .tr .links a{
+    display: inline-block;
+    width: 80%;
+    border-radius: 4px;
+    height: 34px;
+    line-height: 34px;
+    color: #1B79F9;
+    background-color: #EDF4FF;
+}
+.market_tab_bd .tr .links a:hover{
+    color: #fff;
+    background-color: #1B79F9;
+    text-decoration: none;
 }
 
 .market_tab_bd .go-trade {
@@ -694,5 +807,23 @@ export default {
     height: 13px;
     background: url(/statics/img/v3/home/icon-goright-y.png);
     background-size: cover
+}
+.market-filter {
+    border: 1px solid #DDD;
+    padding-right: 16px;
+    position: relative;
+}
+.market-filter input {
+    border: 0;
+    padding: 3px 6px;
+    background: transparent;
+}
+.market-filter i {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    font-size:18px;
+    line-height:20px!important;
+    color:#E00!important;            
 }
 </style>

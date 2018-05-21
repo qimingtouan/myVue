@@ -57,7 +57,13 @@
 
 <script>
     export default {
-      name: 'loginApp'
+      name: 'loginApp',
+      methods:{
+
+      },
+      created() {
+          console.log(this.$store.state.userName)
+      }
     }
 </script>
 
