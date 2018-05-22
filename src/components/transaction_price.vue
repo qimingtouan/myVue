@@ -19,7 +19,7 @@
                         <span class="amount">数量<em class="uppercase">(btc)</em></span>                                             
                         <span>累计<em class="uppercase">(btc)</em></span>                                         
                         </dt>  
-                        <dd data-info="8366.25">                                             
+                        <dd data-info="8366.25" @click="setPrice(8366.25)">                                             
                             <div class="inner">                                                 
                                 <span class="title color-sell">卖 7</span>                                                 
                                 <span class="price">8366.25</span>                                                 
@@ -286,7 +286,11 @@ export default {
   },
   props: ["tradeData"],
   computed: {},
-  methods: {},
+  methods: {
+      setPrice(price) {
+          this.$store.commit("setPrice",price);
+      }
+  },
   created() {
   },
   mounted() {

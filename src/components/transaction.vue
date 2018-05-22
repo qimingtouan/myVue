@@ -30,15 +30,15 @@
                     <div class="range_path"></div>
                 </div>
                 <div class="range_track_wrap">
-                    <div class="range_track" :style="{width: range_width}"></div>
-                    <div class="range_handle" :style="{left: range_width}"></div>
+                    <div class="range_track" :style="{width: range_width_buy+'%'}"></div>
+                    <div class="range_handle" :style="{left: range_width_buy+'%'}"></div>
                 </div>
                 <div class="range_points_wrap">
-                    <div class="range_point" :class="{active:isActive[0]}" data-point-ratio="0" style="left: 0%;"></div>
-                    <div class="range_point" :class="{active:isActive[1]}" data-point-ratio="25" style="left: 25%;"></div>
-                    <div class="range_point" :class="{active:isActive[2]}"  data-point-ratio="50" style="left: 50%;"></div>
-                    <div class="range_point" :class="{active:isActive[3]}" data-point-ratio="75" style="left: 75%;"></div>
-                    <div class="range_point" :class="{active:isActive[4]}" data-point-ratio="100" style="left: 100%;"></div>
+                    <div class="range_point" :class="{active:isActiveForBuy[0]}" data-point-ratio="0" style="left: 0%;"></div>
+                    <div class="range_point" :class="{active:isActiveForBuy[1]}" data-point-ratio="25" style="left: 25%;"></div>
+                    <div class="range_point" :class="{active:isActiveForBuy[2]}"  data-point-ratio="50" style="left: 50%;"></div>
+                    <div class="range_point" :class="{active:isActiveForBuy[3]}" data-point-ratio="75" style="left: 75%;"></div>
+                    <div class="range_point" :class="{active:isActiveForBuy[4]}" data-point-ratio="100" style="left: 100%;"></div>
                 </div>
 
             </div>
@@ -79,22 +79,24 @@
                         </label>
                     </p>
                 </div>
-                <div class="range_wrap" data-ratio="75" tabindex="0">
+                <div class="range_wrap" data-ratio="75" tabindex="0"@click ="sellProgress">
                     <div class="range_paths_wrap">
                         <div class="range_path"></div>
                     </div>
                     <div class="range_track_wrap">
-                        <div class="range_track"></div>
-                        <div class="range_handle"></div>
+                    <div class="range_track sell_color" :style="{width: range_width_sell+'%'}"></div>
+                    <div class="range_handle" :style="{left: range_width_sell+'%'}"></div>
                     </div>
                     <div class="range_points_wrap">
-                        <div class="range_point" :class="{active:isActive[0]}" style="left: 0%;" ></div>
-                        <div class="range_point" :class="{active:isActive[1]}" data-point-ratio="25" style="left: 25%;" ></div>
-                        <div class="range_point" :class="{active:isActive[2]}"  data-point-ratio="50" style="left: 50%;" ></div>
-                        <div class="range_point" :class="{active:isActive[3]}" data-point-ratio="75" style="left: 75%;" ></div>
-                        <div class="range_point" :class="{active:isActive[4]}" data-point-ratio="100" style="left: 100%;" ></div>
+                        <div class="range_point" :class="{active_sell:isActiveForSell[0]}" style="left: 0%;" ></div>
+                        <div class="range_point" :class="{active_sell:isActiveForSell[1]}" data-point-ratio="25" style="left: 25%;" ></div>
+                        <div class="range_point" :class="{active_sell:isActiveForSell[2]}"  data-point-ratio="50" style="left: 50%;" ></div>
+                        <div class="range_point" :class="{active_sell:isActiveForSell[3]}" data-point-ratio="75" style="left: 75%;" ></div>
+                        <div class="range_point" :class="{active_sell:isActiveForSell[4]}" data-point-ratio="100" style="left: 100%;" ></div>
                     </div>
-                    <div class=" has-feedback">
+                    
+                </div>
+                <div class=" has-feedback">
                         <label class="control-label" for="realBuyAccount" style="position:static;">预计交易额：
                             <b class="text-primary" id="realBuyAccount">0.00</b> QC</label>
                     </div>
@@ -103,7 +105,6 @@
                             <i class="bk-ico buycart"></i>立即卖出
                         </button>
                     </div>
-                </div>
         </div>
     </div>
 
@@ -118,44 +119,93 @@ export default {
       title:"实时成交",
       base:"zb",
       quote:"qc",
+      canUse:10,
       sell_price:"",
-      sell_amount:"",
       buy_price:"",
+      sell_amount:"",
+      selected_price:"",
       buy_amount:"",
-      bar:1,
-      isActive:[false,false,false,false,false]
+      buybar:0,
+      sellbar:0,
+      isActiveForBuy:[false,false,false,false,false],
+      isActiveForSell:[false,false,false,false,false],
+      isDrag:false
     };
   },
   props: ["tradeData"],
   computed: {
-      range_width:{
+      range_width_buy:{
         get: function () {
-            return this.bar;
+            return this.buybar.toFixed(3);
         },
         set: function (newValue) {
-            this.bar = newValue
+            this.buybar = newValue;
+            let temp = this.range_width_buy;
+            this.isActiveForBuy = this.isActiveForBuy.map(function(val,index){
+                if(index < Math.floor(temp/25)+1){
+                    val = true;
+                }else{
+                    val = false;
+                }
+                return val
+            })
+        }
+      },
+      range_width_sell:{
+        get: function () {
+            return this.sellbar.toFixed(3);
+        },
+        set: function (newValue) {
+            this.sellbar = newValue;
+            let temp = this.range_width_sell;
+            this.isActiveForSell = this.isActiveForSell.map(function(val,index){
+                if(index < Math.floor(temp/25)+1){
+                    val = true;
+                }else{
+                    val = false;
+                }
+                return val
+            })
         }
       }
-    
+  },
+  watch:{
+      buy_amount(val,oldval){
+          val*=1;
+          oldval*=1;
+        //防止相互调用showProgress->buy_amount->range_width_buy
+        if(val.toFixed(3) != oldval.toFixed(3)){
+            this.range_width_buy = val/this.canUse*100
+        }    
+      },
+      sell_amount(val,oldval){
+          val*=1;
+          oldval*=1;
+        //防止相互调用showProgress->buy_amount->range_width_buy
+        if(val.toFixed(3) != oldval.toFixed(3)){
+            this.range_width_sell = val/this.canUse*100
+        }    
+      }
   },
   methods: {
      showProgress(evt){
          console.log(evt.target.className)
          if(evt.target.className == "range_point" || evt.target.className == "range_point active"){
-             this.range_width = evt.target.dataset.pointRatio +"%";
+             this.range_width_buy = evt.target.dataset.pointRatio*1;
          }else if(evt.target.className == "range_wrap"|| evt.target.className == "range_track" || evt.target.className == "range_path"){
-            this.range_width = (evt.offsetX/2.5)+"%";    
+            this.range_width_buy = evt.offsetX/2.5;    
          }
-         let temp = this.range_width.substr(0,this.range_width.length-1);
-         this.buy_amount = 10*temp/100;
-         this.isActive = this.isActive.map(function(val,index){
-            if(index < Math.floor(temp/25)+1){
-                val = true;
-            }else{
-                val = false;
-            }
-            return val
-        })
+         this.buy_amount = this.range_width_buy*this.canUse/100;
+
+     },
+     sellProgress(evt){
+         console.log(evt.target.className)
+         if(evt.target.className == "range_point" || evt.target.className == "range_point active"){
+             this.range_width_sell = evt.target.dataset.pointRatio*1;
+         }else if(evt.target.className == "range_wrap"|| evt.target.className == "range_track" || evt.target.className == "range_path"){
+            this.range_width_sell = evt.offsetX/2.5;    
+         }
+         this.buy_amount = this.range_width_sell*this.canUse/100;
      },
       sellFun(){
         let data= {
@@ -277,7 +327,9 @@ export default {
             -webkit-transition: all .05s;
             -o-transition: all .05s
         }
+        .range_wrap .range_track .sell-color{
 
+        }
         .range_wrap .range_handle {
             position: absolute;
             width: 14px;
@@ -337,6 +389,9 @@ export default {
         .range_wrap .range_point.active:after {
             background: #090
         }
+        .range_wrap .range_point.active_sell:after {
+            background: #de211d
+        }
 
         .range_wrap.click {
             cursor: -webkit-grabbing
@@ -348,6 +403,9 @@ export default {
 
         .range_wrap.focus .range_handle {
             border-color: #090
+        }
+        .sell_color {
+            border-color: #de211d
         }
 
         .range_wrap .range_handle {

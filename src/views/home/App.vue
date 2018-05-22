@@ -508,6 +508,7 @@ export default {
         },
   methods: {
     getData() {
+        this.$ajax.get("/trade/api/market").then((res)=>{console.log(res)})
         this.currencyData = mockData;
         this.$store.commit("userNameChange","world");
 
