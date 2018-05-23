@@ -129,7 +129,8 @@ export default {
       sellbar:0,
       isActiveForBuy:[false,false,false,false,false],
       isActiveForSell:[false,false,false,false,false],
-      isDrag:false
+      isDrag:false,
+      
     };
   },
   props: ["tradeData"],
@@ -185,6 +186,9 @@ export default {
         if(val.toFixed(3) != oldval.toFixed(3)){
             this.range_width_sell = val/this.canUse*100
         }    
+      },
+      selected_price (val ,oldval){
+          this.buy_price = val
       }
   },
   methods: {
@@ -327,8 +331,10 @@ export default {
             -webkit-transition: all .05s;
             -o-transition: all .05s
         }
-        .range_wrap .range_track .sell-color{
+        .range_wrap .range_track sell-color{
 
+
+        
         }
         .range_wrap .range_handle {
             position: absolute;

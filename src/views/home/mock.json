@@ -1,32 +1,42 @@
 [
     {
         "currency":"LTC/CT",
-        "value":"1089.452",
+        "value":"2089.452",
         "positive":true
     },
     {
         "currency":"MVS.CMC/CT",
-        "value":"1089.452",
+        "value":"89.6",
         "positive":false
     },
     {
-        "currency":"LTC/CT",
+        "currency":"BTC/USDT",
         "value":"1089.452",
+        "positive":true
+    },
+    {
+        "currency":"BTC/QC",
+        "value":"55089.452",
+        "positive":true
+    },
+    {
+        "currency":"TC/CT",
+        "value":"2089.4",
         "positive":true
     },
     {
         "currency":"MVS.CMC/CT",
-        "value":"1089.452",
+        "value":"89.6",
         "positive":false
     },
     {
-        "currency":"LTC/CT",
+        "currency":"BTC/USDT",
         "value":"1089.452",
         "positive":true
     },
     {
-        "currency":"LTC/CT",
-        "value":"1089.452",
-        "positive":false
+        "currency":"BTC/QC",
+        "value":"55089.452",
+        "positive":true
     }
 ]

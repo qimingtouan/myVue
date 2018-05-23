@@ -1,57 +1,46 @@
 <template>
 <div class="bk-kMarket">
      <div class="bk-trans-form">
-			  <div class="bk-table">
-			    <div class="bk-cell list">
-			      <div class="bk-tabList">
-						    <div class="bk-tabList-hd clearfix">
-						        <div class="btn-group bk-btn-group" role="group">
-						            <a class="btn" role="button" @click="changeData('1')">限价委托<span style="display: none;">(<span id="limitEntrustNum">0</span>)</span></a>
-						            <a class="btn" role="button" @click="changeData('2')">计划委托<span style="display: none;">(<span id="readyEntrustNum">0</span>)</span></a>
-						            <a class="btn" role="button" @click="changeData('3')">历史委托</a>
-						        </div>
-						        <a class="pull-right" href="" target="_blank" role="button"><i class="fa fa-calendar fa-fw"></i>更多记录</a>
-						    </div>
-						    <div class="bk-tabList-bd">
-						        <div class="bk-entrust">
-									    <table class="table table-striped table-bordered table-hover">
-									      <thead>
-									        <tr>
-									          <th style="">委托时间</th>
-									          <th style="text-align:left;">委托数量/已成交(ZB)</th>
-									          <th style="text-align:left;">委托价格/成交均价(QC)</th>
-									          <th style="">成交总额(QC)</th>
-									          <th style="">状态</th>
-									          <th style="">订单来源</th>
-									          <th style="width:115px;">操作</th>
-									        </tr>
-									      </thead>
-									      <tbody ><tr><td colspan="8"><div class="bk-norecord"><p><i class="bk-ico info"></i>您还没有登录，请 <a style="color:#de211d; margin:0 5px;" href="https://vip.zb.com/user/login">登录</a> 或 <a style="color:#3dc18e; margin:0 5px;" href="">注册</a> 后再尝试。</p></div></td></tr><tr></tr></tbody>
-							        </table>
-								</div>
-						    </div>
-						</div>
-						<div id="tradeList" style="display:none;">
-						  <div class="bk-entrust" style="max-height:500px; min-height:150px;overflow-x:hidden;overflow-y:auto;">
-						    <table class="table table-striped table-bordered table-hover">
-						      <thead>
-						        <tr>
-						          <th>成交时间</th>
-						          <th style="text-align:left;">成交数量(ZB)</th>
-						          <th style="text-align:left;">成交价格(QC)</th>
-						          <th style="text-align:left;">成交额(QC)</th>
-						          
-						        </tr>
-						      </thead>
-						      <tbody id="tradeRecord"></tbody>
-				        </table>
-						</div>
-					</div>
-
-			    </div>
-			  </div>
-		</div>
-   </div>
+        <div class="bk-tabList">
+                <div class="bk-tabList-hd clearfix">
+                    <div class="btn-group bk-btn-group" role="group">
+                        <a class="btn" role="button" @click="changeData('1')" :class="{selected:isActive[0]}">限价委托</a>
+                        <a class="btn" role="button" @click="changeData('2')" :class="{selected:isActive[1]}">计划委托</a>
+                        <a class="btn" role="button" @click="changeData('3')" :class="{selected:isActive[2]}">历史委托</a>
+                    </div>
+                    <a class="pull-right" href="" target="_blank" role="button"><i class="fa fa-calendar fa-fw"></i>更多记录</a>
+                </div>
+                <div class="bk-tabList-bd">
+                    <div class="bk-entrust">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th v-for="item in title" :key="item.index" >{{item}}</th>
+                                </tr>
+                                </thead>
+                                <tbody ><tr><td colspan="8"><div class="bk-norecord"><p><i class="bk-ico info"></i>您还没有登录，请 <a style="color:#de211d; margin:0 5px;" href="https://vip.zb.com/user/login">登录</a> 或 <a style="color:#3dc18e; margin:0 5px;" href="">注册</a> 后再尝试。</p></div></td></tr><tr></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="tradeList" style="display:none;">
+                <div class="bk-entrust" style="max-height:500px; min-height:150px;overflow-x:hidden;overflow-y:auto;">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>成交时间</th>
+                        <th style="text-align:left;">成交数量(ZB)</th>
+                        <th style="text-align:left;">成交价格(QC)</th>
+                        <th style="text-align:left;">成交额(QC)</th>
+                        
+                    </tr>
+                    </thead>
+                    <tbody id="tradeRecord"></tbody>
+            </table>
+            </div>
+        </div>
+	</div>
+</div>
 
 </template>
 <script>
@@ -59,19 +48,27 @@ export default {
     name: "entrust",
     data() {
         return {
-            title:["委托时间","委托数量/已成交","委托价格/成交均价","成交总额(QC)","状态","订单来源","操作"],
+            isActive:[false,false,false],
+            base:"",
+            qoute:"",
+            type:1,
         };
     },
     computed: {
-            
+        title(){
+            let res = ["委托时间","委托数量/已成交","委托价格/成交均价","成交总额(QC)","状态","订单来源","操作"];
+            res = this.type == 1?["委托时间","委托量","触发价格","委托价格","真实触发价格","状态","订单来源","操作"]:res
+            return res
+        }   
      
             
     },
     methods: {
         changeData(type){
-            switch(type){
-                case 1:this.title
-            }
+            this.isActive = [false,false,false];
+            this.isActive[type-1] = true;
+            this.type = type - 1 ;
+            console.log(type)
         }
 
     },
@@ -95,14 +92,6 @@ export default {
     border-top: 1px solid #2b2929
 }
 
-.bk-kMarket .bk-trans-form .list {
-    width: auto;
-    
-    font-size: 12px;
-    vertical-align: top;
-    padding-right: 10px
-}
-
 .bk-kMarket .bk-trans-form {
     padding-bottom: 20px;
     padding-top: 0;
@@ -114,8 +103,6 @@ export default {
     background-color: transparent!important;
     margin: 0!important
 }
-
-
 
 .bk-kMarket .table thead tr th {
     color: #666;
@@ -167,7 +154,10 @@ export default {
 .bk-kMarket .bk-tabList {
     margin: 0 auto;
     width: 100%;
-    overflow-x: auto
+    overflow-x: auto;
+    font-size: 12px;
+    vertical-align: top;
+    padding-right: 10px;
 }
 
 .bk-kMarket .bk-tabList-hd a.pull-right {
@@ -211,11 +201,14 @@ export default {
     border-bottom: 1px solid #2b2929
 }
 
-.bk-kMarket .bk-tabList-hd .btn-group .btn {
+.btn-group .btn {
     color: #6d7b82;
     background-color: #2f2c2c
 }
-
+.btn-group .selected{
+    color: #fff;
+    background-color: #de211d
+}
 .bk-kMarket .bk-tabList-hd .btn-group .btn.active,.bk-kMarket .bk-tabList-hd .btn-group .btn:hover,.bk-kMarket .bk-tabList-hd .btn-group .btn:focus {
     color: #fff;
     background-color: #de211d
@@ -223,6 +216,14 @@ export default {
 
 .bk-kMarket .bk-tabList-hd .btn-group .btn.active:before,.bk-kMarket .bk-tabList-hd .btn-group .btn:hover:before,.bk-kMarket .bk-tabList-hd .btn-group .btn:focus:before {
     background-color: #fa290f
+}
+.bk-norecord {
+    min-height: 100px;
+    padding: 36px 0;
+    line-height: 2em;
+    background-color: #fdfdfd;
+    text-align: center;
+    color: #6d7b82
 }
 
 </style>

@@ -9,12 +9,12 @@
                 </tr>
             </thead>
                     <tbody>
-                        <tr v-for="item in tradeData.sell">
+                        <tr v-for="item in tradeData.sell" :key="item.index">
                             <td >{{"卖"+item.number}}</td>
                             <td class="seller_color">{{item.price}}</td>
                             <td class="amount seller_color">{{item.amount}}</td>
                         </tr>
-                        <tr v-for="item in tradeData.buy">
+                        <tr v-for="item in tradeData.buy" :key="item.index">
                             <td >{{"买"+item.number}}</td>
                             <td class="buyer_color">{{item.price}}</td>
                             <td class="amount buyer_color">{{item.amount}}</td>

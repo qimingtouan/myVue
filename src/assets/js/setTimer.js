@@ -50,19 +50,4 @@ SetTimer.prototype.lastHandle = function(){
     this.createFns = [];
 };
 
-timer1 = new SetTimer();
-timer1.create("start",function(){
-    // console.log("1")
-})
-timer1.create("middle",function(a,b){
-    console.log(b)
-    // this.remove("end");
-})
-timer1.create("end",function(){
-    // console.log("3")
-})
-// timer1.init("a","b")
-// test = function(){
-//     console.log(arguments)
-// }
-// test(1,2)
+export default new SetTimer()

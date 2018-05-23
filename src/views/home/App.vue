@@ -2,18 +2,20 @@
   <div id="app">
     <div class="roof"> 
       <div class="container">
-        <div class="notice_text">
+       <div style="overflow:hidden" ref="slide">
+        <div class="notice_text" >
           <div v-for="item in currencyData" :key="item.index">
             <span class="b_white">{{item.currency+" :"}}</span>
             <span class=""><i class="fa" :class="item.positive?'fa-long-arrow-up':'fa-long-arrow-down'" aria-hidden="true"></i>{{item.value}}</span>
           </div>
         </div>
+       </div>
       </div> 
     </div>
     <div class="banner">
         <ul class="home_nav">
           <li class="active"><a href="#">首页</a></li>
-          <li><a href="#">交易中心</a></li>
+          <li><a href="views/goods/goods_trade.html">交易中心</a></li>
           <li><a href="#">用户中心</a></li>
           <li><a href="views/login/login.html">登录</a></li>
         </ul>
@@ -91,10 +93,8 @@
                     <div class="table-grid">
                         <div class="thead">
                             <div class="tr">
-
                                 <div class="td textLeft" style="width:20%;">
-                                    <div class="cell"><span class="sindex"></span>{{resource.currencyNav[0]
-    }}</div>
+                                    <div class="cell"><span class="sindex"></span>{{resource.currencyNav[0]}}</div>
                                 </div>
                                 <div class="td num real-time-price sort" @click="orderData('lastPrice')">
                                     <div class="cell">
@@ -179,7 +179,7 @@
                                         </span> -->
                                     </div>
                                 </div>
-                                                                <div class="td quote-change">
+                                <div class="td quote-change">
                                     <div class="cell" >
                                         <div class="btn btn-sm" :class="[item.riseRate < 0 ? 'btn-second' : 'btn-primary']">
                                             {{item.riseRate | number}}%
@@ -189,9 +189,11 @@
                                 </div>
                                 <div class="td links">
                                     <div class="cell">
-                                        <a href="./views/trade/trade.html">
-                                            去交易
-                                            <i class="fa fa-arrow-circle-o-right" ></i>
+                                        <a href="./views/kline/kline_trade.html">
+                                            k线交易   
+                                        </a>
+                                        <a href="./views/goods/goods_trade.html">
+                                            现货交易 
                                         </a>
                                     </div>
                                 </div>
@@ -393,7 +395,8 @@ import footerBottom from '@/components/footerNav'
 import mockData from './mock.json'
 import mockData2 from './mock2.json'
 import resource from './resource.json'
-import method from '@/assets/js/common.js'
+import method from '@/assets/js/common_method.js'
+import timer from '@/assets/js/setTimer.js'
 var compareTopall = function(a,b) {
     //一点点容错处理，没数据默认为0
     var aNum = a.riseRate ? Number(a.riseRate) : 0;
@@ -434,7 +437,8 @@ export default {
       coinFilter: '',
       isMore: false,
       userMarkets: [],
-      resource:resource
+      resource:resource,
+      slide_length:0
     }
   },
   computed: {
@@ -525,6 +529,7 @@ export default {
             console.log('请登录后再查看自选的市场')
         }
         this.moneyType = type;
+        this.$ajax.get("/trade/api/market/"+type).then((res)=>{console.log(res.data)})
         this.topall = mockData2[type];
 
     },
@@ -575,256 +580,13 @@ export default {
     this.getData()
   },
   mounted() {
-      
+    console.log(this.$refs)
+
   }
 }
 </script>
 
 <style lang = "less">
 @import "index.less";
-.table-grid {
-    display: table;
-    width: 100%;
-    border-collapse: separate
-}
-
-.table-grid .theader,.table-grid .tr {
-    display: table-row
-}
-
-.table-grid .tr:hover {
-    background: rgba(251,168,28,0.05)
-}
-
-.table-grid .thead {
-    display: table-row-group; 
-    height: 14px;
-    line-height: 14px;
-    text-align: left;
-    background-color: #f1f1f1;
-}
-
-.table-grid .tbody {
-    display: table-row-group
-}
-
-.table-grid.no-items .tbody {
-    padding: 3em 1em;
-    caption-side: bottom;
-    display: table-caption;
-    text-align: center
-}
-
-.table-grid .th,.table-grid .td {
-    display: table-cell;
-    vertical-align: middle
-}
-
-.table-grid .caption {
-    caption-side: bottom;
-    display: table-caption;
-    text-align: center
-}
-
-#home .market-data {
-    color: #a7a9b7
-}
-
-.market-data .tab {
-    background-color: #f9f9f9;
-    text-align: center;
-    color: #000;
-    font-size: 18px;
-    float: left;
-    height: 52px;
-    line-height: 52px;
-}
-
-#globalMarket .market-data .tab {
-    width: 25%
-}
-
-.market-data .tab:last-child {
-    margin-left: -3px
-}
-
-.market-data .tab.active {
-    color: #fff;
-    background-color:#1B79F9;
-}
-
-.market-data .tab.tab-topten.active {
-    color: #fe5c5c;
-    background: #FFF
-}
-
-.market-data .tab.tab-footten.active {
-    color: #3dc18e;
-    background: #FFF
-}
-
-.market-data .tab i {
-    position: absolute;
-    left: 20px;
-    top: 10px;
-    font-size: 18px
-}
-
-.market-data .tab.tab-topten.active i {
-    color: #fe5c5c
-}
-
-.market-data .thead .td {
-    padding: 5px 5px;
-    height: 42px;
-    border-top: 1px solid #dfe5ea;
-}
-.market-data .tbody .td {
-    padding: 5px;
-    height: 54px;
-    border-top: 1px solid #dfe5ea
-}
-
-.market-data .thead .td {
-    border-top: 0
-}
-
-.market-data i.coin-icon {
-    width: 22px;
-    height: 22px;
-    display: inline-block;
-    border-radius: 100%;
-    vertical-align: middle;
-    margin-top: 0;
-    margin-right: 6px
-}
-
-.market-data i.coin-icon:before {
-    display: none
-}
-
-.market-data .thead .tr .td {
-    color: #666;
-    font-size: 12px
-}
-
-.market-data .thead .tr .td .fa {
-    color: #ddd;
-    line-height: 7px
-}
-
-.market-data .risefall {
-    display: inline-block;
-    width: 15px;
-    position: relative;
-    height: 15px;
-    vertical-align: middle
-}
-
-.market-data .risefall i {
-    display: block
-}
-
-.market-data .thead .tr .td .risefall.r-up .fa.fa-caret-up,.market-data .thead .tr .td .risefall.r-down .fa.fa-caret-down {
-    color: #E00
-}
-
-.sindex {
-    display: inline-block;
-    width: 25px;
-    color: #a7a9b7;
-    font-size: 12px;
-    vertical-align: middle
-}
-
-.market-data span.money {
-    color: #a7a9b7;
-    font-size: 12px;
-    transform:scale(0.8);
-    display: inline-block;
-}
-
-.market-data .textLeft {
-    text-align: left
-}
-
-.market-data .tbody .market-name .coin {
-    font-weight: bold;
-    color: #000
-}
-
-.market-data .tbody .real-time-price {
-    color: #000
-}
-
-.market-data .num {
-    text-align: right
-}
-
-.market_tab_bd .tr .td {
-    position: relative;
-    font-size: 14px;
-    text-align: center;
-    color: #333
-}
-.market_tab_bd .tr .links a{
-    display: inline-block;
-    width: 80%;
-    border-radius: 4px;
-    height: 34px;
-    line-height: 34px;
-    color: #1B79F9;
-    background-color: #EDF4FF;
-}
-.market_tab_bd .tr .links a:hover{
-    color: #fff;
-    background-color: #1B79F9;
-    text-decoration: none;
-}
-
-.market_tab_bd .go-trade {
-    margin-left: 10px;
-    position: absolute;
-    right: 25px;
-    top: 14px;
-    display: block;
-    width: 6px;
-    height: 13px
-}
-
-.market_tab_bd .go-trade i {
-    display: inline-block;
-    width: 6px;
-    height: 13px;
-    background: url(/statics/img/v3/home/icon-goright-g.png);
-    background-size: cover;
-    vertical-align: middle;
-    margin-top: -2px
-}
-
-.market_tab_bd .tr:hover .go-trade i {
-    display: inline-block;
-    width: 6px;
-    height: 13px;
-    background: url(/statics/img/v3/home/icon-goright-y.png);
-    background-size: cover
-}
-.market-filter {
-    border: 1px solid #DDD;
-    padding-right: 16px;
-    position: relative;
-}
-.market-filter input {
-    border: 0;
-    padding: 3px 6px;
-    background: transparent;
-}
-.market-filter i {
-    position: absolute;
-    top: 1px;
-    right: 5px;
-    font-size:18px;
-    line-height:20px!important;
-    color:#E00!important;            
-}
+@import "trade.less";
 </style>
