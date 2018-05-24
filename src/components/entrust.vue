@@ -49,15 +49,24 @@ export default {
     data() {
         return {
             isActive:[false,false,false],
-            base:"",
-            qoute:"",
             type:1,
+            showData:{}
         };
     },
+    props:["currency"],
     computed: {
         title(){
             let res = ["委托时间","委托数量/已成交","委托价格/成交均价","成交总额(QC)","状态","订单来源","操作"];
-            res = this.type == 1?["委托时间","委托量","触发价格","委托价格","真实触发价格","状态","订单来源","操作"]:res
+            res = this.type == 1?["委托时间","委托量","触发价格","委托价格","真实触发价格","状态","订单来源","操作"]:res;
+            switch(this.type){
+                case 1:
+                console.log(this.currency)
+                let url = "/trade/api/market/price/"+this.currency.base+"/"+this.currency.quote+"/"+this.currency.userid;
+                    this.$ajax.get(url).then(function(res){
+                        let showData = Object.assign({},res.data.data);
+                        this.showData = showData;
+                    }.bind(this))
+            }
             return res
         }   
      

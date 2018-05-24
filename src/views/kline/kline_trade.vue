@@ -13,7 +13,7 @@
     </div>
     <div class="left_side">
         <div id="kline_container"></div>
-        <div style="background-color:#eee"><entrust></entrust></div>
+        <div style="background-color:#eee"><entrust :currency="info"></entrust></div>
       </div>
       <footer></footer>
   </div>
@@ -34,7 +34,12 @@ export default {
     return {
       prices:{
       },
-      symbol:"btcusdt"
+      symbol:"btcusdt",
+      info:{
+        base:"zb",
+        quote:"qc",
+        userid:0
+      }
     }
   },
     computed: {

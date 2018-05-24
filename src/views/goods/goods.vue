@@ -756,22 +756,27 @@
 			  </div>
 		  </div>
 		</div>
-
+        <modal v-if="isShow" v-on:btn_cancel="btn_cancel" v-on:btn_ok="btn_ok">
+            <div slot="modal-header">
+                <h4>标题</h4>    
+            </div> 
+        </modal>
   </div>
   
 </template>
 
 <script>
 import searchCoin from '@/components/search.vue'
-
+import modal from '@/components/modal.vue'
 export default {
   name: 'goods',
-  components:{searchCoin},
+  components:{searchCoin,modal},
 
   data () {
     return {
       prices:{
       },
+      isShow:true,
       symbol:"btcusdt",
       coinsData:["ZB/QC","ZB/BTC","ZB/USDT","BTC/USDT","ETH/USDT","ETC/BTC","ETC/QC"]
     }
@@ -787,8 +792,14 @@ export default {
       },
       showResult1 (res){
         console.log(res)
+      },
+      btn_cancel(e){
+          this.isShow = false;
+          console.log(e.div)
+      },
+      btn_ok(){
+          this.isShow = false
       }
-
     },
     created() {
         

@@ -11,13 +11,13 @@
                 </span>
             </div>
             <div>
-                <p style="color:#6d7b82;">
+                <div style="color:#6d7b82;">
                     <label>
                         买入价:
                         <input type="text" placeholder="" class="input_price" v-model="buy_price">
                     </label>
                     <div class="buyprice-cny" id="computedbuyPrice">≈ ￥5.45</div>
-                </p>
+                </div>
                 <p>
                     <label>
                         买入量:
@@ -65,13 +65,13 @@
                     </span>
                 </div>
                 <div>
-                    <p>
+                    <div>
                         <label>
                             卖出价:
                             <input type="text" placeholder="" class="input_price" v-model="sell_price">
                         </label>
                         <div class="buyprice-cny" id="computedbuyPrice">≈ ￥5.45</div>
-                    </p>
+                    </div>
                     <p>
                         <label>
                             卖出量:
@@ -154,6 +154,7 @@ export default {
       },
       range_width_sell:{
         get: function () {
+            console.log(this.buybar)
             return this.sellbar.toFixed(3);
         },
         set: function (newValue) {
@@ -209,14 +210,14 @@ export default {
          }else if(evt.target.className == "range_wrap"|| evt.target.className == "range_track" || evt.target.className == "range_path"){
             this.range_width_sell = evt.offsetX/2.5;    
          }
-         this.buy_amount = this.range_width_sell*this.canUse/100;
+         this.sell_amount = this.range_width_sell*this.canUse/100;
      },
       sellFun(){
         let data= {
             "baseCurrency": this.base,
             "price": this.sell_price,
             "quoteCurrency": this.quote,
-            "totalMoney": this.sell_price*this.sell_amount,
+            "totalAmount": this.sell_amount,
             "type": 0,
             "userId": 0
         };
@@ -331,9 +332,8 @@ export default {
             -webkit-transition: all .05s;
             -o-transition: all .05s
         }
-        .range_wrap .range_track sell-color{
-
-
+        .range_wrap .sell-color{
+            background-color: #de211d
         
         }
         .range_wrap .range_handle {
@@ -410,8 +410,8 @@ export default {
         .range_wrap.focus .range_handle {
             border-color: #090
         }
-        .sell_color {
-            border-color: #de211d
+        .range_wrap .sell_color {
+            background-color: #de211d
         }
 
         .range_wrap .range_handle {

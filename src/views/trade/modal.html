@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class='container' id="demo">
+        <p>{{ txt }}</p>
+        <button @click="show()" class="btn btn-default">show modal</button>
+        <my-modal>
+        </my-modal>
+    </div>
+    
+    
+    <template id="template">
+        <div role="dialog" class="modal" style="display:block">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <slot name="modal-header">
+                        <div class="modal-header">
+                            <h4>这是Modal弹框的标题</h4> 
+                            <button type="button" class="btn-close" @click="close">x</button> 
+                        </div> 
+
+                    </slot>
+                    
+                    <div slot="modal-body" class="modal-body">
+                        <input type="text" v-model="" />
+                        <button @click="showNew">show new</button>
+                    </div>
+                    <div slot="modal-footer" class="modal-footer">
+                        <button type="button" class="btn btn-default" @click='cancel()'>Exit</button>
+                        <button type="button" class="btn btn-success" @click='submit()'>Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="http://cdn.bootcss.com/vue/2.0.3/vue.min.js"></script>
+
+    <script type="text/javascript">
+        
+                // 或者，在文档之外渲染并且随后挂载
+                
+                // document.getElementById('demo').appendChild(component.$el)
+
+        var vm = new Vue({
+            el: '#demo',
+            data: function () {
+                return {
+                    txt: null,
+                    isModelVisible:true
+                }
+            },
+            methods: {
+                show: function () {
+                    var self = this
+                   
+                }
+            },
+            mounted(){
+                var myModal = Vue.extend({})
+        var modal = new myModal({
+            data: {
+                isShow: true,
+                deep:  0,
+            },
+            template: '#template',
+            props:["isVisible"],
+            methods: {
+                showNew: function () {
+                    var self = this
+                },
+                submit: function () {
+                    this.show = false
+                },
+                cancel: function () {
+                    this.isShow = false
+                }
+            },
+            watch: {
+                'show': function (val) {
+                    if (val === false) {
+                        this.$destroy()
+                    }
+                }
+            },
+            mounted(){
+                this.isShow = this.isVisible;
+            }
+        })
+                component = modal.$mount("my-modal")
+            }
+        })
+    </script>
+</body>
+</html>
