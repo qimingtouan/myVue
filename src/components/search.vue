@@ -8,7 +8,7 @@
     <div v-if="showItem" class="show_coins">
         <ul>
             <li v-for="coin in coins" :key="coin.index" @click = "selectCoin(coin.toUpperCase())">
-                <span>{{coin.toUpperCase()}}</span>
+                <a :href="'#/'+coin.toUpperCase()"><span>{{coin.toUpperCase()}}</span></a>
             </li>
         </ul>
     </div>
@@ -112,6 +112,10 @@ export default {
         margin: 0;
         width: 100%;
         padding: 0 15px;
+        a{
+            text-decoration: none;
+            color: #555 
+        }
     }
     li:hover{
         background-color: #f5f5f5;

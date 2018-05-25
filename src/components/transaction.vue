@@ -135,6 +135,10 @@ export default {
   },
   props: ["tradeData"],
   computed: {
+      setPrice(){
+          console.log(1)
+          return this.$store.state.count;
+      },
       range_width_buy:{
         get: function () {
             return this.buybar.toFixed(3);
@@ -188,8 +192,8 @@ export default {
             this.range_width_sell = val/this.canUse*100
         }    
       },
-      selected_price (val ,oldval){
-          this.buy_price = val
+      setPrice (val ,oldval){
+          this.buy_price = this.$store.state.selectedPrice;
       }
   },
   methods: {
@@ -217,7 +221,7 @@ export default {
             "baseCurrency": this.base,
             "price": this.sell_price,
             "quoteCurrency": this.quote,
-            "totalAmount": this.sell_amount,
+            "totalAmount": this.sell_price*this.sell_amount,
             "type": 0,
             "userId": 0
         };

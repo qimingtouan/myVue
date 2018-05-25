@@ -189,10 +189,10 @@
                                 </div>
                                 <div class="td links">
                                     <div class="cell">
-                                        <a href="./views/kline/kline_trade.html">
+                                        <a :href="'/views/kline/kline_trade.html#/'+item.market">
                                             k线交易   
                                         </a>
-                                        <a href="./views/goods/goods_trade.html">
+                                        <a :href="'/views/goods/goods_trade.html#/'+item.market">
                                             现货交易 
                                         </a>
                                     </div>

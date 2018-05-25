@@ -2,14 +2,14 @@
   <div class="kline_trade">
     <!-- <trade-goods :trade-data = "prices"></trade-goods> -->
     <header>
-
+          <kLine-header></kLine-header>
     </header>
     <div class="right_side">
         
-        <transaction-price></transaction-price>
+        <transaction-price ></transaction-price>
     </div>
     <div class="middle_side">
-        <transaction></transaction>
+        <transaction ></transaction>
     </div>
     <div class="left_side">
         <div id="kline_container"></div>
@@ -22,13 +22,14 @@
 
 <script>
 import tradeGoods from '@/components/trade.vue'
+import kLineHeader from '@/components/kline_header.vue'
 import kLine from 'kline'
 import transactionPrice from '@/components/transaction_price.vue'
 import transaction from '@/components/transaction.vue'
 import entrust from '@/components/entrust.vue'
 export default {
   name: 'kline',
-  components:{tradeGoods,transaction,transactionPrice,entrust},
+  components:{tradeGoods,transaction,transactionPrice,entrust,kLineHeader},
 
   data () {
     return {
@@ -36,27 +37,37 @@ export default {
       },
       symbol:"btcusdt",
       info:{
-        base:"zb",
-        quote:"qc",
+        base:"USDT",
+        quote:"QC",
         userid:0
-      }
+      },
+      temp:"",
+      klineExist:false,
+      kline:null
     }
   },
     computed: {
-            
-     
-            
+         currentCoin(){
+           let temp = this.$store.state.currentCoin.split("/").join("");
+           console.log(this.$store.state.currentCoin)
+           return this.$store.state.currentCoin;
+         }     
         },
-    methods: {
-   
-
+    methods: {        
+    },
+    watch:{
+      currentCoin(val){
+         if(this.klineExist){
+             console.log(1)
+             let temp = val.toLowerCase().split("/").join("");
+             this.kline.setSymbol(temp,val)
+         }
+      }
     },
     created() {
-        
+        //判断当前是否登录
     },
     mounted() {
-      console.log($(document).width())
-      var _this = this;
         var kline = new Kline({
             element: "#kline_container",
             width: $(document).width()-660,
@@ -64,13 +75,13 @@ export default {
             theme: 'dark', // light/dark
             language: 'zh-cn', // zh-cn/en-us/zh-tw
             ranges: ["1w", "1d", "1h", "30m", "15m", "5m", "1m", "line"],
-            symbol: "btcusdt",
+            symbol: this.symbol,
             symbolName: "BTC/USDT",
             type: "poll", // poll/socket
             url: "/trade/api/market/kline",
             limit: 1000,
             intervalTime: 5000,
-            debug: true,
+            debug: false,
             showTrade: false,
             onResize: function (width, height) {
                 console.log(width)
@@ -79,58 +90,20 @@ export default {
         window.onresize = function temp() {
           kline.resize($(document).width()-660,664)
         };
+        
+        this.kline = kline;
+        this.klineExist =true;
         kline.draw();
-        setInterval(function(){
-      _this.prices = {
-        "baseCurrency":"USDT",
-        "quoteCurrency":"BTC",
-        "buy":[{
-          number:1,
-          price:190,
-          amount:2
-        },{
-          number:2,
-          price:190,
-          amount:2
-        },
-        {
-          number:3,
-          price:(190+Math.random()).toFixed(4),
-          amount:2
-        },{
-          number:4,
-          price:(190+Math.random()).toFixed(4),
-          amount:2
-        }],
-        "sell":[{
-          number:4,
-          price:(190+Math.random()).toFixed(4),
-          amount:2
-        },{
-          number:3,
-          price:(190+Math.random()).toFixed(4),
-          amount:(4+2*Math.random()).toFixed(4)
-        },{
-          number:2,
-          price:140,
-          amount:2
-        },{
-          number:1,
-          price:140,
-          amount:2
-        }]
-      }
-        },1000)
     }
 }
 </script>
 
 <style lang = "less">
-.gkline_trade{
+.kline_trade{
   overflow: hidden;
 }
 header{
-  background-color: aqua;
+  background-color: #2a333a;
   height: 44px;
 }
 .left_side{

@@ -5,7 +5,7 @@
             <div class="head">
                 <p class="title">最新价 
                     <span id="tickerClose">8363.00</span> 
-                    <em class="uppercase" >usdt</em> 
+                    <em class="uppercase" >{{quoteCoin}}</em> 
                     涨幅
                     <span name="rate" class="color_up">+1.38%</span>
                 </p>
@@ -15,9 +15,9 @@
                     <dl>  
                         <dt class="header">                                            
                         <span class="title"></span>                                             
-                        <span class="price">价格(USDT)</span>                                             
-                        <span class="amount">数量<em class="uppercase">(btc)</em></span>                                             
-                        <span>累计<em class="uppercase">(btc)</em></span>                                         
+                        <span class="price">价格{{quoteCoin}}</span>                                             
+                        <span class="amount">数量(<em class="uppercase">{{baseCoin}}</em>)</span>                                             
+                        <span>累计<em class="uppercase">({{baseCoin}})</em></span>                                         
                         </dt>  
                         <dd data-info="8366.25" @click="setPrice(8366.25)">                                             
                             <div class="inner">                                                 
@@ -243,7 +243,7 @@
                         <dd class="color_down">卖出</dd>           
                     </dl>                                         
                     <dl class="market_trades_price">                                             
-                        <dt>价格<span class="uppercase">(usdt)</span></dt>  
+                        <dt>价格<span class="uppercase">{{quoteCoin}}</span></dt>  
                         <dd>8340.00</dd>  
                         <dd>8340.83</dd> 
                         <dd>8340.00</dd> 
@@ -260,7 +260,7 @@
                     </dl>                                        
                     
                     <dl class="market_trades_amount">                                             
-                        <dt>数量<span class="uppercase">(btc)</span></dt>  
+                        <dt>数量<span class="uppercase">{{baseCoin}}</span></dt>  
                         <dd>0.1889</dd> 
                         <dd>0.0108</dd>  
                         <dd>0.0100</dd>  <dd>0.0041</dd>  
@@ -284,14 +284,26 @@ export default {
       queto:"usdt"
     };
   },
-  props: ["tradeData"],
-  computed: {},
+  props:["currency"],
+  computed: {
+      isLogin(){
+          return this.$store.state.isLogin;
+      },
+      baseCoin(){
+          return this.$store.state.currentCoin.split("/")[0]
+      },
+      quoteCoin(){
+          return this.$store.state.currentCoin.split("/")[1]
+      }
+  },
   methods: {
       setPrice(price) {
+          
           this.$store.commit("setPrice",price);
       }
   },
   created() {
+
   },
   mounted() {
   }
