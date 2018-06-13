@@ -207,7 +207,7 @@
                                 <div id="stepOneFormWrapper">
                                     <div class="form-group has-feedback">
                                         <label class="control-label col-sm-12" for="receiveAddress">提币至：
-                                            <a id="historyAddr" href="http://127.0.0.1:8080/views/asset/asset.html#/account" target="_blank">地址管理</a>
+                                            <a id="historyAddr" href="/views/asset/asset.html#/account" target="_blank">地址管理</a>
                                         </label>
                                         <div id="addressGroup">
                                             <div class="col-sm-12">

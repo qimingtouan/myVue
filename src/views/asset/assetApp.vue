@@ -102,11 +102,6 @@
                 <div class="container">
                     <div class="finance-left safe-ld snav-ld">
                         <ul class="nb-finance-left">
-                            <!-- <li><a href="#"><i class="fa fa-money" aria-hidden="true"></i>账户资产</a></li>
-                            <li><a href="#"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>充币</a></li>
-                            <li><a href="#"><i class="fa fa-outdent" aria-hidden="true"></i>提币</a></li>
-                            <li><a href="#"><i class="fa fa-address-card-o" aria-hidden="true"></i>地址管理</a></li>
-                            <li><a href="#"><i class="fa fa-list-alt" aria-hidden="true"></i>交易账单</a></li> -->
                             <li v-for="item in assetLeftMenuData" :key="item.index">
                                 <router-link :to="item.linkTo"><i :class="item.iconClass" aria-hidden="true"></i>{{item.optionText}}</router-link>
                             </li>
@@ -131,10 +126,6 @@
         components: {headerAsset, footerBottom},
         data() {
             return {
-                bkToolBarData: {
-                    information: '信息资讯',
-                    informationHref: '#123'
-                },
                 assetLeftMenuData: [
                     {
                         linkTo: '/financeAsset',
@@ -169,6 +160,10 @@
         mounted() {
         }
     }
+
+    $(document).on("click",".close",function(){
+        $(this).closest(".ctips").slideUp(100)
+    })
 </script>
 
 <style lang="less">

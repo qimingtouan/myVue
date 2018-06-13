@@ -147,11 +147,11 @@
                         // tuijianId: recommendId,
                         regAgreement: _regAgreement
                     },
+                    dataType: "json",
                     complete: function() {
                         _this.imgCode = "";
                         _this.getImgCode();
                     },
-                    dataType: "json",
                     success: function(json) {
                         console.log(json);
                         if (json.isSuccess) {

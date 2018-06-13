@@ -1,7 +1,7 @@
 <template>  
-    <div class="finance-rd">
+    <div class="finance-rd bk-bill">
         <div class="bk-tabList">
-            <div class="bk-tabList-hd clearfix mt10">
+            <div class="bk-tabList-hd clearfix mt10 paddingLeft0">
                 <div class="btn-group bk-btn-group" role="group">
                     <h6 style="color:#353d41; font-size:16px; font-weight: bold;">
                         <i class="bk-ico billgray"></i>综合账单
@@ -10,7 +10,7 @@
             </div>
 
             <!-- 筛选条件 -->
-            <div class="bk-tabList-hd clearfix" style=" overflow:visible; padding-bottom:10px; padding-top:10px; ">
+            <div class="bk-tabList-hd clearfix" style=" overflow:visible; padding-bottom:10px; padding-top:10px; padding-left: 0;">
                 <div class="btn-group bk-btn-group" role="group" style="width: 100%;">
                     <div class="dropdown dropdown-coin bk-onekey-form">
                         <a id="sel-coin" class="dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:44px;">
@@ -19,7 +19,7 @@
                         </a>
                         <div class="dropdown-menu firsttype" aria-labelledby="sel-coin">
                             <div class="search-coin">
-                                <input placeholder="搜索币种" id="searCoinName">
+                                <input placeholder="搜索币种" id="searCoinName" class="bill_sear_coin">
                                 <i class="fa fa-search"></i>
                             </div>
                             <a class="btn" role="button" data-value="all">所有币种</a>
@@ -47,7 +47,7 @@
                         <a class="btn" role="button" data-value="zs">系统赠送</a>
                     </div>
                 </div>
-                <div class="pull-right mt5"></div>
+                <div class="pull-right mt10"></div>
             </div>
 
             <!-- 账单 -->
@@ -61,15 +61,17 @@
                         <input type="hidden" id="coint" name="coint" value="zb">
                         <input type="hidden" id="operType" name="operType" value="all">
                         <div class="clearfix mb20"></div>
-                        <div class="form-group ml15 dataType">
+                        <div class="form-group ml20 dataType">
                             <a href="/u/bill?datatype=0" style="min-width:70px;" class="btn btn-primary btn-sm disabled">3天内</a>
                             <a href="/u/bill?datatype=1" style="min-width:70px;" class="ml10 btn btn-sm btn-default">3天前</a>
                         </div>
                         <div class="form-group form-group-sm ml15">
                             <label for="startDate">起止时间：从</label>
-                            <input type="text" style="width:120px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn' , minDate : '' , maxDate : ''})" name="startDate" id="startDate" class="form-control">
+                            <input type="text" style="width:120px;" name="startDate" id="startDate" class="form-control" 
+                                   onfocus="WdatePicker({el:this, dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn' , minDate : '' , maxDate : ''})" >
                             <label for="endDate">到</label>
-                            <input type="text" style="width:120px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn'})" name="endDate" id="endDate" class="form-control">
+                            <input type="text" style="width:120px;" name="endDate" id="endDate" class="form-control" 
+                                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn'})">
                         </div>
                         <button style="min-width:75px;" type="button" class="btn btn-sm btn-primary ml10" id="idSearch" onclick="javascript:zb.list.search();"><i class="fa fa-search mr5"></i>筛选</button>
                         <button style="min-width:75px;" type="reset" class="btn btn-sm btn-default ml10" id="idReset" onclick="javascript:zb.list.resetForm();"><i class="fa fa-repeat mr5"></i>重置</button>
@@ -107,6 +109,7 @@
 </template>
 
 <script>
+    import '../../static/My97DatePicker/My97DatePicker/WdatePicker.js'
     export default {
         name: 'finance_rd_bill'
     }
@@ -114,5 +117,86 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+    html, body {
+        min-width: 1000px;
+    }
+    .bk-tabList-hd .btn-group .btn {
+        padding: 15px 5px;
+        font-size: 12px;
+        font-weight: normal;
+    }
+    .finance-rd .clearfix.mb20 {
+        height: 1px;
+    }
 
+    #shopslist {
+        margin: 20px;
+    }
+    .bk-tabList-bd {
+        padding-bottom: 1px;
+    }
+
+    .dropdown-menu.firsttype {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    .dropdown-coin {
+        width:160px;
+        height: 44px;
+        position: relative;
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: bottom;
+        padding: 0;
+
+        .dropdown-menu {
+            a {
+                display: block;
+                text-align: left;
+                padding: 5px 12px!important;
+                cursor: pointer;
+            }
+            a.active:before {
+                display: none!important;
+                background: none;
+            }
+            a:hover {
+                border-bottom: none;
+                background: #F5F5F5;
+            }
+            a:hover:before {
+                display: none!important;
+            }
+        }
+    }
+
+    .search-coin .bill_sear_coin {
+        width: 83%;
+    }
+    .search-coin i {
+        cursor: pointer;
+        position: absolute;
+        top: 8px;
+        right: 5px;
+        color: #ccc;
+        font-weight: bold;
+    }
+
+    #current-sel {
+        font-size: 12px;
+    }
+
+    .bk-onekey-form .dropdown-button {
+        width: 100%;
+    }
+
+    .bk-ico.billgray {
+        vertical-align: middle;
+        color: #61727C;
+    }
+
+    #billDetail th {
+        background: #f6f6f6;
+    }
 </style>

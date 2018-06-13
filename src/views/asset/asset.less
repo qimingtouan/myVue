@@ -570,6 +570,16 @@ td>.bk-norecord {
 	/* background-size: auto 95%; */
 	/* vertical-align: text-bottom; */
 }
+.bk-ico.billgray {
+	margin-right: 10px;
+	width: 24px;
+	height: 20px;
+	background-image: url('./../../assets/img/coin/ico-bill-gray.png');
+	background-size: auto 95%;
+	vertical-align: text-bottom;
+	position: relative;
+	top: -2px;
+}
 .bk-pageTit {
 	padding: 10px 0;
     text-align: left;
@@ -1126,6 +1136,12 @@ td>.bk-norecord {
     float: right
 }
 /* 财务：地址管理 start */
+
+/* 财务：交易账单 start */
+.bk-bill .bk-tabList-hd .btn-group .btn {
+    min-width: 55px
+}
+/* 财务：交易账单 end */
 /* 财务：中间内容区 end */
 
 
@@ -1138,11 +1154,22 @@ td>.bk-norecord {
 	content: " ";
 	display: table
 }
+.ld {
+    float: left;
+    display: inline
+}
+.rd {
+    float: right;
+    display: inline
+}
 .mb0 {
 	margin-bottom: 0!important;
 }
 .mb10 {
     margin-bottom: 10px!important;
+}
+.mb20 {
+    margin-bottom: 20px!important;
 }
 .mr5 {
     margin-right: 5px!important;
@@ -1159,13 +1186,22 @@ td>.bk-norecord {
 .ml5 {
     margin-left: 5px!important;
 }
+.ml10 {
+    margin-left: 10px!important;
+}
+.ml15 {
+    margin-left: 15px!important;
+}
+.ml20 {
+    margin-left: 20px!important;
+}
 
 .paddingRight0 {
-    padding-right: 0
+    padding-right: 0 !important;
 }
 
 .paddingLeft0 {
-    padding-left: 0
+    padding-left: 0 !important;
 }
 
 .ft14 {
@@ -1259,6 +1295,10 @@ td>.bk-norecord {
 	background-color: #de211d;
 	border-color: #de211d;
 	color: #fff;
+}
+
+a.btn.disabled,fieldset[disabled] a.btn {
+    pointer-events: none
 }
 
 .table thead tr th {

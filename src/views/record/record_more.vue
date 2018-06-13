@@ -4,7 +4,7 @@
     <div class="container">
         <div class="bk-tabList">
             <div class="nowcoin-show">
-                <span>当前搜索的交易对：<b>bcc/zb</b></span>
+                <span>当前搜索的交易对：<b>btc/usdt</b></span>
                 <div style="float:right; ">
                     <a class="btn btn-primary btn-sm btn-backtrans" href="##" target="_self"><i class="fa fa-exchange fa-fw"></i>返回交易</a>
 
@@ -13,13 +13,13 @@
             <div class="search_more">
                 <el-form :inline="true" :model="searchInfo" size="small">
                     <el-form-item label="交易对">
-                        <el-input v-model="searchInfo.base" class="coin_input"></el-input>
+                        <el-input v-model="searchInfo.base" class="coin_input" @change="changeUpper"></el-input>
                     </el-form-item>
                     <el-form-item label="/">
                     <el-select v-model="searchInfo.qoute" class="entrust_input">
-                            <el-option label="BTC" value="shanghai"></el-option>
-                            <el-option label="USDT" value="guangdong"></el-option>
-                            <el-option label="ETH" value="beijing"></el-option>
+                            <el-option label="BTC" value="btc"></el-option>
+                            <el-option label="USDT" value="usdt"></el-option>
+                            <el-option label="ETH" value="eth"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="类型">
@@ -44,7 +44,7 @@
                         end-placeholder="结束日期">
                     </el-date-picker></el-form-item>
                     <el-form-item>
-                    <el-button type="primary" >查询</el-button>
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
                     </el-form-item>
                 </el-form>            
     <p></p>
@@ -174,6 +174,13 @@ export default {
                 });
             }
 
+        },
+        changeUpper(val){
+            console.log(val)
+            this.searchInfo.base = val.toUpperCase();
+        },
+        onSubmit(){
+            console.log(this.searchInfo.base+"/"+this.searchInfo.qoute)
         },
         handleClick(a){
             console.log(a)

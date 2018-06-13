@@ -1,11 +1,11 @@
 <template>
-<div class="search_coin">
+<div class="search_coin" >
    <div >
        <i class="fa fa-search"></i>
        <input placeholder="搜索交易币种" v-model="inputCoin">
         
     </div>
-    <div v-if="showItem" class="show_coins">
+    <div v-show="showItem" class="show_coins">
         <ul>
             <li v-for="coin in coins" :key="coin.index" @click = "selectCoin(coin.toUpperCase())">
                 <a :href="'#/'+coin.toUpperCase()"><span>{{coin.toUpperCase()}}</span></a>

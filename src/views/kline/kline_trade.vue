@@ -1,23 +1,23 @@
 <template>
-  <div class="kline_trade">
-    <!-- <trade-goods :trade-data = "prices"></trade-goods> -->
-    <header>
-          <kLine-header></kLine-header>
-    </header>
-    <div class="right_side">
+  <div>
+    <el-container>
+        <el-header >
+          <header>
+              <kLine-header></kLine-header>
+          </header>
+        </el-header>
+        <el-container>
+          <el-container>
+          <el-main><div id="kline_container"></div></el-main>
+          <el-footer height="280px"><entrust ></entrust></el-footer>
         
-        <transaction-price ></transaction-price>
-    </div>
-    <div class="middle_side">
-        <transaction ></transaction>
-    </div>
-    <div class="left_side">
-        <div id="kline_container"></div>
-        <div style="background-color:#eee"><entrust :currency="info"></entrust></div>
-      </div>
-      <footer></footer>
+        </el-container>
+          <el-aside width="300px"><transaction ></transaction></el-aside>
+          <el-aside width="350px"><transaction-price ></transaction-price></el-aside>
+        </el-container>
+          
+    </el-container>
   </div>
-  
 </template>
 
 <script>
@@ -35,12 +35,7 @@ export default {
     return {
       prices:{
       },
-      symbol:"btcusdt",
-      info:{
-        base:"USDT",
-        quote:"QC",
-        userid:0
-      },
+      symbol:"nbusdt",
       temp:"",
       klineExist:false,
       kline:null
@@ -49,7 +44,6 @@ export default {
     computed: {
          currentCoin(){
            let temp = this.$store.state.currentCoin.split("/").join("");
-           console.log(this.$store.state.currentCoin)
            return this.$store.state.currentCoin;
          }     
         },
@@ -68,15 +62,16 @@ export default {
         //判断当前是否登录
     },
     mounted() {
+      let _this = this
         var kline = new Kline({
             element: "#kline_container",
-            width: $(document).width()-660,
+            width: $(".el-main").width(),
             height: 664,
             theme: 'dark', // light/dark
             language: 'zh-cn', // zh-cn/en-us/zh-tw
             ranges: ["1w", "1d", "1h", "30m", "15m", "5m", "1m", "line"],
             symbol: this.symbol,
-            symbolName: "BTC/USDT",
+            symbolName: "NB/USDT",
             type: "poll", // poll/socket
             url: "/trade/api/market/kline",
             limit: 1000,
@@ -84,11 +79,14 @@ export default {
             debug: false,
             showTrade: false,
             onResize: function (width, height) {
-                console.log(width)
+                
+            },
+            onThemeChange:function(theme){
+              _this.$store.commit("setklineTheme",theme);
             }
         });
         window.onresize = function temp() {
-          kline.resize($(document).width()-660,664)
+          kline.resize($(".el-main").width(),664)
         };
         
         this.kline = kline;
@@ -99,8 +97,14 @@ export default {
 </script>
 
 <style lang = "less">
-.kline_trade{
-  overflow: hidden;
+
+.el-main{
+  padding:0 20px 0 0;
+  background-color: #282828;
+}
+.el-footer{
+  padding:0 20px 0 0;
+  background-color: #282828;
 }
 header{
   background-color: #2a333a;

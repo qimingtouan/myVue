@@ -155,15 +155,12 @@
 </template>
 
 <script>
-    export default {
-        name: 'finance_rd_account'
-    }
-</script>
-
-<script>
     $(function () { 
         $("[data-toggle='popover']").popover();
     });
+    export default {
+        name: 'finance_rd_account'
+    }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

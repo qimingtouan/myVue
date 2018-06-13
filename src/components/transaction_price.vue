@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="trade_his">
 
         <div class="order_book table-container">
             <div class="head">
                 <p class="title">最新价 
-                    <span id="tickerClose">8363.00</span> 
+                    <span id="tickerClose">{{nowprice}}</span> 
                     <em class="uppercase" >{{quoteCoin}}</em> 
                     涨幅
                     <span name="rate" class="color_up">+1.38%</span>
@@ -19,191 +19,29 @@
                         <span class="amount">数量(<em class="uppercase">{{baseCoin}}</em>)</span>                                             
                         <span>累计<em class="uppercase">({{baseCoin}})</em></span>                                         
                         </dt>  
-                        <dd data-info="8366.25" @click="setPrice(8366.25)">                                             
+                        <dd  @click="setPrice(item.price)" v-for="(item,index) in sellData" :key="item.index">                                             
                             <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
+                                <span class="title color-sell">卖{{index+1}}</span>                                                 
+                                <span class="price">{{item.price}}</span>                                                 
+                                <span class="amount">{{item.amount.toFixed(4)}}</span>                                                 
                                 <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
+                                <b class="color-sell-bg" :style="{width:sellwidth[index]+'%'}"></b>                                            
                             </div>                                         
                         </dd>
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                                                <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">卖 7</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>   
                    </dl>
                     <div class="dl-hr">                                         
                            <hr>                                    
                     </div>
                     <dl>  
-                        <dd data-info="8366.25">                                             
+                        <dd  @click="setPrice(item.price)" v-for="(item,index) in buyData" :key="item.index">                                             
                             <div class="inner">                                                 
-                                <span class="title color-sell">买 1</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
+                                <span class="title color-sell">买{{index+1}}</span>                                                 
+                                <span class="price">{{item.price}}</span>                                                 
+                                <span class="amount">{{item.amount.toFixed(4)}}</span>                                                 
                                 <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
+                                <b class="color-sell-bg" :style="{width:buywidth[index]+'%'}"></b>                                            
                             </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 2</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 3</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 4</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 5</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd>
-                                                <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 1</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 2</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 3</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 4</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
-                        <dd data-info="8366.25">                                             
-                            <div class="inner">                                                 
-                                <span class="title color-sell">买 5</span>                                                 
-                                <span class="price">8366.25</span>                                                 
-                                <span class="amount">0.5490</span>                                                 
-                                <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" style="width: 24.140357048632488%"></b>                                            
-                            </div>                                         
-                        </dd> 
+                        </dd>  
                    </dl>
                 </div >
             </div>
@@ -218,55 +56,21 @@
             <div class="market_trades_list" id="market_trades_list">
                 <dl class="market_trades_time">                                             
                     <dt>时间</dt>  
-                        <dd>08:58:14</dd>  
-                        <dd>08:58:14</dd>  
-                        <dd>08:58:11</dd>  
-                        <dd>08:58:08</dd>  
-                        <dd>08:58:07</dd>  
-                        <dd>08:58:07</dd>  
-                        <dd>08:58:07</dd>  
-                        <dd>08:58:06</dd>  
-                        <dd>08:58:06</dd>  
-                        <dd>08:58:06</dd>   
+                        <dd v-for="list in historyTrade" :key="list.id">{{list.id|getFormatTime}}</dd>   
                 </dl>                                         
                     <dl class="market_trades_type">                                             
                         <dt>方向</dt>  
-                        <dd class="color_up">买入</dd>  
-                        <dd class="color_up">买入</dd>  
-                        <dd class="color_up">买入</dd>  
-                        <dd class="color_down">卖出</dd>  
-                        <dd class="color_up">买入</dd>  
-                        <dd class="color_up">买入</dd>  
-                        <dd class="color_up">买入</dd> 
-                        <dd class="color_up">买入</dd>  
-                        <dd class="color_down">卖出</dd> 
-                        <dd class="color_down">卖出</dd>           
+                        <dd v-for="list in historyTrade" :key="list.id" class="{list.path == 'sell'? color_up :color_down}">{{list.path|buyOrsell}}</dd> 
                     </dl>                                         
                     <dl class="market_trades_price">                                             
                         <dt>价格<span class="uppercase">{{quoteCoin}}</span></dt>  
-                        <dd>8340.00</dd>  
-                        <dd>8340.83</dd> 
-                        <dd>8340.00</dd> 
-                        <dd>8339.99</dd>  
-                        <dd>8340.00</dd>  
-                        <dd>8339.99</dd>  
-                        <dd>8339.99</dd>  
-                        <dd>8340.00</dd>  
-                        <dd>8339.99</dd>  
-                        <dd>8340.00</dd>  
-                        <dd>8341.06</dd>   
-                        <dd>8340.18</dd> 
-                        <dd>8341.90</dd>    
+                        <dd v-for="list in historyTrade" :key="list.id">{{list.price.toFixed(4)}}</dd>     
                     </dl>                                        
                     
                     <dl class="market_trades_amount">                                             
                         <dt>数量<span class="uppercase">{{baseCoin}}</span></dt>  
-                        <dd>0.1889</dd> 
-                        <dd>0.0108</dd>  
-                        <dd>0.0100</dd>  <dd>0.0041</dd>  
-                        <dd>0.0170</dd>  <dd>0.0901</dd>  
-                        <dd>0.0164</dd>  <dd>0.0114</dd>  
-                        <dd>0.0041</dd>  <dd>0.0042</dd>   
+                        <dd v-for="list in historyTrade" :key="list.id">{{list.amount.toFixed(2)}}</dd> 
+      
                     </dl>
                 </div>
             </div>
@@ -274,6 +78,7 @@
     </div>
 </template>
 <script>
+import formatTime from "@/assets/js/formatTime"
 export default {
   name: "transaction",
   data() {
@@ -281,11 +86,45 @@ export default {
       nav: ["时间", "方向","价格","数量"],
       title:"实时成交",
       base:"btc",
-      queto:"usdt"
+      queto:"usdt",
+      buyData:[],
+      sellData:[],
+      nowprice:"--",
+      historyTrade:[]
     };
   },
   props:["currency"],
   computed: {
+      sellwidth(){
+          let max = 0;
+          let temp = [];
+          this.sellData.forEach(item=>{
+              if(Number(item.amount)>max){
+                  max = Number(item.amount)
+              }
+          })
+          console.log(max)
+          temp = this.sellData.map(item=>{
+              return Number(item.amount)/max*100
+            }
+          )
+          return temp; 
+      },
+      buywidth(){
+          let max = 0;
+          let temp = [];
+          this.sellData.forEach(item=>{
+              if(Number(item.amount)>max){
+                  max = Number(item.amount)
+              }
+          })
+          console.log(max)
+          temp = this.sellData.map(item=>{
+              return Number(item.amount)/max*100
+            }
+          )
+          return temp; 
+      },
       isLogin(){
           return this.$store.state.isLogin;
       },
@@ -294,16 +133,63 @@ export default {
       },
       quoteCoin(){
           return this.$store.state.currentCoin.split("/")[1]
+      },
+      currentCoin(){
+          return this.$store.state.currentCoin;
       }
   },
   methods: {
       setPrice(price) {
           
           this.$store.commit("setPrice",price);
+      },
+      getBuySellInfo(){
+          let url = "/trade/api/market/price/"+this.currentCoin.toLowerCase();
+           this.$ajax.post(url,{}).then(response => {
+            console.log(response);
+            if(response.data.code == 0){
+                this.buyData = response.data.data.buy;
+                this.sellData = response.data.data.sale;
+                this.nowprice = response.data.data.now[0].price
+            }else{
+                
+            }
+        }).catch(function (error) {
+            console.log(error);
+        })
+      },
+      getHistoryTrade(){
+          let url = "/trade/api/market/depth/"+this.currentCoin.toLowerCase();
+           this.$ajax.get(url).then(response => {
+            console.log(response);
+            if(response.data.code == 0){
+                //30
+                if(response.data.data && response.data.data.length >=20){
+                    this.historyTrade = response.data.data.slice(0,20);
+                }else{
+                    this.historyTrade = response.data.data;
+                }
+                
+            }
+           })
+      }
+  },
+  watch:{
+      currentCoin(){
+          this.getBuySellInfo()
+      }
+  },
+  filters:{
+      getFormatTime(val){
+          return formatTime(new Date(val)).substr(11)
+      },
+      buyOrsell(val){
+          return val == "buy"?"买入":"卖出";
       }
   },
   created() {
-
+      this.getBuySellInfo();
+      this.getHistoryTrade();
   },
   mounted() {
   }
@@ -313,6 +199,15 @@ export default {
 <style scoped lang="less">
 @buyer-color :#de211d;
 @seller-color: #0ebb74;
+.trade_his{
+    background-color: #212121;
+    color: #999;
+    height: 100%;
+    border-left: 1px solid #3a3a3a;
+}
+hr{
+    border-color: #666
+}
  .color_down {
     color: @buyer-color;
     text-transform: lowercase
@@ -335,9 +230,9 @@ export default {
 }
 .market_trades {
     // height: 520px;
-    width: 350px;
-    background-color: #fff;
-    color: #333;
+    width: 349px;
+    
+
 }
 
 .market_trades.mod .mod_hd {
@@ -387,12 +282,14 @@ export default {
     overflow: visible;
     vertical-align: top;
      width: 324px;
+     height: 50%;
 }
 .order_book .head {
     height: 48px;
     line-height: 48px;
     padding-left: 30px;
-    position: relative
+    position: relative;
+    
 }
 
 .order_book .head .title {
@@ -482,9 +379,15 @@ export default {
     right: 0;
     height: 100%;
     opacity: .1;
-    max-width: 100%
+    max-width: 100%;
+    
 }
-
+.color-buy-bg{
+    background-color: #de211d
+}
+.color-sell-bg{
+    background-color: #3dc18e
+}
 .ex-depth .link-group {
     padding: 0 10px;
     height: 28px;

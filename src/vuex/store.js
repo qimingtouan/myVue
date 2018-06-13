@@ -9,7 +9,9 @@ const store = new Vuex.Store({
     isLogin:false,
     selectedPrice:"",
     count:0,//每次值不同，用来触发回调
-    currentCoin:"NB/USDT",
+    currentCoin:"BTC/USDT",
+    userId:100,
+    klineTheme:"dark"
   },
   mutations:{
     userNameChange(state,msg) {
@@ -32,6 +34,9 @@ const store = new Vuex.Store({
     checkLogin(){
       //检查cookie是否登录；
       this.state.isLogin = true;
+    },
+    setklineTheme(state,msg){
+      state.klineTheme = msg;
     }
   }
 })

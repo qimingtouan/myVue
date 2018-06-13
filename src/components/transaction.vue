@@ -4,10 +4,10 @@
             <h3>买入</h3>
             <div class="canUse">
                 <span class="trade_left">可用:
-                    <span class="coin">10 BTC</span>
+                    <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
                 </span>
                 <span class="trade_right">可买:
-                    <span class="coin">10 BTC</span>
+                    <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
                 </span>
             </div>
             <div>
@@ -44,7 +44,7 @@
             </div>
                 <div class=" has-feedback">
                     <label class="control-label" for="realBuyAccount" style="position:static;">预计交易额：
-                        <b class="text-primary" id="realBuyAccount">0.00</b> QC</label>
+                        <b class="text-primary" id="realBuyAccount">{{buytrade}}</b> {{currentCoin.split("/")[1]}}</label>
                 </div>
                 <div class="btn_buy">
                     <button id="buyBtn" type="button" data-loading-text="Loading..." class="btn btn-primary btn-block btn-hg" @click="buyFun">
@@ -58,10 +58,10 @@
                 <h3>卖出</h3>
                 <div class="canUse">
                     <span class="trade_left">可用:
-                        <span class="coin">10 BTC</span>
+                        <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
                     </span>
                     <span class="trade_right">可买:
-                        <span class="coin">10 BTC</span>
+                        <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
                     </span>
                 </div>
                 <div>
@@ -79,7 +79,7 @@
                         </label>
                     </p>
                 </div>
-                <div class="range_wrap" data-ratio="75" tabindex="0"@click ="sellProgress">
+                <div class="range_wrap" data-ratio="75" tabindex="0" @click ="sellProgress">
                     <div class="range_paths_wrap">
                         <div class="range_path"></div>
                     </div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class=" has-feedback">
                         <label class="control-label" for="realBuyAccount" style="position:static;">预计交易额：
-                            <b class="text-primary" id="realBuyAccount">0.00</b> QC</label>
+                            <b class="text-primary" id="realBuyAccount">{{selltrade}}</b> {{currentCoin.split("/")[1]}}</label>
                     </div>
                     <div class="btn_buy">
                         <button id="buyBtn" type="button" data-loading-text="Loading..." class="btn btn-second  btn-block btn-hg" @click="sellFun">
@@ -106,7 +106,6 @@
                         </button>
                     </div>
         </div>
-    </div>
 
     </div>
 </template>
@@ -117,8 +116,6 @@ export default {
     return {
       nav: ["时间", "方向","价格","数量"],
       title:"实时成交",
-      base:"zb",
-      quote:"qc",
       canUse:10,
       sell_price:"",
       buy_price:"",
@@ -130,6 +127,8 @@ export default {
       isActiveForBuy:[false,false,false,false,false],
       isActiveForSell:[false,false,false,false,false],
       isDrag:false,
+      userId:100,
+      selltrade:"0.00",
       
     };
   },
@@ -173,12 +172,25 @@ export default {
                 return val
             })
         }
-      }
+      },
+    currentCoin(){
+        return this.$store.state.currentCoin;
+    },
+    buytrade(){
+        if(this.buy_price !="" && this.buy_amount !=""){
+            return this.buy_price*this.buy_amount
+        }
+        return "0.00"
+    }
   },
   watch:{
       buy_amount(val,oldval){
           val*=1;
           oldval*=1;
+          if(val>this.canUse){
+              val = this.canUse;
+              this.buy_amount = val
+          }
         //防止相互调用showProgress->buy_amount->range_width_buy
         if(val.toFixed(3) != oldval.toFixed(3)){
             this.range_width_buy = val/this.canUse*100
@@ -187,6 +199,10 @@ export default {
       sell_amount(val,oldval){
           val*=1;
           oldval*=1;
+          if(val>this.canUse){
+              val = this.canUse;
+              this.sell_amount = val
+          }
         //防止相互调用showProgress->buy_amount->range_width_buy
         if(val.toFixed(3) != oldval.toFixed(3)){
             this.range_width_sell = val/this.canUse*100
@@ -218,34 +234,68 @@ export default {
      },
       sellFun(){
         let data= {
-            "baseCurrency": this.base,
+            "baseCurrency": this.currentCoin.split("/")[0],
             "price": this.sell_price,
-            "quoteCurrency": this.quote,
-            "totalAmount": this.sell_price*this.sell_amount,
+            "quoteCurrency": this.currentCoin.split("/")[1],
+            "totalAmount": this.sell_amount,
             "type": 0,
-            "userId": 0
+            "userId":this.userId
         };
         this.$ajax.post('/trade/api/market/sale', data).then(function (response) {
+            if(response.data.code == 0)
+                alert("success")
+            else
+                alert(response.data.msg)
             console.log(response);
         }).catch(function (error) {
             console.log(error);
         })
     },
     buyFun(){
-            let data= {
-            "baseCurrency": this.base,
+        let data= {
+            "baseCurrency": this.currentCoin.split("/")[0],
             "price": this.buy_price,
-            "quoteCurrency": this.quote,
+            "quoteCurrency": this.currentCoin.split("/")[1],
             "totalMoney": this.buy_price*this.buy_amount,
             "type": 0,
-            "userId": 0
+            "userId": this.userId
         };
-        this.$ajax.post('/trade/api/market/buy', data).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        })
-    }
+        console.log(this.buy_amount && this.buy_price)
+        if(!this.buy_amount || !this.buy_price){
+            this.$message({
+                showClose: false,
+                message: '请输入价格和数量。',
+                type: 'warning'
+            });
+            return
+        }
+        this.$confirm(`您将买入 ${this.buy_amount} 个 ${data.quoteCurrency}, 是否继续?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            this.$ajax.post('/trade/api/market/buy', data).then(response => {
+                console.log(response);
+            if(response.data.code == 0){
+                this.$message({
+                    showClose: true,
+                    message: '买入成功！',
+                    type: 'success'
+                 });
+            }
+            else
+                alert(response.data.msg)
+            }).catch(function (error) {
+                console.log(error);
+            })
+        }).catch(() => {
+          this.$message({
+                showClose: false,
+                message: '取消买入！',
+                type: 'info'
+            });
+        });
+      }
   },
   created() {
   },
@@ -258,16 +308,22 @@ export default {
 <style scoped lang="less">
 @buyer-color :#de211d;
 @seller-color: #0ebb74;
+
         .deal_wrapper {
             width: 300px;
             padding: 0 20px;
-            background-color: #f1f1f1;
+            background-color: #202020;
+            color:#bababa;
+            height: 100%;
         //    height: 979px;
         }
-
+        
+        label input{
+            background: #202020;
+            outline: none;
+        }
         .deal_wrapper h3 {
             text-align: center;
-            color: #333;
             padding:20px 0 20px 0 ;
             margin: 0;
         }
@@ -275,7 +331,6 @@ export default {
         .canUse {
             line-height: 40px;
             font-size: 14px;
-            color: #333;
             margin-right: 24px;
             height: 40px;
         }
@@ -419,16 +474,16 @@ export default {
         }
 
         .range_wrap .range_handle {
-            background: #fff;
+            background: #e6e6e6;
             border-color: #d6d2d2
         }
 
         .range_wrap .range_point:after {
-            background: #d5d5d5
+            background: #d6d6d6
         }
 
         .range_wrap .range_path {
-            background: #d5d5d5
+            background: #a0a0a0
         }
 
         .control-label {
@@ -476,7 +531,7 @@ export default {
             width: 200px;
             height: 36px;
             line-height: 36px;
-            border: solid #e5e5e5 1px;
+            border: solid #565656 1px;
             border-radius: 4px;
             font-size: 14px;
             color: #999;
@@ -488,7 +543,7 @@ export default {
             
         }
         .line{
-            widows: 100%;
+            width: 100%;
             border: 1px dashed #ddd;
             margin-right: 24px;
         }

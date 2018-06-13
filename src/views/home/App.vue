@@ -396,7 +396,6 @@ import mockData from './mock.json'
 import mockData2 from './mock2.json'
 import resource from './resource.json'
 import method from '@/assets/js/common_method.js'
-import timer from '@/assets/js/setTimer.js'
 var compareTopall = function(a,b) {
     //一点点容错处理，没数据默认为0
     var aNum = a.riseRate ? Number(a.riseRate) : 0;

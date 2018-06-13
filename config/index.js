@@ -20,15 +20,15 @@ module.exports = {
         }
     */
     proxyTable:  {
-      "/api": {
-        target: "http://192.168.0.247:8080",
-        changeOrigin:true,
-        pathRewrite: {"^/api" : "api"}
-      }
+        "/trade": {
+            target: "http://192.168.0.224:8071",
+            changeOrigin:true,
+            pathRewrite: {"^/trade" : "trade"}
+        }
     },
 
     // Various Dev Server settings
-    host: '192.168.0.162', // can be overwritten by process.env.HOST
+    host: '192.168.0.25', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
