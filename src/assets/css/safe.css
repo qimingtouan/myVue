@@ -74,7 +74,8 @@
     background: #fff;
     min-height: 700px;
     margin-left: 170px;
-    overflow: hidden
+    overflow: hidden;
+    box-shadow:0px 0px 13px rgba(89,105,222,0.1);
 }
 
 .safe-ld li {
@@ -102,16 +103,26 @@
 }
 
 .safe-ld li a:hover,.safe-ld li a.on {
-    background: #fdfafa;
     text-decoration: none;
     position: relative;
-    color: #de211d
+    /* background: #fdfafa;
+    color: #de211d; */
+    color: rgba(255, 163, 56, 1);
+    background: #fafafa;
 }
 .safe-ld li a.router-link-exact-active.router-link-active {
+    text-decoration: none;
+    position: relative;
+    /* background: #fdfafa;
+    color: #de211d; */
+    color: rgba(255, 163, 56, 1);
+    background: #fafafa;
+}
+.safe-ld a.router-link-active {
     background: #fdfafa;
     text-decoration: none;
     position: relative;
-    color: #de211d;
+    color: #ffa338;
 }
 
 .safe-ld li a.on::before {
@@ -253,6 +264,17 @@
 
 .basic-infocont li .rd a.btn-blue:hover {
     background: #2ad593;
+    color: #fff
+}
+
+.basic-infocont li .rd a.btn-orange {
+    background: transparent;
+    border-color: #ffa338;
+    color: #ffa338
+}
+
+.basic-infocont li .rd a.btn-orange:hover {
+    background: #ffa338;
     color: #fff
 }
 
@@ -662,7 +684,8 @@ a.closeabtn i {
     background: #fff;
     min-height: 700px;
     margin-left: 170px;
-    overflow: hidden
+    overflow: hidden;
+    box-shadow: 0px 0px 13px rgba(89,105,222,0.1);
 }
 
 .financen .container .finance-ld .goodluckbtn {
@@ -855,8 +878,8 @@ a.closeabtn i {
 }
 
 .finance-rd .bk-asset .row h6 {
-    color: #333;
-    font-size: 16px
+    color: rgba(103,103,103,1);
+    font-size: 14px
 }
 
 .finance-rd .bk-asset .row .bkNum {
@@ -980,10 +1003,11 @@ a.closeabtn i {
 }
 
 .asset-convert .asset-title {
-    text-align: left;
+    width: 20%;
+    text-align: right;
     background: url("../img/user/account_asset_bg.png") no-repeat left center;
     padding: 0 0 0 80px;
-    margin-left: 20px
+    /*margin-left: 20px*/
 }
 
 .bk-tabList-bd .asset-convert .asset-title {
@@ -1051,24 +1075,22 @@ a.closeabtn i {
 
 .bk-tabList-bd .asset-convert .searchcoin {
     background: #FFF;
-    border: 1px solid #ddd;
     display: inline-block;
-    padding: 2px 0 2px 10px;
     font-size: 14px;
-    margin-left: 5px;
-    margin-right: 20px;
-    border-radius: 4px;
+    height: 30px;
+    line-height: 28px;
 }
 
 .bk-tabList-bd .asset-convert .searchcoin i {
-    font-size: 12px
+    font-size: 14px;
+    margin-right: 5px;
+    color: rgba(200,200,201,1);
 }
 
 .bk-tabList-bd .asset-convert .searchcoin input {
-    border: 0;
-    background: 0;
     font-size: 12px;
-    width: 96px;
+    width: 160px;
+    color: rgba(153,153,153,1);
 }
 
 .bk-tabList-bd .asset-convert .searchcoin input::placeholder {
@@ -1092,7 +1114,7 @@ a.closeabtn i {
 }
 
 .asset-title h6 {
-    color: #000;
+    color: rgba(103,103,103,1);
     font-size: 14px;
     margin-bottom: 5px
 }
@@ -1129,9 +1151,10 @@ a.closeabtn i {
 
 .asset-amount .num {
     font-size: 18px;
+    margin-right: 5px;
     font-weight: bold;
-    color: #de211d;
-    margin-right: 5px
+    /*color: #de211d;*/
+    color: rgba(255,163,56,1);
 }
 
 .asset-amount .unit {
@@ -1253,417 +1276,402 @@ a.closeabtn i {
     margin-top: -2px
 }
 
-.asset-table i.icon-USDT,#useAssetList i.icon-USDT {
+.asset-table i.icon-USDT, #useAssetList i.icon-USDT, #popup-coins i.icon-usdt {
     background: url(../img/coin/coin-usdt.png);
     background-size: cover
 }
 
-.asset-table i.icon-LTC,#useAssetList i.icon-LTC {
+.asset-table i.icon-LTC,#useAssetList i.icon-LTC, #popup-coins i.icon-ltc {
     background: url(../img/coin/coin-ltc.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTC,#useAssetList i.icon-BTC {
+.asset-table i.icon-BTC,#useAssetList i.icon-BTC, #popup-coins i.icon-btc {
     background: url(../img/coin/coin-btc.png);
     background-size: cover
 }
 
-.asset-table i.icon-ETH,#useAssetList i.icon-ETH {
+.asset-table i.icon-ETH,#useAssetList i.icon-ETH, #popup-coins i.icon-eth {
     background: url(../img/coin/coin-eth.png);
     background-size: cover
 }
 
-.asset-table i.icon-ETC,#useAssetList i.icon-ETC {
+.asset-table i.icon-ETC, #useAssetList i.icon-ETC, #popup-coins i.icon-etc {
     background: url(../img/coin/coin-etc.png);
     background-size: cover
 }
 
-.asset-table i.icon-QTUM,#useAssetList i.icon-QTUM {
+.asset-table i.icon-QTUM,#useAssetList i.icon-QTUM, #popup-coins i.icon-qtum {
     background: url(../img/coin/coin-qtum.png);
     background-size: cover
 }
 
-.asset-table i.icon-HSR,#useAssetList i.icon-HSR {
+.asset-table i.icon-HSR,#useAssetList i.icon-HSR, #popup-coins i.icon-hsr {
     background: url(../img/coin/coin-hsr.png);
     background-size: cover
 }
 
-.asset-table i.icon-XRP,#useAssetList i.icon-XRP {
+.asset-table i.icon-XRP,#useAssetList i.icon-XRP, #popup-coins i.icon-xrp {
     background: url(../img/coin/coin-xrp.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTS,#useAssetList i.icon-BTS {
+.asset-table i.icon-BTS,#useAssetList i.icon-BTS, #popup-coins i.icon-bts {
     background: url(../img/coin/coin-bts.png);
     background-size: cover
 }
 
-.asset-table i.icon-EOS,#useAssetList i.icon-EOS {
+.asset-table i.icon-EOS,#useAssetList i.icon-EOS, #popup-coins i.icon-eos {
     background: url(../img/coin/coin-eos.png);
     background-size: cover
 }
 
-.asset-table i.icon-BCC,#useAssetList i.icon-BCC {
+.asset-table i.icon-BCC,#useAssetList i.icon-BCC, #popup-coins i.icon-bcc {
     background: url(../img/coin/coin-bcc.png);
     background-size: cover
 }
 
-.asset-table i.icon-ZCASH,#useAssetList i.icon-ZCASH {
+.asset-table i.icon-ZCASH,#useAssetList i.icon-ZCASH, #popup-coins i.icon-zcash {
     background: url(../img/coin/coin-zcash.png);
     background-size: cover
 }
 
-.asset-table i.icon-DASH,#useAssetList i.icon-DASH {
+.asset-table i.icon-DASH,#useAssetList i.icon-DASH, #popup-coins i.icon-dash {
     background: url(../img/coin/coin-dash.png);
     background-size: cover
 }
 
-.asset-table i.icon-OMG,#useAssetList i.icon-OMG {
+.asset-table i.icon-OMG,#useAssetList i.icon-OMG, #popup-coins i.icon-omg {
     background: url(../img/coin/coin-omg.png);
     background-size: cover
 }
 
-.asset-table i.icon-IOTA,#useAssetList i.icon-IOTA {
+.asset-table i.icon-IOTA,#useAssetList i.icon-IOTA, #popup-coins i.icon-iota {
     background: url(../img/coin/coin-iota.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTG,#useAssetList i.icon-BTG {
+.asset-table i.icon-BTG,#useAssetList i.icon-BTG, #popup-coins i.icon-btg {
     background: url(../img/coin/coin-btg.png);
     background-size: cover
 }
 
-.asset-table i.icon-QC,#useAssetList i.icon-QC {
+.asset-table i.icon-QC,#useAssetList i.icon-QC, #popup-coins i.icon-qc {
     background: url(../img/coin/coin-qcash.png);
     background-size: cover
 }
 
-.asset-table i.icon-QCASH,#useAssetList i.icon-QCASH {
+.asset-table i.icon-QCASH, #useAssetList i.icon-QCASH, #popup-coins i.icon-qcash {
     background: url(../img/coin/coin-qcash.png);
     background-size: cover
 }
 
-.asset-table i.icon-QC,#useAssetList i.icon-QC {
-    background: url(../img/coin/coin-qcash.png);
-    background-size: cover
-}
-
-.asset-table i.icon-BCD,#useAssetList i.icon-BCD {
+.asset-table i.icon-BCD,#useAssetList i.icon-BCD, #popup-coins i.icon-bcd {
     background: url(../img/coin/coin-bcd.png);
     background-size: cover
 }
 
-.asset-table i.icon-DASH,#useAssetList i.icon-DASH {
-    background: url(../img/coin/coin-dash.png);
-    background-size: cover
-}
-
-.asset-table i.icon-ZBBTC,#useAssetList i.icon-ZBBTC {
+.asset-table i.icon-ZBBTC,#useAssetList i.icon-ZBBTC, #popup-coins i.icon-zbbtc {
     background: url(../img/coin/coin-zbbtc.png);
     background-size: cover
 }
 
-.asset-table i.icon-SBTC,#useAssetList i.icon-SBTC {
+.asset-table i.icon-SBTC,#useAssetList i.icon-SBTC, #popup-coins i.icon-sbtc {
     background: url(../img/coin/coin-sbtc.png);
     background-size: cover
 }
 
-.asset-table i.icon-LBTC,#useAssetList i.icon-LBTC {
+.asset-table i.icon-LBTC,#useAssetList i.icon-LBTC, #popup-coins i.icon-lbtc {
     background: url(../img/coin/coin-lbtc.png);
     background-size: cover
 }
 
-.asset-table i.icon-UBTC,#useAssetList i.icon-UBTC {
+.asset-table i.icon-UBTC,#useAssetList i.icon-UBTC, #popup-coins i.icon-ubtc {
     background: url(../img/coin/coin-ubtc.png);
     background-size: cover
 }
 
-.asset-table i.icon-TV,#useAssetList i.icon-TV {
+.asset-table i.icon-TV,#useAssetList i.icon-TV, #popup-coins i.icon-tv {
     background: url(../img/coin/coin-tv.png);
     background-size: cover
 }
 
-.asset-table i.icon-INK,#useAssetList i.icon-INk {
+.asset-table i.icon-INK,#useAssetList i.icon-INk, #popup-coins i.icon-ink {
     background: url(../img/coin/coin-ink.png);
     background-size: cover
 }
 
-.asset-table i.icon-BCX,#useAssetList i.icon-BCX {
+.asset-table i.icon-BCX,#useAssetList i.icon-BCX, #popup-coins i.icon-bcx {
     background: url(../img/coin/coin-bcx.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTH,#useAssetList i.icon-BTH {
+.asset-table i.icon-BTH,#useAssetList i.icon-BTH, #popup-coins i.icon-bth {
     background: url(../img/coin/coin-bth.png);
     background-size: cover
 }
 
-.asset-table i.icon-ETF,#useAssetList i.icon-ETF {
+.asset-table i.icon-ETF,#useAssetList i.icon-ETF, #popup-coins i.icon-etf {
     background: url(../img/coin/coin-etf.png);
     background-size: cover
 }
 
-.asset-table i.icon-BCW,#useAssetList i.icon-BCW {
+.asset-table i.icon-BCW,#useAssetList i.icon-BCW, #popup-coins i.icon-bcw {
     background: url(../img/coin/coin-bcw.png);
     background-size: cover
 }
 
-.asset-table i.icon-ENT,#useAssetList i.icon-ENT {
+.asset-table i.icon-ENT,#useAssetList i.icon-ENT, #popup-coins i.icon-ent {
     background: url(../img/coin/coin-ent.png);
     background-size: cover
 }
 
-.asset-table i.icon-CHAT,#useAssetList i.icon-CHAT {
+.asset-table i.icon-CHAT,#useAssetList i.icon-CHAT, #popup-coins i.icon-chat {
     background: url(../img/coin/coin-chat.png);
     background-size: cover
 }
 
-.asset-table i.icon-bitCNY,#useAssetList i.icon-bitCNY {
+.asset-table i.icon-bitCNY,#useAssetList i.icon-bitCNY, #popup-coins i.icon-bitcny {
     background: url(../img/coin/coin-bitcny.png);
     background-size: cover
 }
 
-.asset-table i.icon-LCH,#useAssetList i.icon-LCH {
+.asset-table i.icon-LCH,#useAssetList i.icon-LCH, #popup-coins i.icon-lch {
     background: url(../img/coin/coin-lch.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTP,#useAssetList i.icon-BTP {
+.asset-table i.icon-BTP,#useAssetList i.icon-BTP, #popup-coins i.icon-btp {
     background: url(../img/coin/coin-btp.png);
     background-size: cover
 }
 
-.asset-table i.icon-HLC,#useAssetList i.icon-HLC {
+.asset-table i.icon-HLC,#useAssetList i.icon-HLC, #popup-coins i.icon-hlc {
     background: url(../img/coin/coin-hlc2.png);
     background-size: cover
 }
 
-.asset-table i.icon-BITE,#useAssetList i.icon-BITE {
+.asset-table i.icon-BITE,#useAssetList i.icon-BITE, #popup-coins i.icon-bite {
     background: url(../img/coin/coin-bite.png);
     background-size: cover
 }
 
-.asset-table i.icon-TOPC,#useAssetList i.icon-TOPC {
+.asset-table i.icon-TOPC,#useAssetList i.icon-TOPC, #popup-coins i.icon-topc {
     background: url(../img/coin/coin-topc.png);
     background-size: cover
 }
 
-.asset-table i.icon-BAT,#useAssetList i.icon-BAT {
+.asset-table i.icon-BAT,#useAssetList i.icon-BAT, #popup-coins i.icon-bat {
     background: url(../img/coin/coin-bat.png);
     background-size: cover
 }
 
-.asset-table i.icon-ZBDASH,#useAssetList i.icon-ZBDASH {
+.asset-table i.icon-ZBDASH,#useAssetList i.icon-ZBDASH, #popup-coins i.icon-zbdash {
     background: url(../img/coin/coin-zbdash.png);
     background-size: cover
 }
 
-.asset-table i.icon-1ST,#useAssetList i.icon-1ST {
+.asset-table i.icon-1ST,#useAssetList i.icon-1ST, #popup-coins i.icon-1st {
     background: url(../img/coin/coin-1st.png);
     background-size: cover
 }
 
-.asset-table i.icon-QUN,#useAssetList i.icon-QUN {
+.asset-table i.icon-QUN,#useAssetList i.icon-QUN, #popup-coins i.icon-qun {
     background: url(../img/coin/coin-qun.png);
     background-size: cover
 }
 
-.asset-table i.icon-SAFE,#useAssetList i.icon-SAFE {
+.asset-table i.icon-SAFE,#useAssetList i.icon-SAFE, #popup-coins i.icon-safe {
     background: url(../img/coin/coin-safe.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTN,#useAssetList i.icon-BTN {
+.asset-table i.icon-BTN,#useAssetList i.icon-BTN, #popup-coins i.icon-btn {
     background: url(../img/coin/coin-btn2.png);
     background-size: cover
 }
 
-.asset-table i.icon-TRUE,#useAssetList i.icon-TRUE {
+.asset-table i.icon-TRUE,#useAssetList i.icon-TRUE, #popup-coins i.icon-true {
     background: url(../img/coin/coin-true.png);
     background-size: cover
 }
 
-.asset-table i.icon-DDM,#useAssetList i.icon-DDM {
+.asset-table i.icon-DDM,#useAssetList i.icon-DDM, #popup-coins i.icon-ddm {
     background: url(../img/coin/coin-ddm.png);
     background-size: cover
 }
 
-.asset-table i.icon-CDC,#useAssetList i.icon-CDC {
+.asset-table i.icon-CDC,#useAssetList i.icon-CDC, #popup-coins i.icon-cdc {
     background: url(../img/coin/coin-cdc.png?v=2);
     background-size: cover
 }
 
-.asset-table i.icon-ZB,#useAssetList i.icon-ZB {
+.asset-table i.icon-ZB,#useAssetList i.icon-ZB, #popup-coins i.icon-zb {
     background: url(../img/coin/coin-zb.png);
     background-size: cover
 }
 
-.asset-table i.icon-HOTC,#useAssetList i.icon-HOTC {
+.asset-table i.icon-HOTC,#useAssetList i.icon-HOTC, #popup-coins i.icon-hotc {
     background: url(../img/coin/coin-hotc.png);
     background-size: cover
 }
 
-.asset-table i.icon-THB,#useAssetList i.icon-THB {
+.asset-table i.icon-THB,#useAssetList i.icon-THB, #popup-coins i.icon-thb {
     background: url(../img/coin/coin-thb.png);
     background-size: cover
 }
 
-.asset-table i.icon-USDT,#useAssetList i.icon-USDT {
+.asset-table i.icon-USDT,#useAssetList i.icon-USDT, #popup-coins i.icon-usdt {
     background: url(../img/coin/coin-usdt.png);
     background-size: cover
 }
 
-.asset-table i.icon-XUC,#useAssetList i.icon-XUC {
+.asset-table i.icon-XUC,#useAssetList i.icon-XUC, #popup-coins i.icon-xuc {
     background: url(../img/coin/coin-xuc.png);
     background-size: cover
 }
 
-.asset-table i.icon-EPC,#useAssetList i.icon-EPC {
+.asset-table i.icon-EPC,#useAssetList i.icon-EPC, #popup-coins i.icon-epc {
     background: url(../img/coin/coin-epc.png);
     background-size: cover
 }
 
-.asset-table i.icon-BDS,#useAssetList i.icon-BDS {
+.asset-table i.icon-BDS,#useAssetList i.icon-BDS, #popup-coins i.icon-bds {
     background: url(../img/coin/coin-bds.png);
     background-size: cover
 }
 
-.asset-table i.icon-GRAM,#useAssetList i.icon-GRAM {
+.asset-table i.icon-GRAM,#useAssetList i.icon-GRAM, #popup-coins i.icon-gram {
     background: url(../img/coin/coin-gram.png);
     background-size: cover
 }
 
-.asset-table i.icon-DOGE,#useAssetList i.icon-DOGE {
+.asset-table i.icon-DOGE,#useAssetList i.icon-DOGE, #popup-coins i.icon-doge {
     background: url(../img/coin/coin-doge.png);
     background-size: cover
 }
 
-.asset-table i.icon-NEO,#useAssetList i.icon-NEO {
+.asset-table i.icon-NEO,#useAssetList i.icon-NEO, #popup-coins i.icon-neo {
     background: url(../img/coin/coin-neo.png);
     background-size: cover
 }
 
-.asset-table i.icon-OMG,#useAssetList i.icon-OMG {
-    background: url(../img/coin/coin-omg.png);
-    background-size: cover
-}
-
-.asset-table i.icon-VEN,#useAssetList i.icon-VEN {
+.asset-table i.icon-VEN,#useAssetList i.icon-VEN, #popup-coins i.icon-ven {
     background: url(../img/coin/coin-ven.png);
     background-size: cover
 }
 
-.asset-table i.icon-HPY,#useAssetList i.icon-HPY {
+.asset-table i.icon-HPY,#useAssetList i.icon-HPY, #popup-coins i.icon-hpy {
     background: url(../img/coin/coin-hpy.png);
     background-size: cover
 }
 
-.asset-table i.icon-XLM,#useAssetList i.icon-XLM {
+.asset-table i.icon-XLM,#useAssetList i.icon-XLM, #popup-coins i.icon-xlm {
     background: url(../img/coin/coin-xlm.png);
     background-size: cover
 }
 
-.asset-table i.icon-BTM,#useAssetList i.icon-BTM {
+.asset-table i.icon-BTM,#useAssetList i.icon-BTM, #popup-coins i.icon-btm {
     background: url(../img/coin/coin-btm.png);
     background-size: cover
 }
 
-.asset-table i.icon-AE,#useAssetList i.icon-AE {
+.asset-table i.icon-AE,#useAssetList i.icon-AE, #popup-coins i.icon-ae {
     background: url(../img/coin/coin-ae.png);
     background-size: cover
 }
 
-.asset-table i.icon-EDO,#useAssetList i.icon-EDO {
+.asset-table i.icon-EDO,#useAssetList i.icon-EDO, #popup-coins i.icon-edo {
     background: url(../img/coin/coin-edo.png);
     background-size: cover
 }
 
-.asset-table i.icon-FUN,#useAssetList i.icon-FUN {
+.asset-table i.icon-FUN,#useAssetList i.icon-FUN, #popup-coins i.icon-fun {
     background: url(../img/coin/coin-fun.png);
     background-size: cover
 }
 
-.asset-table i.icon-ICX,#useAssetList i.icon-ICX {
+.asset-table i.icon-ICX,#useAssetList i.icon-ICX, #popup-coins i.icon-icx {
     background: url(../img/coin/coin-icx.png);
     background-size: cover
 }
 
-.asset-table i.icon-MANA,#useAssetList i.icon-MANA {
+.asset-table i.icon-MANA,#useAssetList i.icon-MANA, #popup-coins i.icon-mana {
     background: url(../img/coin/coin-mana.png);
     background-size: cover
 }
 
-.asset-table i.icon-RCN,#useAssetList i.icon-RCN {
+.asset-table i.icon-RCN,#useAssetList i.icon-RCN, #popup-coins i.icon-rcn {
     background: url(../img/coin/coin-rcn.png);
     background-size: cover
 }
 
-.asset-table i.icon-SNT,#useAssetList i.icon-SNT {
+.asset-table i.icon-SNT,#useAssetList i.icon-SNT, #popup-coins i.icon-snt {
     background: url(../img/coin/coin-snt.png);
     background-size: cover
 }
 
-.asset-table i.icon-ZRX,#useAssetList i.icon-ZRX {
+.asset-table i.icon-ZRX,#useAssetList i.icon-ZRX, #popup-coins i.icon-zrx {
     background: url(../img/coin/coin-zrx.png);
     background-size: cover
 }
 
-.asset-table i.icon-AION,#useAssetList i.icon-AION {
+.asset-table i.icon-AION,#useAssetList i.icon-AION, #popup-coins i.icon-aion {
     background: url(../img/coin/coin-aion.png);
     background-size: cover
 }
 
-.asset-table i.icon-GNT,#useAssetList i.icon-GNT {
+.asset-table i.icon-GNT,#useAssetList i.icon-GNT, #popup-coins i.icon-gnt {
     background: url(../img/coin/coin-gnt.png);
     background-size: cover
 }
 
-.asset-table i.icon-KNC,#useAssetList i.icon-KNC {
+.asset-table i.icon-KNC,#useAssetList i.icon-KNC, #popup-coins i.icon-knc {
     background: url(../img/coin/coin-knc.png);
     background-size: cover
 }
 
-.asset-table i.icon-LRC,#useAssetList i.icon-LRC {
+.asset-table i.icon-LRC,#useAssetList i.icon-LRC, #popup-coins i.icon-lrc {
     background: url(../img/coin/coin-lrc.png);
     background-size: cover
 }
 
-.asset-table i.icon-MCO,#useAssetList i.icon-MCO {
+.asset-table i.icon-MCO,#useAssetList i.icon-MCO, #popup-coins i.icon-mco {
     background: url(../img/coin/coin-mco.png);
     background-size: cover
 }
 
-.asset-table i.icon-MITH,#useAssetList i.icon-MITH {
+.asset-table i.icon-MITH,#useAssetList i.icon-MITH, #popup-coins i.icon-mith {
     background: url(../img/coin/coin-mith.png);
     background-size: cover
 }
 
-.asset-table i.icon-MTL,#useAssetList i.icon-MTL {
+.asset-table i.icon-MTL,#useAssetList i.icon-MTL, #popup-coins i.icon-mtl {
     background: url(../img/coin/coin-mtl.png);
     background-size: cover
 }
 
-.asset-table i.icon-STORM,#useAssetList i.icon-STORM {
+.asset-table i.icon-STORM,#useAssetList i.icon-STORM, #popup-coins i.icon-storm {
     background: url(../img/coin/coin-storm.png);
     background-size: cover
 }
 
-.asset-table i.icon-SUB,#useAssetList i.icon-SUB {
+.asset-table i.icon-SUB,#useAssetList i.icon-SUB, #popup-coins i.icon-sub {
     background: url(../img/coin/coin-sub.png);
     background-size: cover
 }
 
-.asset-table i.icon-XEM,#useAssetList i.icon-XEM {
+.asset-table i.icon-XEM,#useAssetList i.icon-XEM, #popup-coins i.icon-xem {
     background: url(../img/coin/coin-xem.png);
     background-size: cover
 }
 
-.asset-table i.icon-GXS,#useAssetList i.icon-GXS {
+.asset-table i.icon-GXS,#useAssetList i.icon-GXS, #popup-coins i.icon-gxs {
     background: url(../img/coin/coin-gxs.png);
     background-size: cover
 }
 
-.asset-table i.icon-EOSDAC,#useAssetList i.icon-EOSDAC,.asset-table i.icon-DAC,#useAssetList i.icon-DAC {
+.asset-table i.icon-EOSDAC,#useAssetList i.icon-EOSDAC, .asset-table i.icon-DAC, #useAssetList i.icon-DAC, , #popup-coins i.icon-eosdac, , #popup-coins i.icon-dac {
     background: url(../img/coin/coin-eosdac.png);
     background-size: cover
 }
@@ -1677,7 +1685,8 @@ a.closeabtn i {
 }
 
 .asset-table .thead .tr {
-    background-color: #fdfafa
+    /* background-color: #fdfafa; */
+    background-color: #fafafa;
 }
 
 .asset-table .td {
@@ -1704,7 +1713,7 @@ a.closeabtn i {
 }
 
 .asset-table .actions {
-    text-align: left
+    /*text-align: left*/
 }
 
 .asset-table .thead .td {
@@ -1718,11 +1727,12 @@ a.closeabtn i {
 }
 
 .asset-table .tr:nth-child(2n) {
-    background-color: #fdfafa
+    /* background-color: #fdfafa; */
+    background-color: #fafafa;
 }
 
 .asset-table .num {
-    color: #f54c4c;
+    color: rgba(251,85,85,1);
     font-weight: bold;
     margin-right: 5px
 }
@@ -1733,11 +1743,11 @@ a.closeabtn i {
 }
 
 .asset-table .btn-primary {
-    color: #f54c4c
+    color: rgba(251,85,85, 1);
 }
 
 .asset-table .btn-second {
-    color: #3dc18e
+    color: rgba(39,174,96, 1);
 }
 
 .asset-table .btn-loan {
@@ -2518,7 +2528,8 @@ a.closeabtn i {
 .finance-left {
     background: #FFF;
     width: 160px;
-    float: left
+    float: left;
+    box-shadow: 0px 0px 13px rgba(89,105,222,0.1);
 }
 
 #userAssetList .tr.showdiv {
@@ -2530,8 +2541,8 @@ a.closeabtn i {
 }
 
 .hidecoin2 {
-    float: right;
-    margin-top: 8px
+    text-align: right;
+    margin-bottom: 8px
 }
 
 .hidecoin2 h6 {

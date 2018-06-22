@@ -1,5 +1,5 @@
 <template>  
-    <div class="safe-rd">
+    <div class="safe-rd ml0">
         <div class="bk-onelist">
             <div class="safelog snav-rd">
                 <div class="hd">

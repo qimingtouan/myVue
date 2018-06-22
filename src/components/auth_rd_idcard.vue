@@ -1,7 +1,8 @@
 <template>  
-    <div class="safe-rd snav-rd">
-        <div class="hd">
+    <div class="safe-rd snav-rd ml0">
+        <div class="hd nb_head_wrap">
            <h3><i class="fa fa-user"></i><b>实名认证设置</b></h3>
+           <a href="/views/user/user.html" class="nb_head_goback"><i aria-hidden="true" class="fa fa-reply fa-lg"></i>返回</a>
         </div>
 
         <div class="authbody">

@@ -132,15 +132,15 @@
                         iconClass: 'fa fa-money',
                         optionText: '账户资产'
                     }, {
-                        linkTo: '/payin',
+                        linkTo: '/payin/',
                         iconClass: 'fa fa-cart-arrow-down',
                         optionText: '充币'
                     }, {
-                        linkTo: '/payout',
+                        linkTo: '/payout/',
                         iconClass: 'fa fa-outdent',
                         optionText: '提币'
                     }, {
-                        linkTo: '/account',
+                        linkTo: '/account/',
                         iconClass: 'fa fa-address-card-o',
                         optionText: '地址管理'
                     }, {

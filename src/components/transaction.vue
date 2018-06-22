@@ -269,7 +269,7 @@ export default {
             });
             return
         }
-        this.$confirm(`您将买入 ${this.buy_amount} 个 ${data.quoteCurrency}, 是否继续?`, '提示', {
+        this.$confirm(`您将买入 ${this.buy_amount} 个 ${data.baseCurrency}, 是否继续?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

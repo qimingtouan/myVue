@@ -1,5 +1,5 @@
 <template>  
-    <div class="safe-rd">
+    <div class="safe-rd ml0">
         <div class="content basic-infocont" id="tipList">
             <ul>
                 <li class="listtop">

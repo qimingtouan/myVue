@@ -1,5 +1,5 @@
 <template>  
-    <div class="safe-rd">
+    <div class="safe-rd ml0">
         <div class="main-bd" id="mainForm">
             <div class="tab_head" id="userTab">
                 <span>API私有交易设置</span>

@@ -66,12 +66,15 @@
                             <a href="/u/bill?datatype=1" style="min-width:70px;" class="ml10 btn btn-sm btn-default">3天前</a>
                         </div>
                         <div class="form-group form-group-sm ml15">
-                            <label for="startDate">起止时间：从</label>
-                            <input type="text" style="width:120px;" name="startDate" id="startDate" class="form-control" 
+                            <label for="startDate">起止时间：</label>
+                            <!-- <input type="text" style="width:120px;" name="startDate" id="startDate" class="form-control" 
                                    onfocus="WdatePicker({el:this, dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn' , minDate : '' , maxDate : ''})" >
                             <label for="endDate">到</label>
                             <input type="text" style="width:120px;" name="endDate" id="endDate" class="form-control" 
-                                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn'})">
+                                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn'})"> -->
+                            <el-date-picker v-model="dateTimeData" type="datetimerange" 
+                                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right" size="small">
+                            </el-date-picker>
                         </div>
                         <button style="min-width:75px;" type="button" class="btn btn-sm btn-primary ml10" id="idSearch" onclick="javascript:zb.list.search();"><i class="fa fa-search mr5"></i>筛选</button>
                         <button style="min-width:75px;" type="reset" class="btn btn-sm btn-default ml10" id="idReset" onclick="javascript:zb.list.resetForm();"><i class="fa fa-repeat mr5"></i>重置</button>
@@ -111,7 +114,12 @@
 <script>
     import '../../static/My97DatePicker/My97DatePicker/WdatePicker.js'
     export default {
-        name: 'finance_rd_bill'
+        name: 'finance_rd_bill',
+        data() {
+            return {
+                dateTimeData: ''
+            }
+        }
     }
 </script>
 

@@ -10,9 +10,10 @@ import 'bootstrap/js/bootstrap.min.js'
 import axios from 'axios'
 import Vuex from 'vuex'
 import store from './../../vuex/store'
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 Vue.prototype.$ajax = axios
-
+Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

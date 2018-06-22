@@ -1,53 +1,78 @@
 <template>
   <footer class="footer">
-      <div class="bottom_nav">
-        <div class="container">
-          <div class="row">
-            <div class="col-xs-2">
-              <div class="footer-contact">
-                <h5>{{footerData[0].title}}</h5>
-                <p class="link" v-for="item in footerData[0].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+    <div style="">
+        <div class="bottom_nav">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-3">
+                <div class="footer-contact">
+                  <h5><img src="./../assets/img/logo_new.png" alt=""></h5>
+                  <p class="link"><span class="navTitle">{{footerData[0].title}}</span></p>
+                  <p style="line-height:22px"><a class="contact_img"><img src="../assets/img/qq.png" alt="qq:1234567890"></a>
+                  <a class="contact_img"><img src="../assets/img/wechat.png" alt="wechat:1234567890" style="margin-top:1px"></a></p>
+                  <p class="link" v-for="item in footerData[0].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+                </div>
               </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="footer-contact">
-                <h5>{{footerData[1].title}}</h5>
-                <p class="link" v-for="item in footerData[1].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+              <div class="col-xs-5">
+                <div class="col-xs-4">
+                  <div class="footer-contact">
+                    <h5> <span class="navTitle">{{footerData[1].title}}</span></h5>
+                    <p class="link" v-for="item in footerData[1].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <div class="footer-contact">
+                    <h5> <span class="navTitle">{{footerData[2].title}}</span></h5>
+                    <p class="link" v-for="item in footerData[2].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <div class="footer-contact">
+                    <h5> <span class="navTitle">{{footerData[3].title}}</span></h5>
+                    <p class="link" v-for="item in footerData[3].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="footer-contact">
-                <h5>{{footerData[2].title}}</h5>
-                <p class="link" v-for="item in footerData[2].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
-              </div>
-            </div>
-            <div class="col-xs-3">
-              <div class="footer-contact">
-                <h5>{{footerData[3].title}}</h5>
-                <p class="link" v-for="item in footerData[3].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
-              </div>
-            </div>
-            <div class="col-xs-3">
-              <div class="footer-contact">
-                <h5>{{footerData[4].title}}</h5>
-                <a><img src="../assets/img/qq.png" alt=""></a>
-                <a><img src="../assets/img/wechat.png" alt=""></a>
-                <a><img src="../assets/img/weibo.png" alt=""></a>
-              </div>
+              <div class="col-xs-2">
+                <div class="footer-contact" style="text-align:center">
+                  <div class="down_title"><span >扫码下载ios版</span></div>
+                  <div class="down_img"><img  src="../assets/img/qrcode.png" alt=""></div>
+                </div>
 
+              </div>
+              <div class="col-xs-2">
+                <div class="footer-contact" style="text-align:center">
+                  <span class="down_title">扫码下载android版</span>
+                  <div class="down_img"><img  src="../assets/img/qrcode.png" alt=""></div>
+                </div>
+
+              </div>
+            </div>
+          
+          </div>
+        </div>
+        <div class="friendly-link">
+          <div class="container">
+            <div class="row">
+                <div class="col-xs-12 friendly-content">
+                    <p >
+                        友情链接： AlCoin &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   BitKan  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   熊猫矿机   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   比特币挖矿     玩币族     价值区块链     链向财经     比特币家园     AToken    钱包     区块网     非小号     币源社区     
+  MyToken vvpool    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 分叉币矿池&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      SBTC  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    链世界 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     币报道  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    加密数字货币   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   币区势&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      链闻   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   比特币之家 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     好币网  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    区块链之家  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    区块链中文网     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 九个亿财经&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+  比特街   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   挖币网    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  巴比特   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   果味财经    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  链外     保险柜     OKEx钱包 （原币行钱包） 
+                    </p>
+                </div>
             </div>
           </div>
-        
         </div>
-      </div>
-      <div class="copyright">
-        <div class="container">
-          <div class="row">
-              <div class="col-xs-12">
-                  <p >
-                      <span >{{footerCopyright}}</span> 
-                  </p>
-              </div>
+        <div class="copyright">
+          <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p >
+                        <span >{{footerCopyright}}</span> 
+                    </p>
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -61,7 +86,13 @@
     data () {
       return {
         footerCopyright: '版权所有@武汉XXXXXX有限公司',
+        logoTitle:"默默交易网",
+        friendlyLink:[],
         footerData:[
+            {
+                title:"联系我们",
+                content:["联系电话:  027-1234567","业务邮箱:  hcwt@nb.com"],
+            },
             {
                 title:"下载支持",
                 content:["API文档","APP下载","其它下载"]
@@ -74,15 +105,7 @@
                 title:"其它",
                 content:["官方公告","上币申请"]
             },
-            {
-                title:"联系我们",
-                content:["服务邮箱","服务邮箱","业务邮箱"],
-                linkTo:["support@nb.com","support@nb.com","info@nb.com"]
-            },
-            {
-                title:"联系我们",
-                content:["../assets/img/qq.png","../assets/img/wechat.png","../assets/img/weibo.png"]
-            },
+
         ]
       }
     }
@@ -92,29 +115,66 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .footer{
+  background: #151B4A;
   .bottom_nav{
-    color: #ccc;
-    height: 272px;
-    background-color:#303030;
+    color: #fdfdfd;
+    height: 329px;
     h5{
-      font-size: 18px;
-      line-height: 18px;
-      margin:46px 0 38px 0 ;
+      font-size: 16px;
+      line-height: 16px;
+      margin:68px 0 25px 0 ;
+    }
+    .navTitle{
+      border-bottom: 1px solid #fff;
+      padding-bottom: 5px;
     }
     .link{
       font-size: 14px;
       line-height: 14px;
       margin-bottom: 21px;
       a{
-        color: #ccc;
+        color: #FDFDFD;
       }
     }
  
   }
+  .footer-contact{
+  
+  }
+  .contact_img{
+    display: inline-block;
+    margin: 0px 15px 5px 5px;
+  }
+  .friendly-link{
+    color: #ccc;
+    .friendly-content{
+      border-top: 1px solid #666;
+      border-bottom: 1px solid #666;
+     p{
+       margin: 12px 0px;
+     } 
+    }
+    
+  }
+  .down_title{
+    display: inline-block;
+    padding: 14px 0;
+    width: 75%;
+    min-width: 145px;
+    text-align: center;
+    border-radius: 24px;
+    margin-top: 69px;
+    background-color: #4353D0;
+  }
+  .down_img{
+    width: 125px;
+    height: 125px;
+    margin: 15px auto;
+
+  }
   .copyright{
-    height: 40px;
-    background-color: #3D3D3D;
-    line-height: 40px;
+    height: 49px;
+    line-height: 49px;
     text-align: center;
     color: #fff;
   }

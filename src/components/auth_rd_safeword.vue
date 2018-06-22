@@ -1,7 +1,8 @@
 <template>  
-    <div class="safe-rd snav-rd">
-        <div class="hd">
+    <div class="safe-rd snav-rd ml0">
+        <div class="hd nb_head_wrap">
            <h3><i class="fa fa-lock"></i><b>资金安全密码设置</b></h3>
+           <a href="/views/user/user.html" class="nb_head_goback"><i aria-hidden="true" class="fa fa-reply fa-lg"></i>返回</a>
         </div>
 
         <div class="authbody">
@@ -72,7 +73,7 @@
                             <div class="do">
                                 <a href="javascript:Redirect('/u/safe')" tabindex="5" class="btn btn-outsecond btn-lg hide">取消</a>
                                 <a @click="save()" tabindex="8" class="btn btn-outsecond btn-lg"><i class="fa fa-check fa-lg  fa-fw"></i>&nbsp; 提交</a>
-                                <a href="/service/self/forgetPwd" target="_blank" class="btn btn-outsecond btn-lg">忘记资金安全密码？</a>
+                                <a href="/views/pwd/pwd.html#/forgetSafePwd" target="_blank" class="btn btn-outsecond btn-lg">忘记资金安全密码？</a>
                             </div>
                         </div>
                     </div>

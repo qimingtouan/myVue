@@ -1,16 +1,15 @@
 *{
     margin: 0px;
     padding: 0px;
-    font-family: 'LiSu';
 }
 .login_page {
-    background: url(./../../assets/img/login-bg.png) center bottom no-repeat;
+    background: url('./../../assets/img/login-bg.png') center bottom no-repeat;
     background-size: cover;
 }
 
 /*头部导航start*/
-.navigate_wrap {
-	border: 1px solid #ddd;
+/* .navigate_wrap {
+    border: 1px solid #ddd;
     height: 93px;
     background-color: white;
 }
@@ -82,24 +81,25 @@
             }
         }   
     }
-}
+} */
 /*头部导航end*/
 
 .login_wrap {
-	width: 612px;
-	height: 458px;
-	margin: 195px auto 10px;
+	width: 620px;
+	// height: 458px;
+	margin: 170px auto 10px;
 	position: relative;
-	padding-top: 54px;
+    overflow: hidden;
+	padding-top: 50px;
 	text-align: center;
-	background-color: rgba(255,255,255,0.76);
+	background-color: rgba(255, 255, 255, 0.76);
 	border-radius: 10px;
-	box-shadow: 0px 3px 3px rgba(70,70,70,0.16);
+    -webkit-box-shadow: 0px 3px 3px rgba(70, 70, 70, 0.16);
+	box-shadow: 0px 3px 3px rgba(70, 70, 70, 0.16);
 }
 .login_title {
 	height: 26px; 
 	font-size: 28px;
-	font-family: SourceHanSansCN-Regular;
 	color: rgba(51,51,51,1);
 	line-height: 26px;
 	text-align: center;
@@ -107,7 +107,8 @@
 .login_form {
 	text-align: center;
 	position: relative;
-	margin-top: 36px; 
+	margin-top: 20px; 
+    padding: 0 80px;
 }
 .login_form .login_i {
 	position: absolute;
@@ -118,23 +119,25 @@
 	top: 84px;
 }
 .login_form input {
-    width: 412px;
-    height: 52px;
-    margin-bottom: 18px;
+    height: 50px;
     font-size: 16px;
-    color: rgba(153,153,153,1);
-    padding-left: 55px;
-    border: 1px solid rgba(204, 204, 204, 0.4);
-    border-radius: 4px;
-    padding-right: 10px;
+    color: #999999;
+    border-radius: 10px;
+}
+
+.login_identifycode_img {
+    position: absolute;
+    top: 6px;
+    right: 2px;
+    width: 100px;
+    height: 48px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 /* 记住密码begin*/
 .login_sele {
-    width: 412px;
-    height: 60px;
-    margin: 0 auto;
-    overflow: hidden;
+    margin: 10px 5px 22px;
     color: rgba(153, 153, 153, 1);
 
     .login_sele_checkbox {
@@ -162,29 +165,49 @@
         height: 14px;
         line-height: 14px;
     }
+    .login_sele_foget:hover {
+        color: rgba(255, 163, 56, 1);
+    }
 }
 /* 记住密码end*/
 
 .login_button {
-	width: 412px;
-    height: 52px;
+	width: 360px;
+    height: 50px;
     margin: 0 auto;
     font-size: 18px;
-    color: rgba(255, 255, 255, 1);
-    background-color: #3ab2f8;
+    color: #ffffff;
+    background-color: rgba(255, 163, 56, 1);
     border: 0;
-    border-radius: 4px;
+    border-radius: 25px;
+    outline: none;
 }
 .login_button:hover {
-    background-color: #24a7fb;
-    border-color: #139ff9;
+    background-color: rgba(248, 147, 30, 1);
 }
+
 .login_goto_register {
-    margin-top: 23px;
-    margin-bottom: 0;
+    display: block;
+    font-size: 16px;
+    margin: 23px auto 33px;
+    color: rgba(153,153,153,1);
     height: 16px;
     line-height: 16px;
-    font-size: 16px;
-    font-family:SourceHanSansCN-Light;
-    color: rgba(102,102,102, 1);
+    text-decoration: none;
+}
+.login_goto_register:hover {
+    color: rgba(255, 163, 56, 1);
+    text-decoration: none;
+}
+
+/* 重写 Element框架样式 */
+.login_form {
+    .el-input__icon {
+        font-size: 16px;
+        line-height: 50px;
+    }
+
+    .img_code input {
+        padding-right: 120px;
+    }
 }

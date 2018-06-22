@@ -50,14 +50,14 @@
     "usdt": [
         {
             "vol": "10196241.45",
-            "market": "ZB/USDT",
-            "sell1Price": "0.00005974",
-            "hightPrice": "0.00006645",
-            "lastPrice": "0.00005971",
+            "market": "BTC/USDT",
+            "sell1Price": "55974.67",
+            "hightPrice": "56645.4",
+            "lastPrice": "55971.65",
             "riseRate": "-3.70",
-            "lowPrice": "0.00005951",
-            "currrency": "zb",
-            "buy1Price": "0.00005978"
+            "lowPrice": "55951.09",
+            "currrency": "btc",
+            "buy1Price": "55978.98"
         },
         {
             "vol": "2100.948",

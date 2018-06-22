@@ -1,5 +1,20 @@
 <template>
   <div class="goods">
+	<header>
+		<div class="header">
+			<div class="roof">
+				<div> <div class="lang"> <img src="./../../assets/img/chinese.png" alt=""></div><div class="reg" @click="isShowLogin = !isShowLogin"> 登录</div><div class="reg"> 注册</div> </div>
+				<div class="logo"><a><img src="./../../assets/img/logo_new.png" alt=""></a></div>
+				<ul class="home_nav">
+					<li class="active"><a href="#">首页</a></li>
+					<li><a href="">币种行情</a></li>
+					<li><a href="views/goods/goods_trade.html">币币交易</a></li>
+					<li><a href="">财务中心</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<section class="moveup">
     <div class="bk-trans-asset">	
 		<div class="container">
 			<div class="bk-band clearfix">
@@ -16,19 +31,19 @@
                 </div> 
 				
 				<div class="tradechoose">
-					<a href="#ZB/QC" target="_self" class="tabchoose sactive active">ETH 交易区 </a>
+					<a href="#ZB/QC" target="_self" class="tabchoose sactive active">ETH <span>交易区</span></a>
 					<div class="bk-coinlist">
 						<div class="bk-tabList-hd clearfix">
-							<div class="btn-group" id="marketGroup3" role="group">
-								<a href="#ZB/ETH" class="btn" role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-zb.png?V1526537246247">ZB/ETH</a>
+							<div class="flexbox_btn" id="marketGroup3" role="group">
+								<a href="#ZB/ETH" class="Abtn"   role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-zb.png?V1526537246247">ZB/ETH</a>
 								
-								<a href="#BTC/ETH" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btc.png?V1526537246247">BTC/ETH</a>
+								<a href="#BTC/ETH" class="Abtn" role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btc.png?V1526537246247">BTC/ETH</a>
 								
-								<a href="#BCC/ETH" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcc.png?V1526537246247">BCC/ETH</a>
+								<a href="#BCC/ETH" class="Abtn" role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcc.png?V1526537246247">BCC/ETH</a>
 
-								<a href="#LTC/ETH" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ltc.png?V1526537246247">LTC/ETH</a>
+								<a href="#LTC/ETH" class="Abtn" role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ltc.png?V1526537246247">LTC/ETH</a>
 
-								<a href="#EOS/ETH" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eos.png?V1526537246247">EOS/ETH</a>
+								<a href="#EOS/ETH" class="Abtn" role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eos.png?V1526537246247">EOS/ETH</a>
 
 							</div>
 						</div>
@@ -36,139 +51,149 @@
 				</div>
 
 				<div class="tradechoose">
-					<a href="zbusdt" target="_self" class="tabchoose">USDT 交易区 </a>
+					<a href="zbusdt" target="_self" class="tabchoose">USDT <span>交易区</span></a>
 					<div class="bk-coinlist">
 						<div class="bk-tabList-hd clearfix">
-							<div class="btn-group" id="marketGroup1" role="group">
-								<a href="zbusdt" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-zb.png?V1526537246247">ZB/USDT</a>
+							<div class="flexbox_btn" id="marketGroup1" role="group">
+								<a href="zbusdt" class="Abtn" role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-zb.png?V1526537246247">ZB/USDT</a>
 								 
-								<a href="btcusdt" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btc.png?V1526537246247">BTC/USDT</a>
+								<a href="btcusdt" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btc.png?V1526537246247">BTC/USDT</a>
 								 
-								<a href="bccusdt" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcc.png?V1526537246247">BCC/USDT</a>
+								<a href="bccusdt" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcc.png?V1526537246247">BCC/USDT</a>
 																 
-								<a href="ltcusdt" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ltc.png?V1526537246247">LTC/USDT</a>
+								<a href="ltcusdt" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ltc.png?V1526537246247">LTC/USDT</a>
 																 
-								<a href="ethusdt" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eth.png?V1526537246247">ETH/USDT</a>
+								<a href="ethusdt" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eth.png?V1526537246247">ETH/USDT</a>
 																 
-								<a href="etcusdt" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-etc.png?V1526537246247">ETC/USDT</a>								
+								<a href="etcusdt" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-etc.png?V1526537246247">ETC/USDT</a>								
 							</div>
 						</div>
 					</div>
 				</div>
 				
 				<div class="tradechoose">
-					<a href="zbbtc" target="_self" class="tabchoose">BTC 交易区 </a>
+					<a href="zbbtc" target="_self" class="tabchoose">BTC <span>交易区</span> </a>
 					<div class="bk-coinlist">
 						<div class="bk-tabList-hd clearfix">
-							<div class="btn-group" id="marketGroup2" role="group">
-								<a href="zbbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-zb.png?V1526537246247">ZB/BTC</a>					  
-								<a href="bccbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcc.png?V1526537246247">BCC/BTC</a>
+							<div class="flexbox_btn" id="marketGroup2" role="group">
+								<a href="zbbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-zb.png?V1526537246247">ZB/BTC</a>					  
+								<a href="bccbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcc.png?V1526537246247">BCC/BTC</a>
 
-								<a href="ltcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ltc.png?V1526537246247">LTC/BTC</a>
+								<a href="ltcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ltc.png?V1526537246247">LTC/BTC</a>
 
-								<a href="ethbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eth.png?V1526537246247">ETH/BTC</a>
+								<a href="ethbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eth.png?V1526537246247">ETH/BTC</a>
 
-								<a href="etcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-etc.png?V1526537246247">ETC/BTC</a>
+								<a href="etcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-etc.png?V1526537246247">ETC/BTC</a>
 
-								<a href="btsbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bts.png?V1526537246247">BTS/BTC</a>
+								<a href="btsbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bts.png?V1526537246247">BTS/BTC</a>
 
-								<a href="eosbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eos.png?V1526537246247">EOS/BTC</a>
+								<a href="eosbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-eos.png?V1526537246247">EOS/BTC</a>
 
-								<a href="qtumbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-qtum.png?V1526537246247">QTUM/BTC</a>
+								<a href="qtumbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-qtum.png?V1526537246247">QTUM/BTC</a>
 
-								<a href="hsrbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-hsr.png?V1526537246247">HSR/BTC</a>
+								<a href="hsrbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-hsr.png?V1526537246247">HSR/BTC</a>
 																 
-								<a href="xrpbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-xrp.png?V1526537246247">XRP/BTC</a>
+								<a href="xrpbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-xrp.png?V1526537246247">XRP/BTC</a>
 
-								<a href="dashbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-dash.png?V1526537246247">DASH/BTC</a>
+								<a href="dashbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-dash.png?V1526537246247">DASH/BTC</a>
 
-								<a href="ubtcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ubtc.png?V1526537246247">UBTC/BTC</a>
+								<a href="ubtcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ubtc.png?V1526537246247">UBTC/BTC</a>
 
-								<a href="bcdbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcd.png?V1526537246247">BCD/BTC</a>
+								<a href="bcdbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcd.png?V1526537246247">BCD/BTC</a>
 
-								<a href="sbtcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-sbtc.png?V1526537246247">SBTC/BTC</a>
+								<a href="sbtcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-sbtc.png?V1526537246247">SBTC/BTC</a>
 
-								<a href="inkbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ink.png?V1526537246247">INK/BTC</a>
+								<a href="inkbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ink.png?V1526537246247">INK/BTC</a>
 
-								<a href="tvbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-tv.png?V1526537246247">TV/BTC</a>
+								<a href="tvbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-tv.png?V1526537246247">TV/BTC</a>
 
-								<a href="bcxbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcx.png?V1526537246247">BCX/BTC</a>
+								<a href="bcxbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcx.png?V1526537246247">BCX/BTC</a>
 																  
-								<a href="bthbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bth.png?V1526537246247">BTH/BTC</a>
-								<a href="lbtcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-lbtc.png?V1526537246247">LBTC/BTC</a>
+								<a href="bthbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bth.png?V1526537246247">BTH/BTC</a>
+								<a href="lbtcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-lbtc.png?V1526537246247">LBTC/BTC</a>
 
-								<a href="chatbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-chat.png?V1526537246247">CHAT/BTC</a>
+								<a href="chatbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-chat.png?V1526537246247">CHAT/BTC</a>
 																  
-								<a href="hlcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-hlc.png?V1526537246247">HLC/BTC</a>
+								<a href="hlcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-hlc.png?V1526537246247">HLC/BTC</a>
 
-								<a href="bcwbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcw.png?V1526537246247">BCW/BTC</a>
+								<a href="bcwbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bcw.png?V1526537246247">BCW/BTC</a>
 										                     								  
-								<a href="btpbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btp.png?V1526537246247">BTP/BTC</a>
+								<a href="btpbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btp.png?V1526537246247">BTP/BTC</a>
 
-								<a href="topcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-topc.png?V1526537246247">TOPC/BTC</a>
+								<a href="topcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-topc.png?V1526537246247">TOPC/BTC</a>
 
-								<a href="entbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ent.png?V1526537246247">ENT/BTC</a>
+								<a href="entbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ent.png?V1526537246247">ENT/BTC</a>
 
-								<a href="batbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bat.png?V1526537246247">BAT/BTC</a>
+								<a href="batbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bat.png?V1526537246247">BAT/BTC</a>
 
-								<a href="1stbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-1st.png?V1526537246247">1ST/BTC</a>
+								<a href="1stbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-1st.png?V1526537246247">1ST/BTC</a>
 								  
-								<a href="safebtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-safe.png?V1526537246247">SAFE/BTC</a>
+								<a href="safebtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-safe.png?V1526537246247">SAFE/BTC</a>
 
-								<a href="qunbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-qun.png?V1526537246247">QUN/BTC</a>
+								<a href="qunbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-qun.png?V1526537246247">QUN/BTC</a>
 
-								<a href="btnbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btn.png?V1526537246247">BTN/BTC</a>
+								<a href="btnbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-btn.png?V1526537246247">BTN/BTC</a>
 
-								<a href="truebtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-true.png?V1526537246247">TRUE/BTC</a>
+								<a href="truebtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-true.png?V1526537246247">TRUE/BTC</a>
 																 
-								<a href="cdcbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-cdc.png?V1526537246247">CDC/BTC</a>
+								<a href="cdcbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-cdc.png?V1526537246247">CDC/BTC</a>
 																 
-								<a href="ddmbtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ddm.png?V1526537246247">DDM/BTC</a>
+								<a href="ddmbtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-ddm.png?V1526537246247">DDM/BTC</a>
 																 
-								<a href="bitebtc" class="btn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bite.png?V1526537246247">BITE/BTC</a>
+								<a href="bitebtc" class="Abtn " role="button"><img src="https://s.zb.com/statics/img/v2/trans/market-bite.png?V1526537246247">BITE/BTC</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<search-coin :coin-list = "coinsData" selectVal = "handle" eventName = "handle1" v-on:handle1="showResult1" v-on:handle="showResult"></search-coin>	
+				
 			</div>
-			
-			<div class="bg_fff" style="padding:0px 15px 0;">
-				<div class="bk-tabList">
-					<div class="bk-tabList-bd">
-						<div class="row">
-							<div class="col-xs-8">
-								<div class="row">
-									<div class="col-xs-12 textLeft ft14 mt10 tradepair">
-										交易对：<b>ZB / QC</b>
-									</div>
-									<div class="col-xs-6 text-left item">
-										<div class="line">可用:<b id="canUseMoney" class="text-primary">--</b> QC</div>
-										<div class="line">可买:<b id="canBuyCoin" class="text-gray">--</b> ZB</div>
-									</div>
-									<div class="col-xs-6 text-left item">
-										<div class="line">可用:<b id="canUseCoin" class="text-second">--</b> ZB</div>
-										<div class="line">可卖:<b id="canSellMoney" class="text-gray">--</b> QC</div>
-									</div>
-								</div>
-							</div>
+
+
+			<div class="trade_info clearfix">
+				<div class="col-xs-4 trade_item">
+					<div class="trade_dual">
+						<p>交易对：<span class="font_24">BTC/QC</span></p>
+					</div>
+					<div class="col-xs-6 padl_0 trade_left">
+						<div class="canUse">
+							可用 : <span>20QC</span>
+						</div>
+						<div class="canUse">
+							可买:<span>12BTC</span>
+						</div>
+					</div>
+					<div class="col-xs-6 padl_0">
+						<div class="canUse">
+							可用: <span>20QC</span>
+						</div>
+						<div class="canUse">
+							可买:<span>12BTC</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4 trade_item">
+					<div class="col-xs-6">
+						<div class="ratio">
+							<p>BTC：<span>QC 48888</span><span>￥4888.00</span></p>
+						</div>
+						<div>
+							<p>高（24H）：QC49777.00 </p>
+							<p>低（24H）：QC48517.35</p>
+							<p>成交量（24H）：3884.3</p>
 							
-							<div class="col-xs-4 price">
-								<h4><span>zb:</span> 
-									<b id="curPrice" class="text-primary" style="display: inline;">QC5.5802<i class="iconfont icon-arrowup"></i></b>
-									<span id="riseRate" class="text-primary" style="display:none !important;">--</span>
-								</h4>
-								<h6>高：<span id="maxHeightPrice" class="mr15">QC5.8600</span>低：<span id="minLowPrice" class="mr15">QC3.7312</span>量：<span id="dayVolume" title="ZB 700780239.02">7.0078亿</span></h6>
-								
-								<div class="iconlist-show">
-									<a href="markets/zbqc"><i class="fa fa-line-chart fa-fw"></i>K线交易</a>
-									<a href="https://www.zb.com/i/coin?id=51" target="_blank"><i class="fa fa-book fa-fw"></i>币种资料</a>
-								</div>
-							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="k_btn">
+							<a href="">k线交易</a>
+						</div>
+						<div class="k_btn">
+							<a href="">币种资料</a>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 
@@ -179,7 +204,7 @@
 					<div class="bk-buy-form">
 						<div class="buy_header" id="bkBuyType">
 							<div>
-								<img src="../../assets/img/buy_60X60.png" alt="">
+								<img src="../../assets/img/buy.png" alt="">
 							</div>
 							<div class="buy_title">
 								限价买入
@@ -205,24 +230,10 @@
 							</div>
 
 							<div class="range range_buy" id="buySlider">
-								<!-- 买单滑动杆 -->
-								<span class="sliderPercent">0.00%</span>
-								<div class="range_wrap" data-ratio="0" tabindex="0">
-									<div class="range_paths_wrap">
-										<div class="range_path"></div>
-									</div>
-									<div class="range_track_wrap">
-										<div class="range_track"></div>
-										<div class="range_handle"></div>
-									</div>
-									<div class="range_points_wrap">
-										<div class="range_point" data-point-ratio="0" style="left: 0%;"></div>
-										<div class="range_point" data-point-ratio="25" style="left: 25%;"></div>
-										<div class="range_point" data-point-ratio="50" style="left: 50%;"></div>
-										<div class="range_point" data-point-ratio="75" style="left: 75%;"></div>
-										<div class="range_point" data-point-ratio="100" style="left: 100%;"></div>
-									</div>
-								</div>
+								<el-slider v-model="value8" width="100%"> </el-slider>
+								<div class="el-slider__stop" style="left: 25%; top:16px"></div>
+								<div class="el-slider__stop" style="left: 50%; top:16px"></div>
+								<div class="el-slider__stop" style="left: 75%; top:16px"></div>
 							</div>
 
 							<div class="form-group has-feedback">
@@ -247,7 +258,7 @@
 						<div class="bk-sell-form">
 							<div class="sell_header" >
 								<div>
-									<img src="../../assets/img/buy_60X60.png" alt="">
+									<img src="../../assets/img/sell.png" alt="">
 								</div>
 								<div class="buy_title">
 									限价卖出
@@ -272,7 +283,10 @@
 									</div>
 								</div>
 
-								<div class="range range_sell" id="sellSlider"><!-- 卖单滑动杆 --><span class="sliderPercent">0.00%</span><div class="range_wrap" data-ratio="0" tabindex="0"><div class="range_paths_wrap"><div class="range_path"></div></div><div class="range_track_wrap"><div class="range_track"></div><div class="range_handle"></div></div><div class="range_points_wrap"><div class="range_point" data-point-ratio="0" style="left: 0%;"></div><div class="range_point" data-point-ratio="25" style="left: 25%;"></div><div class="range_point" data-point-ratio="50" style="left: 50%;"></div><div class="range_point" data-point-ratio="75" style="left: 75%;"></div><div class="range_point" data-point-ratio="100" style="left: 100%;"></div></div></div></div>
+								<div class="range range_sell" id="sellSlider"><el-slider v-model="value8" > </el-slider>
+								<div class="el-slider__stop" style="left: 25%; top:16px"></div>
+								<div class="el-slider__stop" style="left: 50%; top:16px"></div>
+								<div class="el-slider__stop" style="left: 75%; top:16px"></div></div>
 
 								<div class="form-group has-feedback">
 									<label class="control-label" for="realSellAccount">预计交易额：<b class="text-second" id="realSellAccount">0.00</b> QC</label>
@@ -416,8 +430,8 @@
 
 					  <entrust :gettype="type1">                    
 						<div class="btn-group bk-btn-group" role="group" slot="header">
-                        <a class="btn" role="button"  >限价委托</a>
-                    </div>
+                        <a class="Abtn" role="button"  >限价委托</a>
+                    	</div>
 					</entrust>
 					  <entrust :gettype="type2">
 						  <div class="btn-group bk-btn-group" role="group" slot="header">
@@ -428,7 +442,7 @@
 			</div>
 		</div>
 	</div>
-
+	</section>
   </div>
 </template>
 
@@ -443,6 +457,7 @@
 			return {
 				prices:{
 				},
+				value8:0,
 				options: [{
 					value: '选项1',
 					label: '5档'
@@ -485,6 +500,7 @@
 </script>
 
 <style lang = "less">
+@import "goods.less";
 	a {
 	    color: #de211d;
 	    text-decoration: none
@@ -502,11 +518,9 @@
 	    padding: 0 15px;
 	    min-width: 150px;
 	    font-size: 16px;
-	    color: #4b4c4d;
+	    color: #fff;
 	    display: block;
 	    float: left;
-	    margin-right: 20px;
-	    background-color: #eee;
 	    -ms-transition: all .2s linear;
 	    cursor: pointer;
 	    -moz-transition: all .2s linear;
@@ -516,13 +530,14 @@
 	}
 
 	.bk-band .tab.active,.bk-band .tab:hover,.bk-band a:hover {
-	    background-color: #fff;
-	    text-decoration: none
+	    background-color: rgba(255,255,255,.2);
+	    text-decoration: none;
 	}
 
 	.bk-band a.active {
-	    background: #fff;
-	    text-decoration: none
+	    background: linear-gradient(to right,#F65F3F,#FFB144);
+		text-decoration: none;
+		color:#fff;
 	}
 
 	.bk-band a:before1 {
@@ -578,7 +593,7 @@
 	}
 
 	.bk-coinlist {
-	    background: rgba(255,255,255,0.97);
+	    background: linear-gradient(to right,#F65F3F,#FFB144);
 	    position: absolute;
 	    width: 100%;
 	    z-index: 100;
@@ -594,21 +609,12 @@
 
 	.tradechoose:hover .bk-coinlist {
 	    display: block;
-	    top: 50px
+	    top: 130px
 	}
 
 	.tradechoose:hover>a {
-	    background: #FFF
-	}
-
-	.bk-coinlist a {
-	    background: 0;
-	    padding: 0!important;
-	    margin-right: 5px;
-	    height: auto;
-	    line-height: 25px;
-	    min-width: auto;
-	    font-weight: 400
+		background: linear-gradient(to right,#F65F3F,#FFB144);
+		color: #fff;
 	}
 
 	.bk-coinlist .bk-tabList-hd {
@@ -679,7 +685,6 @@
 
 	.bk-trans-asset {
 	    padding-top: 5px;
-	    margin-bottom: 20px;
 	    position: relative
 	}
 
@@ -840,6 +845,7 @@
 	}
 
 	.bk-trans-right {
+		border:1px solid #f5f5f5;
 	    padding-top: 15px;
 	    padding-bottom: 10px;
 	    border-left: 10px solid #f5f5f5
@@ -847,7 +853,6 @@
 
 	.bk-trans-form .range {
 	    width: 100%;
-	    padding-right: 70px;
 	    height: 17px;
 	    margin: 20px 0 15px 0;
 	    background: none!important;
@@ -1780,12 +1785,14 @@
 	    min-height: 420px;
 		padding-left: 30px;
 		padding-right: 30px;
+		border-top: 2px solid #FB5555
 	}
 	.bk-trans-form .item2 {
 	    min-height: 420px;
 		padding-left: 30px;
 		padding-right: 30px;
-		border-left: 10px solid #f7f7f7
+		border-left: 10px solid #f7f7f7;
+		border-top: 2px solid #27AE60
 	}
 
 	.bk-band a.allmarket,.bk-band a.transrate {
@@ -2058,5 +2065,21 @@
 	}
 	.market{
 		margin-top: 20px;
+	}
+	.flexbox_btn{
+		/* display: flex;
+		flex-wrap: wrap; */
+	}
+	.Abtn img{
+		width: 30px;
+		height:30px;;
+	}
+	a.tabchoose{
+		color: #999;
+		font-size: 20px;
+		text-decoration: none;
+		height: 120px;
+		display: inline-block;
+		line-height: 120px;
 	}
 </style>

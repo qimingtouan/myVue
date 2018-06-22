@@ -8,7 +8,7 @@
             <!-- 页面中部内容开始 -->
             <div class="bk-safe">
                 <div class="container">
-                    <div class="finance-left safe-ld snav-ld">
+                    <div class="finance-left safe-ld snav-ld hide">
                         <ul class="nb-finance-left">
                             <li v-for="item in assetLeftMenuData" :key="item.index">
                                 <router-link :to="item.linkTo"><i :class="item.iconClass" aria-hidden="true"></i>{{item.optionText}}</router-link>

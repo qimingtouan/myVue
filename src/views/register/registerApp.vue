@@ -1,51 +1,55 @@
 <template>
     <div  id="register">
-        <div class="navigate_wrap">
-            <div class="container navigate_inner">
-                <div class="row navigate_row">
-                    <a title="牛币" href="/" class="nb_logo">
-                        <img class="nb_logo_img" src="./../../assets/img/logo.png" alt="">
-                        <div class="nb_logo_text">
-                            <span class="nb_logo_name">牛币交易网</span>
-                            <span class="nb_logo_domain">www.niub.com</span>
-                        </div>
-                    </a>
-                    <ul class="nb_nav">
-                        <!-- <li><a href="../home/index.html">首页</a></li> -->
-                        <li><a href="/">首页</a></li>
-                        <li><a href="#">交易中心</a></li>
-                        <li><a href="#">用户中心</a></li>
-                        <li><a href="../asset/asset.html">财务中心</a></li>
-                        <li><a href="#">帮助中心</a></li>
-                        <li><a href="../login/login.html">登录</a></li>
-                        <li class="active"><a href="register.html">注册</a></li>
-                    </ul> 
-                </div>
-            </div>
-        </div>
+        <!-- 页面头部 开始 -->
+        <header-register></header-register>
+        <!-- 页面头部 结束 -->
+
         <div id="main">
             <div id="" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="register_wrap">
-                            <p class="register_title" id="login_log">牛币注册</p>
-                            <form action="" class="register_form">
-                                <i class="register_i"><img src="./../../assets/img/icon-user.png" alt=""></i>
-                                <i class="register_i"><img src="./../../assets/img/icon-password.png" alt=""></i>
-                                <i class="register_i"><img src="./../../assets/img/icon-password.png" alt=""></i>
-                                <i class="register_i"><img src="./../../assets/img/icon-star.png" alt=""></i>
-                                <i class="register_i"><img src="./../../assets/img/icon-yzm.png" alt=""></i>
-                                <input type="text" class="acount form-control" placeholder="手机号码/邮箱" id="registerUsername" v-model="userName" autocomplete="off">
-                                <input type="password" class="pwd form-control" placeholder="设置登录密码" id="registerPwd" v-model="userPwd">
-                                <input type="password" class="confirm_pwd form-control" placeholder="重复登录密码" id="confirmPwd" v-model="confirmPwd">
-                                <input type="text" class="recommend_code form-control" placeholder="推荐码(非必填)" id="recommendCode" v-model="recommendCode">
-                                <input type="text" class="img_code form-control" placeholder="图形验证码" id="imgCode" v-model="imgCode">
-                                <img id="imgIdentifyCode" class="register_identifycode_img" src="" alt="正在加载..."  @click="getImgCode"/>
-                            </form>
-                            <div class="register_sele">
-                                <input type="checkbox" class="register_sele_checkbox" id="registerAgreement"  v-model="isChecked"><span class="register_sele_remember" id="agreementText">我已阅读并同意</span>
-                                <a class="register_sele_protocol" href="#" id="register_protocol">《用户协议》</a>
-                            </div>
+                            <p class="register_title" id="login_log">注册</p>
+
+                            <el-form :model="registerForm" class="register_form">
+                                <el-form-item label=" " :label-width="formLabelWidth">
+                                    <el-input v-model="registerForm.userName" placeholder="手机号码/邮箱"  auto-complete="off" class="acount">
+                                        <i class="fa fa-user el-input__icon" slot="prefix"></i>
+                                    </el-input>
+                                </el-form-item>
+
+                                <el-form-item label=" " :label-width="formLabelWidth">
+                                    <el-input v-model="registerForm.userPwd" placeholder="设置登录密码" auto-complete="off" type="password" class="pwd">
+                                        <i class="fa fa-lock el-input__icon" slot="prefix"></i>
+                                    </el-input>
+                                </el-form-item>
+
+                                <el-form-item label=" " :label-width="formLabelWidth">
+                                    <el-input v-model="registerForm.confirmPwd" placeholder="重复登录密码" auto-complete="off" type="password" class="confirm_pwd">
+                                        <i class="fa fa-lock el-input__icon" slot="prefix"></i>
+                                    </el-input>
+                                </el-form-item>
+
+                                <el-form-item label=" " :label-width="formLabelWidth">
+                                    <el-input v-model="registerForm.recommendCode" placeholder="推荐码(非必填)" auto-complete="off" class="recommend_code">
+                                        <i class="fa fa-star el-input__icon" slot="prefix"></i>
+                                    </el-input>
+                                </el-form-item>
+
+                                <el-form-item>
+                                    <el-input v-model="registerForm.imgCode" placeholder="图形验证码" auto-complete="off" class="img_code">
+                                        <i class="fa fa-key el-input__icon" slot="prefix"></i>
+                                    </el-input>
+                                    <img id="imgIdentifyCode" class="register_identifycode_img" src="" alt="正在加载..."  @click="getImgCode"/>
+                                </el-form-item>
+
+                                <el-form-item class="register_sele">
+                                    <input type="checkbox" class="register_sele_checkbox" id="registerAgreement"  v-model="registerForm.isChecked">
+                                    <span class="register_sele_remember" id="agreementText">我已阅读并同意</span>
+                                    <a class="register_sele_protocol" href="#" id="register_protocol">《用户协议》</a>
+                                </el-form-item>
+                            </el-form>
+
                             <button class="register_button" id="register_button" @click="registerFunc">立即注册</button>
                             <a href="../login/login.html" class="register_goto_login" id="registerGotoLogin">已有账号立即登录</a>
                         </div>
@@ -57,29 +61,35 @@
 </template>
 
 <script>
+    import headerRegister from '@/components/loginRegisterHeader'
     import commonJS from './../../assets/js/common_method'
     export default {
         name: 'registerApp',
+        components: {headerRegister},
         data() {
             return {
-                userName: '123456',
-                userPwd: '123456aA',
-                confirmPwd: '123456aA',
-                recommendCode: '',
-                imgCode: '1234',
-                isChecked: true,
+                registerForm: {
+                    userName: '123456',
+                    userPwd: '123456aA',
+                    confirmPwd: '123456aA',
+                    recommendCode: '',
+                    imgCode: '1234',
+                    isChecked: true,
+                },
+                formLabelWidth: '0px',
                 imgId: ''
             }
         },
         methods: {
             registerFunc() {
                 let _this = this;
-                let _userName = $.trim(_this.userName);
-                let _userPwd = _this.userPwd;
-                let _confirmPwd = _this.confirmPwd;
-                let _recommendCode = _this.recommendCode;
-                let _imgCode = $.trim(_this.imgCode);
-                let _regAgreement = _this.isChecked;
+                let registerForm = _this.registerForm;
+                let _userName = $.trim(registerForm.userName);
+                let _userPwd = registerForm.userPwd;
+                let _confirmPwd = registerForm.confirmPwd;
+                let _recommendCode = registerForm.recommendCode;
+                let _imgCode = $.trim(registerForm.imgCode);
+                let _regAgreement = registerForm.isChecked;
 
                 _this.checkUserName(_userName);
 

@@ -23,11 +23,13 @@ em {
 }
 a {
     outline: 0;
-    color: #de211d;
+    /* color: #de211d; */   /* 红色 */
+    color: rgba(255, 163, 56, 1); /* 黄色 */
     text-decoration: none
 }
 a:focus, a:hover {
-    color: #f33a36;
+    /* color: #f33a36; */  /* 红色悬浮 */
+    color: #f8931e;  /* 黄色悬浮 */
     text-decoration: underline
 }
 a:active, a:hover {
@@ -128,18 +130,23 @@ input {
 
     img{
     	height: 47px;
-    	width: auto
+    	width: auto;
+    	display: inline-block;
+    	padding-right: 10px;
     }
     a.navbar-brand {
-    	padding: 0;
-	    padding-top: 1px;
-	    width: auto;
-	    height: 53px;
-	    display: block;
-	    background-repeat: no-repeat;
-	    background-position: left center;
-	    overflow: hidden;
-	    background-size: 65%;
+		padding: 0;
+		padding-top: 1px;
+		width: auto;
+		height: 53px;
+		display: block;
+		background-repeat: no-repeat;
+		background-position: left center;
+		overflow: hidden;
+		background-size: 65%;
+		font-size: 20px;
+		color: rgba(60,75,92,1);
+		font-weight: bold;
     }
 }
 .bk-nav {
@@ -282,7 +289,8 @@ input {
 			color: #4b4c4d;
 		}
 		>li>a.active, >li>a:focus, >li>a:hover, .open>a, .open>a:focus, .open>a:hover {
-			color: #de211d
+			// color: #de211d; //红色
+			color: rgba(255, 163, 56, 1); // 黄色
 		}
 	}
     .bk-navbar {
@@ -605,6 +613,15 @@ td>.bk-norecord {
 	}
 }
 
+.success {
+    color: rgba(75,187,123,1);
+    padding-right: 5px;
+}
+.fail {
+    color: rgba(251,85,85,1);
+    padding-right: 5px;
+}
+
 /* 财务：充币提币 start */
 .bk-onekey {
 	padding-top: 0;
@@ -653,7 +670,7 @@ td>.bk-norecord {
     margin-bottom: 15px
 }
 .address-field .key-pre {
-	padding: 0 60px 0 5px;
+	padding: 0 65px 0 5px;
 	color: #333;
 	font-weight: bold;
 	display: block;
@@ -663,8 +680,15 @@ td>.bk-norecord {
 	position: absolute;
 	right: 0;
 	top: 0;
-	padding: 10px;
-	cursor: pointer
+	cursor: pointer;
+	// padding: 10px; //下面是黄色基调
+	padding: 5px 8px;
+	margin: 5px;
+	height: 30px;
+	border-radius: 15px;
+	background: rgba(255,163,56,1);
+	color: rgba(255,255,255,1);
+
 }
 .paysendbtn {
 	text-align: left
@@ -840,8 +864,8 @@ td>.bk-norecord {
 	position: absolute;
 	right: 8px;
 	top: 17px;
-	color: #DDD;
-	border-width: 7px
+	color: #ffa338;
+	border-width: 6px
 }
 .dropdown .coin-list {
 	width: 100%;
@@ -887,18 +911,32 @@ td>.bk-norecord {
     text-align: left;
     a {
 		color: #9a9595;
-		margin: 0 8px 0 0;
-		display: inline-block
+		display: inline-block;
+		margin: 0 8px 0 0; // 下面是加椭圆边框
+		margin: 0 6px 5px 0; 
+		width: 55px;
+		height: 26px;
+		line-height: 24px;
+		border-radius: 12px;
+		text-align: center;
+		border: 1px solid rgba(204, 204, 204, 1);
+		color: rgba(153,153,153,1);
+		background: rgba(255,255,255,1);
 	}
-	a:hover {
-		color: #de211d
+	a:hover, .coin_selected {
+		/* color: #de211d; */ // 下面是椭圆边框样式
+		color: rgba(255, 163, 56, 1);
+		border-color: rgba(255, 163, 56, 1);
+		text-decoration: none;
+		cursor: pointer;
 	}
 }
 #sel-coin {
 	text-transform: uppercase;
+	cursor: pointer;
 }
 #keyPreImg {
-	margin-top: 30px
+	margin-top: 30px;
 }
 #historyAddr {
 	position: absolute;
@@ -906,7 +944,7 @@ td>.bk-norecord {
 	top: 2px
 }
 #receiveAddress {
-	font-size: 14px!important
+	font-size: 14px!important;
 }
 .keyPreImgText {
 	text-align: center;
@@ -930,29 +968,35 @@ td>.bk-norecord {
 	top: 30%;
 	margin-left: -320px;
 	background: #FFF;
-	border-radius: 5px;
+	border-radius: 10px;
 	z-index: 1002;
 	padding: 5px
 }
 .popup-box .coin-list {
-    text-align: left;
-    padding: 8px 25px;
-    max-height: 300px;
-    overflow-y: auto;
-    margin-bottom: 15px;
-    li {
+	text-align: left;
+	padding: 8px 25px;
+	max-height: 300px;
+	overflow-y: auto;
+	margin-bottom: 15px;
+	li {
 		display: inline-block;
 		margin: 5px 0;
 		min-width: 24.5%;
 		color: #444;
 		label {
 			font-weight: 400;
+			width: 90px;
+			height: 28px;
+			line-height: 26px;
+			border-radius: 14px;
+			border: 1px solid #e5e5e5;
+			/* text-align: center; */
 			input {
 				position: relative;
 				top: 2px;
 			}
 		}
-		img {
+		i {
 			width: 16px;
 			height: 16px;
 			display: inline-block;
@@ -962,28 +1006,47 @@ td>.bk-norecord {
 	}
 }
 .popup-box .close {
-    display: block;
-    width: 40px;
-    height: 40px;
-    line-height: 38px;
-    border: 1px solid #f54c4c;
-    color: #f54c4c;
-    background: #FFF;
-    border-radius: 30px;
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    opacity: 1;
-    i {
+	display: block;
+	width: 40px;
+	height: 40px;
+	line-height: 38px;
+	border: 1px solid #fb5555;
+	color: #fb5555;
+	background: #FFF;
+	border-radius: 30px;
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	opacity: 1;
+	i {
 		font-size: 26px
 	}
 }
 .popup-box h5 {
-    font-size: 16px;
-    padding: 10px 0 15px 0;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px
+	font-size: 16px;
+	padding: 10px 0 10px 0;
+	color: #333;
+	// border-bottom: 1px solid #eee;
+	margin-bottom: 10px
+}
+.popup_title {
+    font-size: 20px;
+    color: rgba(114,128,232,1);
+    font-weight: bold;
+}
+.popup_subtitle {
+    font-size: 12px;
+    color: rgba(153,153,153, 1);
+    position: relative;
+    top: -2px;
+    left: 7px;
+}
+.separate_line {
+	height: 1px;
+	background: -webkit-linear-gradient(left, rgba(114, 128, 232, 0) , rgba(114, 128, 232, 1),rgba(114, 128, 232, 0));
+	background: -o-linear-gradient(right, rgba(114, 128, 232, 0) , rgba(114, 128, 232, 1),rgba(114, 128, 232, 0));
+	background: -moz-linear-gradient(right, rgba(114, 128, 232, 0) , rgba(114, 128, 232, 1),rgba(114, 128, 232, 0));
+	background: linear-gradient(to right, rgba(114, 128, 232, 0) , rgba(114, 128, 232, 1),rgba(114, 128, 232, 0));
 }
 
 .ctips {
@@ -991,7 +1054,7 @@ td>.bk-norecord {
     font-size: 12px;
     width: auto;
     padding: 10px 30px 10px 40px;
-    background: #fdf2f1;
+    background: #fdf2f1 url(/statics/img/lamp.png) no-repeat 3px 2px;
     margin: 5px auto 5px;
     position: relative;
     text-shadow: 1px 1px 1px #fff;
@@ -1060,25 +1123,46 @@ td>.bk-norecord {
 #ListTable th {
 	background: #f6f6f6
 }
+
+.fees_title {
+	.popover {
+	    box-shadow: none;
+	    border: 1px solid #c4c9f0;
+	    background: #fcfcfc;
+	    font-size: 12px;
+	}
+	.popover-content {
+	    color: #61727c;
+	}
+	.popover.top>.arrow {
+		border-top-color: #c4c9f0;
+	}
+}
 /* 财务：充币提币 end */
 
 /* 财务：地址管理 start */
 .bk-address li {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-align: left
 }
 .bk-address .inner {
-    background-color: #f9f9f9;
-    padding: 15px 10px;
+    padding: 12px;
     position: relative;
-    min-height: 153px;
+    min-height: 140px;
+    border: 1px solid rgba(202, 205, 236, 0.2);
+    border-radius: 3px;
+    box-shadow: 5px 5px 13px rgba(89, 105, 222, 0.1);
     a {
     	color: #999;
     }
     a:hover {
-		color: #de211d;
+		color: #ffa338;
 		text-decoration: none
 	}
+}
+.bk-address .inner:hover {
+    border-color: rgba(202, 205, 236, 0.5);
+    box-shadow: 5px 5px 13px rgba(89, 105, 222, 0.2);
 }
 .bk-address .head {
     font-weight: bold;
@@ -1107,20 +1191,21 @@ td>.bk-norecord {
     right: 10px;
 }
 .bk-address .delete:hover {
-    color: #de211d
+    color: #ffa338
 }
+
 .bk-address .empty {
     text-align: center;
     color: #999;
     cursor: pointer;
     .inner {
 	    background-color: #fff;
-	    border: 1px dashed #ddd;
+	    border: 1px dashed rgba(230,230,230,1);
 	    padding-top: 45px
 	}
 	.inner:hover {
-	    color: #de211d;
-	    border-color: #de211d
+	    color: #ffa338;
+	    border-color: #ffa338
 	}
 }
 .bk-address .card {
@@ -1308,6 +1393,20 @@ button:active {
 	.container {
 		min-height: 400px
 	}
+}
+
+.nb_head_wrap {
+    position: relative;
+
+    .nb_head_goback {
+        position:  absolute;
+        right: 30px;
+        top: 30px;
+
+        i {
+            padding-right: 5px;
+        }
+    }
 }
 /* 认证：安全邮箱 end */
 
@@ -1642,6 +1741,9 @@ span.talk-select-country-code {
 .mt10 {
     margin-top: 10px!important;
 }
+.ml0 {
+    margin-left: 0px!important;
+}
 .ml5 {
     margin-left: 5px!important;
 }
@@ -1659,12 +1761,25 @@ span.talk-select-country-code {
     padding-right: 0 !important;
 }
 
+.paddingRight10 {
+    padding-right: 10px;
+}
+
 .paddingLeft0 {
     padding-left: 0 !important;
 }
 
+.borderRadius10 {
+	border-radius: 10px;
+}
+.ft13 {
+	font-size: 13px;
+}
 .ft14 {
     font-size: 14px!important
+}
+.ft16 {
+    font-size: 16px;
 }
 .ft18 {
     font-size: 18px!important
@@ -1704,8 +1819,8 @@ span.talk-select-country-code {
     border-radius: 3px;
 }
 .btn-primary {
-    background-color: #de211d;
-    border-color: #de211d;
+    background-color: rgba(39,174,96, 1);
+    border-color: rgba(39,174,96, 1);
 }
 .btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
     background-color: #f1280f;
@@ -1823,7 +1938,7 @@ a.btn.disabled,fieldset[disabled] a.btn {
     background-color: transparent
 }
 .table-striped>tbody>tr:nth-of-type(odd) {
-    /* background-color: #fafafa */
+    background-color: #fafafa;
 }
 .table-hover>tbody>tr:hover {
 
@@ -1893,7 +2008,7 @@ a.btn.disabled,fieldset[disabled] a.btn {
 	line-height: 15px;
 	text-align: center;
 	font-size: 14px;
-	color: #01ad6b;
+	color: rgba(255,163,56,1);
 	display: block;
 	position: absolute;
 	top: 18px;
@@ -1956,6 +2071,16 @@ a.btn.disabled,fieldset[disabled] a.btn {
     color: #d51818
 }
 
+.text_uppercase {
+	text-transform: uppercase;
+}
+.text_red {
+    color: rgba(251,85,85,1);
+}
+.text_gray {
+    color: rgba(103,103,103,1);
+}
+
 .form-horizontal .has-feedback .form-control-feedback {
     right: 0
 }
@@ -1973,14 +2098,14 @@ a.btn.disabled,fieldset[disabled] a.btn {
 input::-webkit-input-placeholder {
     color: #ddd;
     font-size: 14px;
-    text-align: left;
+    // text-align: left;
     letter-spacing: 0
 }
 
 input:-moz-placeholder {
     color: #ddd;
     font-size: 14px;
-    text-align: left;
+    // text-align: left;
     letter-spacing: 0
 }
 .form-control {

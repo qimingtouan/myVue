@@ -39,7 +39,7 @@
                                 <span class="price">{{item.price}}</span>                                                 
                                 <span class="amount">{{item.amount.toFixed(4)}}</span>                                                 
                                 <span>2.9752</span>                                                 
-                                <b class="color-sell-bg" :style="{width:buywidth[index]+'%'}"></b>                                            
+                                <b class="color-buy-bg" :style="{width:buywidth[index]+'%'}"></b>                                            
                             </div>                                         
                         </dd>  
                    </dl>
@@ -149,7 +149,7 @@ export default {
             console.log(response);
             if(response.data.code == 0){
                 this.buyData = response.data.data.buy;
-                this.sellData = response.data.data.sale;
+                this.sellData = response.data.data.sale.reverse();
                 this.nowprice = response.data.data.now[0].price
             }else{
                 
@@ -368,7 +368,6 @@ hr{
 .ex-depth dl dd:hover b {
     visibility: hidden
 }
-
 .ex-depth .color-buy,.ex-depth .color-sell {
     text-transform: lowercase
 }

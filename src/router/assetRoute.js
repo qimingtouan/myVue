@@ -17,15 +17,15 @@ export default new Router({
     name: 'FinanceAsset',
     component: FinanceAsset
   }, {
-    path: '/payin',
+    path: '/payin/*',
     name: 'Payin',
     component: Payin
   }, {
-    path: '/payout',
+    path: '/payout/*',
     name: 'Payout',
     component: Payout
   }, {
-    path: '/account',
+    path: '/account/*',
     name: 'Account',
     component: Account
   }, {

@@ -1,7 +1,8 @@
 <template>  
-    <div class="safe-rd snav-rd">
-        <div class="hd">
+    <div class="safe-rd snav-rd ml0">
+        <div class="hd nb_head_wrap">
            <h3><i class="fa fa-mobile fa-lg"></i><b>手机认证设置</b></h3>
+           <a href="/views/user/user.html" class="nb_head_goback"><i aria-hidden="true" class="fa fa-reply fa-lg"></i>返回</a>
         </div>
 
         <div v-if="isPhoneModify === 'unbind'">未验证</div>
@@ -2979,7 +2980,7 @@
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-7">
                                         <a @click="save()" class="btn btn-outsecond btn-lg"><i class="fa fa-check fa-lg  fa-fw"></i>&nbsp; 提交</a>
-                                        <a href="/service/self/forgetSafePwd" target="_blank" class="btn btn-outsecond btn-lg">忘记资金安全密码？</a>
+                                        <a href="/views/pwd/pwd.html#/forgetSafePwd" target="_blank" class="btn btn-outsecond btn-lg">忘记资金安全密码？</a>
                                     </div>
                                 </div>
                             </div>
@@ -3028,9 +3029,9 @@
                         mobileCode : mobileCode,
                     },
                     dataType : "json",
-                    error : function() {
-                        // JuaBox.info(json.des);
-                        alert(json.des);
+                    error : function(err) {
+                        // JuaBox.info(err.des);
+                        alert("下一步 Error！");
                         // inAjaxing = false;
                     },
                     success : function(json) {

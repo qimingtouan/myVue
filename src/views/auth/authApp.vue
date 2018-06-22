@@ -9,7 +9,7 @@
             <div class="bk-onekey">
                 <div class="bk-safe">
                     <div class="container">
-                        <div class="finance-left safe-ld snav-ld">
+                        <div class="finance-left safe-ld snav-ld hide">
                             <ul class="nb-finance-left" id="snavleft">
                                 <li v-for="item in assetLeftMenuData" :key="item.index">
                                     <router-link :to="item.linkTo"><i :class="item.iconClass" aria-hidden="true"></i>{{item.optionText}}</router-link>
@@ -88,7 +88,7 @@
         background: #fdfafa;
         text-decoration: none;
         position: relative;
-        color: #de211d;
+        color: rgba(255, 163, 56, 1);
     }
 
     i.fa.fa-mobile.fa-2x {

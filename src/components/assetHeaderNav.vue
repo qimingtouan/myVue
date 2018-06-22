@@ -1,6 +1,6 @@
 <template>
     <header class="navbar navbar-static-top bk-nav navbar-black">
-        <div class="bk-toolBar clearfix">
+        <div class="bk-toolBar clearfix" style="display: none;">
             <div class="top-market-show hide"></div>
             <ul class="pull-right" id="topMenuNav">
                 <li id="menuNew">
@@ -22,33 +22,19 @@
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand bk-nav-logo" href="/" title="NB.COM">
-                        <img src="../assets/img/logo.png" alt="NB">
+                        <img src="../assets/img/logo2.png" alt="NB">某某交易网
                     </a>
                 </div>
                 <nav id="bitMenu" class="navbar-collapse bk-navbar collapse" aria-expanded="false" >
                     <ul class="nav navbar-nav navbar-right" style="margin-right:0;">
+                        <li><a href="/" target="_self" :class="{active:navLiActive[2]}">首页</a></li>
+
                         <li><a href="#" target="_self" :class="{active:navLiActive[0]}">币种详情</a></li>
 
                         <li class="dropdown bk-secd regbtn menu-market-down">
-                            <a class="dropdown-toggle" :class="{active:navLiActive[1]}" data-toggle="dropdown" role="button" aria-expanded="false" onclick="location.href='http://127.0.0.1:8080/views/goods/goods_trade.html'">
-                                现货交易&nbsp;<i class="caret"></i>
+                            <a class="dropdown-toggle" :class="{active:navLiActive[1]}" data-toggle="dropdown" role="button" aria-expanded="false" onclick="location.href='http://192.168.0.194:8080/views/goods/goods_trade.html'">
+                                币币交易&nbsp;<i class="caret"></i>
                             </a>
-                            <!-- <div class="dropdown-menu animate bk-secd-menu fadeIn" data-animation="fadeIn" role="menu" style="width: 920px; left:-420px;">
-                                <div class="row">
-                                    <div class="col-xs-12 text-center topmenuhover">
-                                        <p class="text-primary titlelist">
-                                            <a>自选</a>
-                                            <a class="">ETH</a>
-                                            <a class="on">USDT</a>
-                                            <a>BTC</a>
-                                        </p>
-                                        <ul class="market_self_list" id="self-selection"></ul>
-                                        <ul class="market_usdt_list on"></ul>
-                                        <ul class="market_usdt_list"></ul>
-                                        <ul class="market_btclist"></ul>
-                                    </div>
-                                </div>
-                            </div> -->
                             <ul class="dropdown-menu animated bk-secd-menu allblock" data-animation="fadeIn" role="menu" style="right:-35px;  ">
                                 <li><a href="#">自选</a></li>
                                 <li><a href="#">ETH</a></li>
@@ -57,17 +43,8 @@
                             </ul>
                         </li>
 
-                        <li><a href="#" target="_self" :class="{active:navLiActive[2]}">新手指导</a></li>
-
                         <li class="dropdown bk-secd logined" id="fund-dropdown">
                             <a class="dropdown-toggle" :class="{active:navLiActive[3]}" role="button" onclick="location.href='../asset/asset.html'">财务&nbsp;<i class="caret"></i></a>
-                            <!-- <div class="dropdown-menu animate" style="width: 500px; left: 50% margin-left: -250px;">
-                                <div class="d-tatal-all unitSelection">
-                                    <p>
-                                        <span class="title">账户资产折算：</span> 总资产<span class="assetNum text-primary" id="D_allTotalAsset">--</span>&nbsp;<span class="aunit">CNY</span>净资产<span class="assetNum text-primary" id="D_allTotalNetAsset">--</span>&nbsp;<span class="aunit">CNY</span>
-                                    </p>
-                                </div>
-                            </div> -->
                             <ul class="dropdown-menu animated bk-secd-menu allblock" data-animation="fadeIn" role="menu" style="right:-50px;">
                                 <li v-for="item in fundDropdown" :key="item.index"><a :href="item.optionHref">{{item.optionText}}</a></li>
                             </ul>
@@ -134,15 +111,15 @@
                       optionText: '账户资产'
                     },
                     {
-                      optionHref: '/views/asset/asset.html#/payin',
+                      optionHref: '/views/asset/asset.html#/payin/',
                       optionText: '充币'
                     },
                     {
-                      optionHref: '/views/asset/asset.html#/payout',
+                      optionHref: '/views/asset/asset.html#/payout/',
                       optionText: '提币'
                     },
                     {
-                      optionHref: '/views/asset/asset.html#/account',
+                      optionHref: '/views/asset/asset.html#/account/',
                       optionText: '地址管理'
                     },
                     {

@@ -3,21 +3,23 @@
     width: 100%;
     border-collapse: separate
 }
-
+.data-table{
+    background-color: #fff;
+}
 .table-grid .theader,.table-grid .tr {
     display: table-row
 }
 
 .table-grid .tr:hover {
-    background: rgba(251,168,28,0.05)
+    background:#FAFBFF
 }
 
 .table-grid .thead {
     display: table-row-group; 
-    height: 14px;
-    line-height: 14px;
+    height: 122px;
+    
     text-align: left;
-    background-color: #f1f1f1;
+    background-color: #fff;
 }
 
 .table-grid .tbody {
@@ -45,15 +47,23 @@
 #home .market-data {
     color: #a7a9b7
 }
-
+.market-data .tabs{
+    margin-bottom: 21px;
+    width: 700px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 40px;
+    background-color: #fff;
+    overflow: hidden;
+}
 .market-data .tab {
-    background-color: #f9f9f9;
+    background-color: #fff;
     text-align: center;
-    color: #000;
-    font-size: 18px;
-    float: left;
-    height: 52px;
-    line-height: 52px;
+    color: #999;
+    font-size: 20px;
+    display: inline-block;
+    height: 76px;
+    width: 33%;
 }
 
 #globalMarket .market-data .tab {
@@ -65,8 +75,9 @@
 }
 
 .market-data .tab.active {
-    color: #fff;
-    background-color:#1B79F9;
+    color: #333;
+    border-bottom:4px solid transparent;
+    border-image: linear-gradient(#FFB144,#F65F3F) ;
 }
 
 .market-data .tab.tab-topten.active {
@@ -96,8 +107,8 @@
     border-top: 1px solid #dfe5ea;
 }
 .market-data .tbody .td {
-    padding: 5px;
-    height: 54px;
+    padding: 15px;
+    // height: 54px;
     border-top: 1px solid #dfe5ea
 }
 
@@ -155,8 +166,7 @@
 
 .market-data span.money {
     color: #a7a9b7;
-    font-size: 12px;
-    transform:scale(0.8);
+    font-size: 14px;
     display: inline-block;
 }
 
@@ -166,7 +176,8 @@
 
 .market-data .tbody .market-name .coin {
     font-weight: bold;
-    color: #000
+    color: #000;
+    font-size: 16px;
 }
 
 .market-data .tbody .real-time-price {
@@ -181,7 +192,8 @@
     position: relative;
     font-size: 14px;
     text-align: center;
-    color: #333
+    color: #333;
+    text-transform: uppercase;
 }
 .market_tab_bd .tr .links a{
     display: inline-block;
@@ -189,8 +201,15 @@
     border-radius: 4px;
     height: 34px;
     line-height: 34px;
-    color: #1B79F9;
-    background-color: #EDF4FF;
+    color: #fff;
+    background-color: #4353D0;
+    border-radius: 17px;
+    font-size: 12px;
+}
+.market_tab_bd .tr .links a.trade{
+    background-color: #1BB8CE;
+    margin-left: 6px;
+
 }
 .market_tab_bd .tr .links a:hover{
     color: #fff;
@@ -227,20 +246,44 @@
 }
 .market-filter {
     border: 1px solid #DDD;
-    padding-right: 16px;
+    border-radius: 20px;
+    float: right;
+    
     position: relative;
+    margin: 30px 49px 12px 0;
 }
 .market-filter input {
     border: 0;
-    padding: 3px 6px;
+    padding: 3px 16px;
+    height: 40px;
+    width: 220px;
     background: transparent;
     outline: 0 none;
 }
 .market-filter i {
     position: absolute;
-    top: 1px;
-    right: 5px;
-    font-size:18px;
-    line-height:20px!important;
-    color:#E00!important;            
+    top: 0px;
+    right: 10px;
+    font-size:28px;
+    line-height:40px!important;
+    color:#4353D0!important;            
+}
+
+.text-second{
+    color: #27AE60
+}
+.text-primary{
+    color: #FB5555
+}
+.load_more{
+    background: #F7F7F7;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    color: #010101;
+    font-size: 24px;
+    font-family: MicrosoftYaHei;
+    border-radius: 40px;
+    cursor: pointer;
+
 }

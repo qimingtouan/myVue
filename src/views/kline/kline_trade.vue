@@ -35,7 +35,7 @@ export default {
     return {
       prices:{
       },
-      symbol:"nbusdt",
+      symbol:"",
       temp:"",
       klineExist:false,
       kline:null
@@ -59,7 +59,8 @@ export default {
       }
     },
     created() {
-        //判断当前是否登录
+        //判断当前是否登录;
+
     },
     mounted() {
       let _this = this
@@ -70,7 +71,7 @@ export default {
             theme: 'dark', // light/dark
             language: 'zh-cn', // zh-cn/en-us/zh-tw
             ranges: ["1w", "1d", "1h", "30m", "15m", "5m", "1m", "line"],
-            symbol: this.symbol,
+            symbol: this.currentCoin.toLowerCase().split("/").join(""),
             symbolName: "NB/USDT",
             type: "poll", // poll/socket
             url: "/trade/api/market/kline",
