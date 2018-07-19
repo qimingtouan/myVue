@@ -14,6 +14,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI);
 
+import VueCookie from 'vue-cookie'
+Vue.use(VueCookie);
+
 import VueClipboard  from 'vue-clipboard2'
 Vue.use(VueClipboard);
 

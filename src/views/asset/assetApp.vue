@@ -172,7 +172,8 @@
         background: #fdfafa;
         text-decoration: none;
         position: relative;
-        color: #de211d;
+        color: #ffa338;
+        border-left: 2px solid #ffa338;
     }
 </style>
     

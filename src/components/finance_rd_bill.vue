@@ -14,37 +14,31 @@
                 <div class="btn-group bk-btn-group" role="group" style="width: 100%;">
                     <div class="dropdown dropdown-coin bk-onekey-form">
                         <a id="sel-coin" class="dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:44px;">
-                            <span id="current-sel">ZB</span>
+                            <span id="current-sel">{{currentCoin}}</span>
                             <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu firsttype" aria-labelledby="sel-coin">
                             <div class="search-coin">
-                                <input placeholder="搜索币种" id="searCoinName" class="bill_sear_coin">
-                                <i class="fa fa-search"></i>
+                                <input placeholder="搜索币种" id="searCoinName" class="bill_sear_coin" v-model="searCoinName">
+                                <!-- <i class="fa fa-search"></i> -->
+                                <i class="el-icon-search"></i>
                             </div>
-                            <a class="btn" role="button" data-value="all">所有币种</a>
-                            <a class="btn active" role="button" data-value="zb">ZB</a>
-                            <a class="btn" role="button" data-value="usdt">USDT</a>
-                            <a class="btn" role="button" data-value="btc">BTC</a>                           
-                            <a class="btn" role="button" data-value="bcc">BCC</a>
-                            <a class="btn" role="button" data-value="ubtc">UBTC</a>
-                            <a class="btn" role="button" data-value="ltc">LTC</a>
-                            <a class="btn" role="button" data-value="eth">ETH</a>
-                            <a class="btn" role="button" data-value="etc">ETC</a>
-                            <a class="btn" role="button" data-value="eos">EOS</a>
+                            <a class="btn" :class="{active: currentCoin == '所有币种'}" role="button" data-value="all" 
+                                @click="switchCoin('所有币种', currentCoin)">所有币种</a>
+
+                            <a v-for="item in coinList" :key="item.index" :data-coin="item.coinNameEn" 
+                                :class="{active: currentCoin == item.coinNameEn}" class="btn" role="button" 
+                                @click="switchCoin(item.coinNameEn, currentCoin)">{{item.coinNameEn}}
+                            </a>
                         </div>
                     </div>
 
-                    <!-- 所有类型  充值  提现  买入 卖出。。。 -->
+                    <!-- 所有类型  充值  提现  买入 卖出 买入手续费  卖出手续费 -->
                     <div class="second" style="display:inline-block;">
-                        <a class="btn active" role="button" data-value="all">所有类型</a>
-                        <a class="btn" role="button" data-value="charge">充值</a>
-                        <a class="btn" role="button" data-value="withdraw">提现</a>
-                        <a id="sbuy" class="btn" role="button" data-value="buy">买入</a>
-                        <a id="ssell" class="btn" role="button" data-value="sell">卖出</a>
-                        <a id="sxfbuy" class="btn" role="button" data-value="sxfbuy">买入手续费</a>
-                        <a id="sxfsell" class="btn" role="button" data-value="sxfsell">卖出手续费</a>
-                        <a class="btn" role="button" data-value="zs">系统赠送</a>
+                        <a v-for="typeItem in typeList" :key="typeItem.key" :data-value="typeItem.value" 
+                            :class="{active: currentType == typeItem.value}" class="btn" role="button" 
+                            @click="switchType(typeItem.value, typeItem.label, currentType)">{{typeItem.label}}
+                        </a>
                     </div>
                 </div>
                 <div class="pull-right mt10"></div>
@@ -55,47 +49,39 @@
                 <!-- 时间段选择 -->
                 <div class="bk-search">
                     <form autocomplete="off" class="form-inline text-left" name="searchForm" id="searchContaint">
-                        <input type="hidden" id="type" name="type" value="0">
-                        <input type="hidden" id="datatype" name="datatype" value="0">
-                        <input type="hidden" id="currency" name="currency" value="zb">
-                        <input type="hidden" id="coint" name="coint" value="zb">
-                        <input type="hidden" id="operType" name="operType" value="all">
                         <div class="clearfix mb20"></div>
-                        <div class="form-group ml20 dataType">
-                            <a href="/u/bill?datatype=0" style="min-width:70px;" class="btn btn-primary btn-sm disabled">3天内</a>
-                            <a href="/u/bill?datatype=1" style="min-width:70px;" class="ml10 btn btn-sm btn-default">3天前</a>
-                        </div>
-                        <div class="form-group form-group-sm ml15">
+
+                        <div class="form-group form-group-sm ml20">
                             <label for="startDate">起止时间：</label>
-                            <!-- <input type="text" style="width:120px;" name="startDate" id="startDate" class="form-control" 
-                                   onfocus="WdatePicker({el:this, dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn' , minDate : '' , maxDate : ''})" >
-                            <label for="endDate">到</label>
-                            <input type="text" style="width:120px;" name="endDate" id="endDate" class="form-control" 
-                                   onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',lang : 'cn'})"> -->
-                            <el-date-picker v-model="dateTimeData" type="datetimerange" 
-                                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right" size="small">
+                            <el-date-picker v-model="dateTimeData" type="datetimerange" value-format="timestamp" size="small"
+                                            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" 
+                                            :picker-options="pickerOptions" 
+                                            @change="selectDateTime()">
                             </el-date-picker>
                         </div>
-                        <button style="min-width:75px;" type="button" class="btn btn-sm btn-primary ml10" id="idSearch" onclick="javascript:zb.list.search();"><i class="fa fa-search mr5"></i>筛选</button>
-                        <button style="min-width:75px;" type="reset" class="btn btn-sm btn-default ml10" id="idReset" onclick="javascript:zb.list.resetForm();"><i class="fa fa-repeat mr5"></i>重置</button>
-                        <button style="min-width:80px; margin-right:20px;" type="button" class="btn btn-sm btn-default pull-right downbtng" onclick="exports()"><i class="fa fa-download mr5"></i>导出明细</button>
+                        <button id="idSearch" type="button" class="btn btn-sm btn-primary ml10 hide"  style="min-width:75px;" 
+                                onclick="javascript:zb.list.search();"><i class="fa fa-search mr5"></i>筛选</button>
+                        <button id="idReset" type="reset" class="btn btn-sm btn-default ml10 hide"  style="min-width:75px;" 
+                                onclick="javascript:zb.list.resetForm();"><i class="fa fa-repeat mr5"></i>重置</button>
+                    
                         <div class="clearfix mb20"></div>
                     </form>
                 </div>
 
                 <!-- 表格 -->
                 <div id="shopslist" class="bk-onelist table-responsive">
+                    <input type="hidden" id="lastRecordId" v-model="lastRecordId">
                     <table class="table table-striped table-bordered table-hover" id="billDetail">
                         <thead>
                             <tr>
-                                <th style="width:16%;">时间</th>
-                                <th style="width:15%;">类型</th>
-                                <th style="width:20%;">QC/USDT/BTC收支</th>
-                                <th style="width:23%;">其他数字货币收支</th>
+                                <th width="20%;">时间</th>
+                                <th width="25%;">类型</th>
+                                <th width="40%;">金额</th>
+                                <th width="15%;">状态</th>
                             </tr>
                         </thead>
-
-                        <tbody>
+                        <!-- 账单记录表格无数据 -->
+                        <tbody  v-if="listTableData.length == 0">
                             <tr>
                                 <td colspan="7">
                                     <div class="bk-norecord">
@@ -104,7 +90,28 @@
                                 </td>
                             </tr>
                         </tbody>
+
+                        <tbody>
+                            <tr v-for="item in listTableData" :key="item.index">
+                                <td>{{item.time}}</td>
+                                <td>
+                                    <div class="td_purple">{{item.type}}</div>
+                                </td>
+                                <td>
+                                    <div>{{item.sumDesc}}</div>
+                                </td>
+                                <td v-if="item.status == 1"><i i class="fa fa-check success" aria-hidden="true"></i>成功</td>
+                                <td v-if="item.status == 0"><i class="el-icon-loading mr5" aria-hidden="true"></i>进行中</td>
+                                <td v-if="item.status == -1"><i i class="fa fa-times fail" aria-hidden="true"></i>失败</td>
+                            </tr>
+                        </tbody>
                     </table>
+
+                    <div class="bk-moreBtn"  style="display: none;" id="moreBtnWrap">
+                        <button id="morebtn" class="btn btn-outline" type="button" @click="initListTable()">
+                            <i class="fa fa-angle-down fa-fw"></i>更多
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -117,8 +124,237 @@
         name: 'finance_rd_bill',
         data() {
             return {
-                dateTimeData: ''
+                searCoinName: '',
+                coins: [],
+                currentCoin: '所有币种',
+                currentType: '', // 类型- 1.充值，2.提现，3.买入，4.卖出，5.买入手续费，6.卖出手续费 (''表示所有)
+                typeList: [
+                    {
+                        label: '所有类型',
+                        value: ''
+                    },
+                    {
+                        label: '充值',
+                        value: 1
+                    },
+                    {
+                        label: '提现',
+                        value: 2
+                    },
+                    {
+                        label: '买入',
+                        value: 3
+                    },
+                    {
+                        label: '卖出',
+                        value: 4
+                    },
+                    {
+                        label: '买入手续费',
+                        value: 5
+                    },
+                    {
+                        label: '卖出手续费',
+                        value: 6
+                    }
+                ],
+                dateTimeData: '',
+                pickerOptions: {
+                    shortcuts: [
+                        {
+                            text: '最近一周',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '最近一个月',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }, {
+                            text: '最近三个月',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        }
+                    ]
+                },
+                listTableData: [],
+                lastRecordId: ''
             }
+        },
+        computed: {
+            // 币种选择下拉选项
+            coinList: function() {
+                var coins = JSON.parse(JSON.stringify(this.coins));
+
+                // 搜索过滤
+                if (this.searCoinName !== '') {
+                    coins = coins.filter(function(item){
+                        return item.coinNameEn.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
+                    }.bind(this))
+
+                }
+                return coins;
+            }    
+        },
+        filters: {
+
+        },
+        methods: {
+            // 提示弹窗
+            msgConfirm(msg, msgTitle, msgType) {
+                this.$confirm(msg, msgTitle, {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: msgType
+                }).then(() => {
+
+                }).catch(() => {
+
+                });
+            },
+
+            // 查询所有币种
+            getCoinList() {
+                let _this = this;
+                $.ajax({
+                    url: '/web/asset/getAllDetail',
+                    type: "GET",
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.code == 200) {
+                            if (res.data && res.data.assets) {
+                                _this.coins = res.data.assets;
+                            }
+
+                        } else {
+                            _this.msgConfirm(res.msg, '', 'error');
+                        }
+                    },
+                    error: function(err){
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
+                    }
+                });
+            },
+
+            // 选择币种
+            switchCoin(clickCoin, currentCoin) {
+                let _this = this;
+                if(clickCoin == currentCoin) {
+                    return;
+                }
+
+                _this.currentCoin = clickCoin;
+                _this.lastRecordId = '';
+                _this.listTableData = [];
+
+                // 查询该点击币种的账单记录
+                _this.initListTable();
+            },
+
+            // 选择类型
+            switchType(clickTypeValue, clickTypeLabel, currentType) {
+                let _this = this;
+                if(clickTypeValue == currentType) {
+                    return;
+                }
+
+                _this.currentType = clickTypeValue;
+                _this.lastRecordId = '';
+                _this.listTableData = [];
+
+                // 查询该点击类型的账单记录
+                _this.initListTable();
+            },
+
+            // 选择时间段
+            selectDateTime() {
+                let _this = this;
+
+                _this.lastRecordId = '';
+                _this.listTableData = [];
+
+                // 查询该点击类型的账单记录
+                _this.initListTable();
+            },
+
+            // 查询当前筛选条件账单记录
+            initListTable() {
+                let _this = this;
+
+                let _currentCoin = this.currentCoin;
+                let _currentType = this.currentType;
+                let _dateTimeData = this.dateTimeData;
+                let _lastRecordId = this.lastRecordId;
+                let _startTime = "";
+                let _endTime = "";
+
+                if ("所有币种" == _currentCoin) {
+                    _currentCoin = "";
+                }
+
+                if (_dateTimeData) {
+                    _startTime = _dateTimeData[0].toString().substring(0, 10);
+                    _endTime = _dateTimeData[1].toString().substring(0, 10);
+                }
+
+                let billData = {
+                    "coinName": _currentCoin,
+                    "type": _currentType,
+                    "startTime": _startTime,
+                    "endTime": _endTime,
+                    "lastRecordId": _lastRecordId
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/web/asset/getGeneralRecord",
+                    contentType : "application/json",
+                    data: JSON.stringify(billData),
+                    dataType: "json",
+                    success: function(res){
+                        if (res.code == 200) {
+                            if ((!res.data || res.data.length <= 0)) {
+                                if (!lastRecordId) {
+                                    _this.listTableData = [];
+                                }
+                                $('#moreBtnWrap').hide();
+                            } else {
+                                _this.listTableData = _this.listTableData.concat(res.data);
+
+                                let _length = _this.listTableData.length;
+                                _this.lastRecordId = _this.listTableData[_length-1].recordId;
+
+                                $('#moreBtnWrap').show();
+                            }
+                        } else {
+                            _this.msgConfirm(res.msg, '', 'error');
+                        }
+                    },
+                    error: function(err) {
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
+                    }
+                });
+
+            }
+        },
+        watch: {
+
+        },
+        created() {
+            let _this = this;
+            _this.getCoinList(); // 查询所有币种
+            _this.initListTable(); // 查询账单记录
         }
     }
 </script>
@@ -206,5 +442,9 @@
 
     #billDetail th {
         background: #f6f6f6;
+    }
+
+    .td_purple {
+        color: #aeb1d0;
     }
 </style>

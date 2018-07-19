@@ -1,48 +1,52 @@
 <template>
-<div class="bk-kMarket" :style="{background:'#fff'}">
+<div class="bk-kMarket">
      <div class="bk-trans-form">
         <div class="bk-tabList">
                 <div class="bk-tabList-hd clearfix">
                     <slot name="header"></slot>
-                    <a class="pull-right" href="/views/record/record.html" target="_blank" role="button"><i class="fa fa-calendar fa-fw"></i>更多记录</a>
+                    <a class="pull-right" :href="'/views/record/record.html#'+currentCoin" target="_blank" role="button">更多<i class="fa fa-angle-right"></i></a>
                 </div>
                 <div class="bk-tabList-bd">
                     <div class="bk-entrust">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th v-for="item in title" :key="item.index" >{{item}}</th>
+                                    <th v-for="item in title" :key="item.index" >
+                                        <div class="">{{item}}</div>
+                                     </th>
                                 </tr>
                                 </thead>
-                                <tbody >
-                                    <tr v-if="!isLogin">
+                                <tbody v-if="!isLogin">
+                                    <tr >
                                         <td colspan="8">
                                             <div class="bk-norecord">
                                                 <p class="notLogin"><i class="bk-ico info"></i>您还没有登录 
                                                 </p>
                                                 <div>
-                                                    <a style="color:#4353D0; margin:0 5px;font-size:16px" href="https://vip.zb.com/user/login">登录</a> |<a style="color:#4353D0; margin:0 5px;font-size:16px" href="">注册</a> 
+                                                    <a class="notLogin_btn" href="/views/login/login.html">登录</a> |<a class="notLogin_btn" href="/views/register/register.html">注册</a> 
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr v-for ="item in showData.depthAsks" v-if="isLogin" :key="item.index">
+                                </tbody>
+                                <tbody v-if="isLogin" style="border-bottom:1px solid #eee">
+                                    <tr v-for ="item in showData" v-if="showData.length>0" :key="item.index">
                                         <td>{{item.time}}</td>
-                                        <td>{{item["amount/trade"]}}</td>
-                                        <td>{{item["price/average"]}}</td>
+                                        <td><div :class="[item.tradeType =='1'?buy_color:sell_color]"><img src="../assets/img/sell_01.png" alt="" v-if="item.tradeType =='2'" class="trade_img"><img src="../assets/img/buy_01.png" alt="" v-else class="trade_img"><span>{{item["amount/trade"]}}</span></div></td>
+                                        <td><div :class="[item.tradeType =='1'?buy_color:sell_color]">{{item["price/average"]}}</div></td>
                                         <td>{{item.tradeMoney}}</td>
-                                        <td>{{item.status}}</td>
+                                        <td>{{item.isFinish}}</td>
                                         <td>{{item.from}}</td>
-                                        <td v-if="type !='2'"><a @click="showDetail(item.askId,'ask')">明细</a><a style="margin-left:15px;color:#0ebb74" role="button" @click="cancelTrade(item.askId,true)">撤单</a></td>
+                                        <td><a @click="showDetail(item.id)" v-if="item.status == '1'" :class="[item.tradeType =='1'?buy_color:sell_color]" role="button">明细</a><a v-if="item.status == '0'" :class="[item.tradeType =='1'?buy_color:sell_color]" role="button" @click="cancelTrade(item.id)">撤单</a></td>
+                                        <td></td>
                                     </tr>
-                                    <tr v-for ="item in showData.depthBids" v-if="isLogin" :key="item.index">
-                                        <td>{{item.time}}</td>
-                                        <td>{{item["amount/trade"]}}</td>
-                                        <td>{{item["price/average"]}}</td>
-                                        <td>{{item.tradeMoney}}</td>
-                                        <td>{{item.status}}</td>
-                                        <td>{{item.from}}</td>
-                                        <td v-if="type != '2'"><a class="detail" @click="showDetail(item.bidId,'bid')">明细</a><a class="cancel" style="margin-left:15px;color:#de211d" role="button"  @click="cancelTrade(item.bidId,false)">撤单</a></td>
+                                    <tr v-if="showData.length == 0">
+                                        <td colspan="8">
+                                            <div class="bk-norecord">
+                                                <p class="notLogin"><i class="bk-ico info"></i>没有数据
+                                                </p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                         </table>
@@ -51,14 +55,13 @@
             </div>
             <el-dialog title="交易明细" :visible.sync="dialogTableVisible" center>
                 <el-table :data="detailData">
-                    <el-table-column property="time" label="成交数量(ZB)" width="200"></el-table-column>
-                    <el-table-column property="amount" label="成交数量(ZB)"></el-table-column>
-                    <el-table-column property="price" label="成交价格(QC)" ></el-table-column>
-                    <el-table-column property="tradeMoney" label="成交额(QC)"></el-table-column>
-                    <el-table-column property="fees" label="费率(QC)" width="120"></el-table-column>
+                    <el-table-column property="time" label="成交时间" width="200"></el-table-column>
+                    <el-table-column property="amount" :label="'成交数量'+currentCoin.split('/')[0]"></el-table-column>
+                    <el-table-column property="price" :label="'成交价格'+currentCoin.split('/')[1]" ></el-table-column>
+                    <el-table-column property="tradeMoney" :label="'成交额'+currentCoin.split('/')[1]"></el-table-column>
+                    <el-table-column property="fees" :label="'费率'+currentCoin.split('/')[1]" width="120"></el-table-column>
                 </el-table>
                   <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogTableVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
                 </span>
             </el-dialog>
@@ -73,22 +76,27 @@ export default {
     data() {
         return {
             isActive:[false,false,false],
-            showData:{},
-            isLogin:true,
-            status:["未成交","部分成交","撤销成功","全部成交"],
+            showData:[],
+            status:["未成交","已成交"],
+            isCancel:["已完成","已撤单"],
             detailData:[],
             dialogTableVisible:false,
             nowData:{},
-            historyData:{},
-            type:"0"
+            type:"0",
+            buy_color:"buy_color",
+            sell_color:"sell_color"
         };
     },
     props:["gettype"],
     computed: {
+        interval(){
+            return this.$store.state.time;
+        },
+        isLogin(){
+            return this.$store.state.isLogin;
+        },
         title(){
-            let res = ["委托时间","委托数量/已成交","委托价格/成交均价","成交总额(QC)","状态","订单来源","操作"];
-            res = this.type == 1?["委托时间","委托量","触发价格","委托价格","真实触发价格","状态","订单来源","操作"]:res;
-            
+            let res = ["委托时间","委托数量/已成交","委托价格/成交均价","成交总额"+this.currentCoin.split("/")[1],"状态","订单来源","操作"];
             return res
         },
         currentCoin(){
@@ -108,71 +116,70 @@ export default {
             let currentCoin = this.currentCoin.toLowerCase();
             switch(type){
                 case "0":
-                    url = "/trade/api/market/price/now/"+currentCoin+"/"+this.userId;
+                    url = "/wap/market/getOrderAll/"+currentCoin+"/0/0";
                 break;
                 case "1":
-                    url = "/trade/api/market/price/now/"+currentCoin+"/"+this.userId;
+                    url = "/wap/market/getOrderAll/"+currentCoin+"/0/1";
                 break;
-                case "2":
-                    url = "/trade/api/market/order/"+this.userId+"/"+currentCoin;
-                break; 
                 default :
-                    url = "/trade/api/market/price/now/"+currentCoin+"/"+this.userId;      
+                    url = "/wap/market/getOrderAll/"+currentCoin+"/0/0";      
+            }
+            if(!this.isLogin){
+                console.log(`未登录，不发请求; url:${url}`)
+                return 
             }
             this.$ajax.get(url).then(function(res){
                 console.log(res.data.data)
-                let showData = {};
-                if(res.data.code == 0){
-                    showData.depthAsks = res.data.data.depthAsks.map(item =>{
-                        let temp = {};
-                        temp.time =formatTime(new Date(item.createdAt));
+                let showData = [],historyData = [];
+                if(res.data.code <= 200 && res.data.data){
+                    for(let i = 0 ; i < res.data.data.length;i++){
+                        let temp = {},item = res.data.data[i];
+                        //status = 1;交易完成->已成交(type =1)，已撤单(type = 2
+                        temp.time =formatTime(new Date(item.time*1000));
                         temp["amount/trade"] = item.totalAmount+"/"+item.tradeAmount;
-                        temp["price/average"] = item.tradeAmount == 0?item.price+"/"+0:item.price+"/"+item.tradeMoney/item.tradeAmount;
-                        temp.tradeMoney = item.tradeMoney;
-                        temp.status = this.status[item.askStatus];
-                        temp.from = item.source;
-                        temp.askId = item.askId;
-                        return temp;
-                    })
-                   
-                    showData.depthBids = res.data.data.depthBids.map(item =>{
-                        let temp = {};
-                        temp.time = formatTime(new Date(item.createdAt));
-                        temp["amount/trade"] = item.totalMoney/item.price+"/"+item.tradeAmount;
-                        temp["price/average"] = item.tradeAmount == 0?item.price+"/"+0:item.price+"/"+item.tradeMoney/item.tradeAmount;
-                        temp.tradeMoney = item.tradeMoney;
-                        temp.status = this.status[item.bidStatus];
-                        temp.from = item.source;
-                        temp.bidId = item.bidId;
-                        return temp;
-                    })
+                        temp["price/average"] = item.tradeAmount == 0?item.price+"/"+0:item.price+"/"+item.getPrice/item.tradeAmount;
+                        temp.tradeMoney = item.getPrice;
+                        temp.from = item.sources;
+                        temp.tradeType = item.tradeType;
+                        temp.id = item.id;
+                        temp.status = item.status;
+                        if(item.status == 1 ){
+                            temp.isFinish = this.isCancel[item.type - 1];
+                            historyData.push(temp);
+                        }else{
+                            temp.isFinish = "未完成";
+                            showData.push(temp);
+                        }
+                    }
                 }
-                this.showData = showData;
-            }.bind(this))
+                type == '1'? this.showData = historyData:this.showData = showData;
+            }.bind(this)).catch((res) => {
+                console.log(res.data.msg)
+            })
             
         },
         showDetail(id,type){
             console.log(window.location.hash)
             this.dialogTableVisible = true;
-            let url = "/trade/api/market/price/"+this.currentCoin.toLowerCase()+"/"+this.userId
+            let url = "/wap/market/orderDetails/"+id;
             this.$ajax.get(url).then(function(res){
                 let detailData = [];
-                if(res.data.code == 0){
+                if(res.data.code <= 200){
                     detailData = res.data.data.map(function(item){
                         let temp = {};
-                        temp.time = formatTime(new Date(item.time));
-                        temp.amount = item.tradeAmount;
+                        temp.time = item.time;
+                        temp.amount = item.amount;
                         temp.price = item.price;
-                        temp.tradeMoney = item.tradeMoney;
-                        temp.fees = type =="ask"?item.fees_ask:item.fees_bid;
+                        temp.tradeMoney = item.vol;
+                        temp.fees = item.fee;
                         return temp;
                     })
                 }
                 this.detailData = detailData;
             }.bind(this))
         },
-        cancelTrade(orderid,type){
-            let url = `/trade/api/market/order/cancel/${orderid}/${type}`
+        cancelTrade(orderid){
+            let url = `/wap/market/cancel/${orderid}`
             this.$confirm('此操作将撤销未成交的部分, 是否继续?', '警告', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -180,7 +187,7 @@ export default {
             }).then(() => {
                 this.$ajax.get(url).then(function(res){
                     let detailData = [];
-                    if(res.data.code == 0){
+                    if(res.data.code <= 200){
                         this.$message({
                             type: 'success',
                             message: '撤销成功!'
@@ -205,7 +212,9 @@ export default {
         currentCoin(val,old){
             this.changeData(this.type);
         },
-
+        interval(val){
+            this.changeData(this.type);
+        }
     },
     created() {
        this.type = this.gettype||"0";
@@ -218,13 +227,19 @@ export default {
 </script>
 
 <style scoped lang="less">
-@buyer-color :#de211d;
-@seller-color:#0ebb74;
+@buyer-color :#FB5555;
+@seller-color:#27AE60;
 @dark-color:#1f1d1d;
 @dark-btn:#2f2c2c;
 @light-color:#fff;
+.buy_color{
+    color: #FB5555;
+}
+.sell_color{
+    color: @seller-color;
+}
 .bk-kMarket {
-    height: 280px;
+    height: 428px;
     overflow: hidden;
     background-color:#fff;
     margin-top: 0px;
@@ -246,7 +261,8 @@ export default {
 .bk-kMarket .table thead tr th {
     color: #666;
     background-color: transparent;
-    height: auto
+    height: auto;
+    font-weight: 400;
 }
 
 .bk-kMarket .table tbody tr td {
@@ -261,17 +277,17 @@ export default {
     border-bottom: 1px solid #E6E6E6;
     height: 60px;
     font-size: 14px;
-    padding: 22px 0 14px 34px;
     line-height: 14px;
+    text-align: center;
 
 }
 
 .bk-kMarket .table-striped>tbody>tr:nth-of-type(even) {
-    background-color: #212020
+    background-color: #fff;
 }
 
 .bk-kMarket .table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: #fff
+    background-color: #fafafa;
 }
 
 .bk-kMarket .table-hover>tbody>tr {
@@ -283,7 +299,7 @@ export default {
 }
 
 .bk-kMarket .table-hover>tbody>tr:hover {
-    background-color: #fff;
+    background-color: #eee;
 }
 
 .bk-kMarket .table-hover>tbody>tr:last-child>td {
@@ -292,7 +308,6 @@ export default {
 
 .bk-kMarket .bk-entrust .table tbody td {
     height: auto;
-    padding: 2px 8px
 }
 
 .bk-kMarket .bk-tabList {
@@ -304,8 +319,12 @@ export default {
 }
 
 .bk-kMarket .bk-tabList-hd a.pull-right {
-    margin-top: 2px
+    margin-right:25px;
+    font-size: 16px;
+    color: #fff;
+    line-height: 52px;
 }
+
 
 .bk-kMarket .bk-tabList-hd .btn-group .btn {
     border-bottom: 0;
@@ -327,8 +346,8 @@ export default {
     padding:10px 28px;
     height: 50px;
     line-height: 30px;
-    color: #333;
-    background-color: #fbfbfb;
+    color: #fff;
+    background-color: #4353D0;
 }
 
 .bk-kMarket .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
@@ -358,7 +377,9 @@ export default {
     border-top:1px solid #E6E6E6;
     border-bottom:1px solid #E6E6E6;
     text-align: left;
-    background: #fbfbfb
+    background: #4353D0;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
     
 }
 
@@ -368,7 +389,7 @@ export default {
 }
 .btn-group .selected{
     color: #fff;
-    background-color: #de211d
+    background-color:@buyer-color;
 }
 // .bk-kMarket .bk-tabList-hd .btn-group .btn.active,.bk-kMarket .bk-tabList-hd .btn-group .btn:hover,.bk-kMarket .bk-tabList-hd .btn-group .btn:focus {
 //     color: #fff;
@@ -380,7 +401,7 @@ export default {
 // }
 .bk-norecord {
     min-height: 100px;
-    padding: 36px 0;
+    padding: 100px 0;
     line-height: 2em;
     background-color: #fdfdfd;
     text-align: center;
@@ -390,5 +411,15 @@ export default {
     font-size: 12px;
     color: #666;
     margin-bottom: 0;
+}
+.notLogin_btn{
+    color:#4353D0; 
+    margin:0 5px;
+    font-size:16px;
+    cursor: pointer;
+}
+.trade_img{
+    margin-top: -3px;
+    margin-right: 5px;
 }
 </style>

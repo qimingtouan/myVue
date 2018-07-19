@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="form-line  row">
-                        <div class="col-sm-4 textright">确认新资金安全密码：</div>
+                        <div class="col-sm-4 textright">确认新密码：</div>
                         <div class="col-sm-7">
                             <input  type="password" name="newPwd" id="newPwd" v-model="newPwd" 
                                     class="form-control form-second pull-left inputlong smallfont" size="35px;"
@@ -73,7 +73,7 @@
                             <div class="do">
                                 <a href="javascript:Redirect('/u/safe')" tabindex="5" class="btn btn-outsecond btn-lg hide">取消</a>
                                 <a @click="save()" tabindex="8" class="btn btn-outsecond btn-lg"><i class="fa fa-check fa-lg  fa-fw"></i>&nbsp; 提交</a>
-                                <a href="/views/pwd/pwd.html#/forgetSafePwd" target="_blank" class="btn btn-outsecond btn-lg">忘记资金安全密码？</a>
+                                <a href="/views/pwd/pwd.html#/forgetSafePwd" target="_blank" class="btn btn-outsecond btn-lg">忘记资金安全密码</a>
                             </div>
                         </div>
                     </div>
@@ -96,38 +96,46 @@
             }
         },
         methods: {
+            // 错误提示弹窗
+            errorConfirm(errMsg, errTitle) {
+                this.$confirm(errMsg, errTitle, {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'error'
+                }).then(() => {
+
+                }).catch(() => {
+
+                });
+            },
+
             //发送短信验证码
             sendCode() {
                 let _this = this;
                 $.ajax({
-                    // type : "POST",
-                    // url : "https://vip.zb.com/user/userSendCode",
                     type : "GET",
-                    url: './../../../static/mock/userSendCodeMock.json',
-                    data : {
-                        codeType : 23
-                    },
+                    url: '/web/info/clickSendVerifyCode?type=5',
                     dataType : "json",
-                    error : function(err) {
-                        /*JuaBox.info(jsLan[1]);
-                        inAjaxing = false;*/
-                        console.log(err);
-                    },
-                    success : function(json) {
-                        // inAjaxing = false;
-                        if (json.isSuc) {
-                            if (json.datas.isEmail) {
-                                // JuaBox.showRight(json.des);
-                                alert(json.des);
-                            }
+                    success : function(res) {
+                        if (res.code == 200) {
                             _this.settime($('#sendCodeBtn'));
-                        } else if ('needMobileAuth' == json.des) {
-                            // JuaBox.sure(bitbank.L("您未进行手机认证，请先进行手机认证"));
-                            alert("您未进行手机认证，请先进行手机认证");
+
+                            _this.$confirm(res.msg, '', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'success'
+                            }).then(() => {
+
+                            }).catch(() => {
+                                  
+                            });
+                            
                         } else {
-                            // JuaBox.sure(json.des);
-                            alert(json.des);
+                            _this.errorConfirm(res.msg, '');
                         }
+                    },
+                    error: function(err) {
+                        _this.errorConfirm('呀，出错啦。。。', '');
                     }
                 });
             },

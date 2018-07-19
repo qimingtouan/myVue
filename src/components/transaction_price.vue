@@ -21,7 +21,7 @@
                         </dt>  
                         <dd  @click="setPrice(item.price)" v-for="(item,index) in sellData" :key="item.index">                                             
                             <div class="inner">                                                 
-                                <span class="title color-sell">卖{{index+1}}</span>                                                 
+                                <span class="title color-sell">卖{{10-index}}</span>                                                 
                                 <span class="price">{{item.price}}</span>                                                 
                                 <span class="amount">{{item.amount.toFixed(4)}}</span>                                                 
                                 <span>2.9752</span>                                                 
@@ -60,8 +60,8 @@
                 </dl>                                         
                     <dl class="market_trades_type">                                             
                         <dt>方向</dt>  
-                        <dd v-for="list in historyTrade" :key="list.id" class="{list.path == 'sell'? color_up :color_down}">{{list.path|buyOrsell}}</dd> 
-                    </dl>                                         
+                        <dd v-for="list in historyTrade" :key="list.id" :class="{color_up:list.path == '1',color_down:list.path == '2'}">{{list.path|buyOrsell}}</dd> 
+                    </dl>                                        
                     <dl class="market_trades_price">                                             
                         <dt>价格<span class="uppercase">{{quoteCoin}}</span></dt>  
                         <dd v-for="list in historyTrade" :key="list.id">{{list.price.toFixed(4)}}</dd>     
@@ -143,29 +143,89 @@ export default {
           
           this.$store.commit("setPrice",price);
       },
-      getBuySellInfo(){
-          let url = "/trade/api/market/price/"+this.currentCoin.toLowerCase();
-           this.$ajax.post(url,{}).then(response => {
-            console.log(response);
-            if(response.data.code == 0){
-                this.buyData = response.data.data.buy;
-                this.sellData = response.data.data.sale.reverse();
-                this.nowprice = response.data.data.now[0].price
-            }else{
-                
+    getBuySellInfo(isFirst) {
+      if(this.isLogin){
+        this.$ajax.all([this.$ajax.get("/web/api/market/assest/"+this.currentCoin.toLowerCase()), this.$ajax.get("/web/api/market/Kline/" + this.currentCoin.toLowerCase())])
+        .then(this.$ajax.spread((perms, response) =>{
+          if (response.data.code <= 200) {
+              this.info.nowprice = response.data.data.price;
+              this.info.gains = response.data.data.gains;
+              this.info.high = response.data.data.high;
+              this.info.low = response.data.data.low;
+              this.info.amount = response.data.data.amount;
+              this.info.priceCny = response.data.data.priceCny;
             }
-        }).catch(function (error) {
-            console.log(error);
+            if(perms.data.code <= 200){
+              this.canUseQuote = Number(perms.data.data.quote.available).toFixed(4);
+              this.canUseBase = Number(perms.data.data.base.available).toFixed(4);
+            }
+        }));
+      }else{
+        let url = "/web/api/market/Kline/" + this.currentCoin.toLowerCase();
+        this.$ajax
+          .get(url)
+          .then(response => {
+            if (response.data.code <= 200) {
+              this.info.nowprice = response.data.data.price;
+              this.info.gains = response.data.data.gains;
+              this.info.high = response.data.data.high;
+              this.info.low = response.data.data.low;
+              this.info.amount = response.data.data.amount;
+              this.info.priceCny = response.data.data.priceCny;
+            } else {
+              
+            }
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+      
+      this.$ajax
+        .get("/web/api/market/sellAndBuy/" + this.currentCoin.toLowerCase())
+        .then(response => {
+          if (response.data.code == 200) {
+            console.log(this.value)
+            if (this.value <= response.data.data.sell.length) {
+              this.sellValue = this.value
+              this.sellData = response.data.data.sell
+                .reverse()
+                .slice(0, this.value)
+                .reverse();
+            } else {
+              this.sellData = response.data.data.sell;
+              this.sellValue = response.data.data.sell.length;
+            }
+            if (this.value <= response.data.data.buy.length) {
+              this.buyData = response.data.data.buy.slice(0, this.value);
+            } else {
+              this.buyData = response.data.data.buy;
+            }
+            //第一次进来，初始化买一卖一
+            if(isFirst){
+              this.buyPrice = this.sellData[this.sellData.length-1].price|"";
+              this.sellPrice = this.buyData[0].price||"";
+            }
+          } else {
+            throw new Error(response.data.msg);
+          }
         })
-      },
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    init(isFirst) {
+      this.getBuySellInfo(isFirst);
+      this.getHistoryTrade();
+    },
       getHistoryTrade(){
-          let url = "/trade/api/market/depth/"+this.currentCoin.toLowerCase();
+          let url = "/web/api/market/depth/"+this.currentCoin.toLowerCase();
            this.$ajax.get(url).then(response => {
             console.log(response);
             if(response.data.code == 0){
                 //30
-                if(response.data.data && response.data.data.length >=20){
-                    this.historyTrade = response.data.data.slice(0,20);
+                if(response.data.data && response.data.data.length >=15){
+                    this.historyTrade = response.data.data.slice(0,15);
                 }else{
                     this.historyTrade = response.data.data;
                 }
@@ -184,12 +244,11 @@ export default {
           return formatTime(new Date(val)).substr(11)
       },
       buyOrsell(val){
-          return val == "buy"?"买入":"卖出";
+          return val == "1"?"买入":"卖出";
       }
   },
   created() {
-      this.getBuySellInfo();
-      this.getHistoryTrade();
+      this.init()
   },
   mounted() {
   }

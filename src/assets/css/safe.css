@@ -79,7 +79,7 @@
 }
 
 .safe-ld li {
-    border-bottom: 1px solid #dce1e5;
+    border-bottom: 1px solid #e6e6e6;
     position: relative;
     height: 90px
 }
@@ -105,24 +105,24 @@
 .safe-ld li a:hover,.safe-ld li a.on {
     text-decoration: none;
     position: relative;
-    /* background: #fdfafa;
-    color: #de211d; */
-    color: rgba(255, 163, 56, 1);
+    color: #ffa338;
     background: #fafafa;
+    border-left: 2px solid #ffa338;
 }
 .safe-ld li a.router-link-exact-active.router-link-active {
     text-decoration: none;
     position: relative;
-    /* background: #fdfafa;
-    color: #de211d; */
-    color: rgba(255, 163, 56, 1);
+    color: #ffa338;
     background: #fafafa;
+    border-left: 2px solid #ffa338;
+    outline: none;
 }
 .safe-ld a.router-link-active {
     background: #fdfafa;
     text-decoration: none;
     position: relative;
     color: #ffa338;
+    border-left: 2px solid #ffa338;
 }
 
 .safe-ld li a.on::before {
@@ -258,7 +258,7 @@
 
 .basic-infocont li .rd a.btn-blue {
     background: transparent;
-    border-color: #3dc18e;
+    border-color: #3dc18e; /*绿色*/
     color: #3dc18e
 }
 
@@ -278,6 +278,17 @@
     color: #fff
 }
 
+.basic-infocont li .rd a.btn-purple {
+    background: transparent;
+    border-color: #7280E8;
+    color: #7280E8
+}
+
+.basic-infocont li .rd a.btn-purple:hover {
+    background: #7280E8;
+    color: #fff
+}
+
 .basic-infocont li .rd a.btn i {
     margin: 0 10px 0 0
 }
@@ -288,6 +299,18 @@
     display: inline-block;
     margin: 0 0 0 10px;
     background: #F00;
+    color: #FFF;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px
+}
+
+.pswmiddle {
+    padding: 0 5px;
+    height: 24px;
+    display: inline-block;
+    margin: 0 0 0 10px;
+    background: #FFa338;
     color: #FFF;
     text-align: center;
     line-height: 24px;
@@ -848,7 +871,7 @@ a.closeabtn i {
 
 .finance-rd .bk-tabList-hd {
     overflow: hidden;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e6e6e6;
     margin: 0 20px;
     padding-bottom: 5px;
     font-size: 16px

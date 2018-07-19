@@ -9,7 +9,7 @@ body {
     font-family: "Microsoft YaHei",Arial,sans-serif;
     color: #99abb7;
     font-size: 12px;
-    background-color: #f5f5f5;
+    background-color: #f7f7f7;
     text-align: center;
     margin: 0 auto;
 }
@@ -18,18 +18,18 @@ ul, li, dl, dt, dd {
     margin: 0;
     padding: 0;
 }
-em {
+i, em {
 	font-style: normal;
 }
 a {
     outline: 0;
     /* color: #de211d; */   /* 红色 */
-    color: rgba(255, 163, 56, 1); /* 黄色 */
+    color: #FFa338; /* 黄色 */
     text-decoration: none
 }
 a:focus, a:hover {
     /* color: #f33a36; */  /* 红色悬浮 */
-    color: #f8931e;  /* 黄色悬浮 */
+    color: #F8932C;  /* 黄色悬浮 */
     text-decoration: underline
 }
 a:active, a:hover {
@@ -42,7 +42,7 @@ input {
 .bk-body {
 	height: auto;
 	min-width: 1010px;
-	overflow-x: hidden;
+	// overflow-x: hidden;
 }
 .container {
     min-width: 1010px!important;
@@ -895,7 +895,8 @@ td>.bk-norecord {
 	box-shadow: none
 }
 .bk-onekey .abtn-red {
-	background: #ee4224;
+	// background: #ee4224;
+	background: #ffa338;
 	font-size: 16px;
 	text-decoration: none;
 	padding: 10px 25px;
@@ -905,7 +906,8 @@ td>.bk-norecord {
 	margin-left: 10px
 }
 .bk-onekey .abtn-red:hover {
-	background: #e13011
+	// background: #e13011;
+	background: #F8932C;
 }
 .sel-coin-row .optional-list {
     text-align: left;
@@ -1333,7 +1335,7 @@ a.alibtn_orange35:hover h4 {
 }
 
 button {
-    line-height: 36px;
+    // line-height: 36px;
 	padding: 0 10px;
     margin: 0 5px 0;
     position: relative;
@@ -1342,24 +1344,24 @@ button {
     color: #666;
     cursor: pointer;
     font-family: "微软雅黑";
-    text-shadow: 1px 1px 1px #fff;
-    border: 1px solid #dce1e6;
-    box-shadow: 0 1px 2px #fff inset,0 -1px 0 #a8abae inset;
-    background: -webkit-linear-gradient(top,#f2f3f7,#e4e8ec);
-    background: -moz-linear-gradient(top,#f2f3f7,#e4e8ec);
-    background: linear-gradient(top,#f2f3f7,#e4e8ec);
+    // text-shadow: 1px 1px 1px #fff;
+    // border: 1px solid #dce1e6;
+    // box-shadow: 0 1px 2px #fff inset,0 -1px 0 #a8abae inset;
+    // background: -webkit-linear-gradient(top,#f2f3f7,#e4e8ec);
+    // background: -moz-linear-gradient(top,#f2f3f7,#e4e8ec);
+    // background: linear-gradient(top,#f2f3f7,#e4e8ec);
 }
 button:hover {
-	background: -webkit-linear-gradient(top,#fefefe,#ebeced);
-	background: -moz-linear-gradient(top,#f2f3f7,#ebeced);
-	background: linear-gradient(top,#f2f3f7,#ebeced);
+	// background: -webkit-linear-gradient(top,#fefefe,#ebeced);
+	// background: -moz-linear-gradient(top,#f2f3f7,#ebeced);
+	// background: linear-gradient(top,#f2f3f7,#ebeced);
 }
 button:active {
-	top: 1px;
-	box-shadow: 0 1px 3px #a8abae inset,0 3px 0 #fff;
-	background: -webkit-linear-gradient(top,#e4e8ec,#e4e8ec);
-	background: -moz-linear-gradient(top,#e4e8ec,#e4e8ec);
-	background: linear-gradient(top,#e4e8ec,#e4e8ec)
+	// top: 1px;
+	// box-shadow: 0 1px 3px #a8abae inset,0 3px 0 #fff;
+	// background: -webkit-linear-gradient(top,#e4e8ec,#e4e8ec);
+	// background: -moz-linear-gradient(top,#e4e8ec,#e4e8ec);
+	// background: linear-gradient(top,#e4e8ec,#e4e8ec)
 }
 /* 个人中心：api管理 end */
 /* 个人中心：end */
@@ -1550,6 +1552,15 @@ span.talk-select-country-code {
 		height: 42px;
 	}
 }
+.auth_img_code {
+	position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 100px;
+    height: 48px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
 
 .uploadipic {
 	width: 80%;
@@ -1690,7 +1701,7 @@ span.talk-select-country-code {
 /* 认证：固态登录密码 start */
 .bk-onekey-form .nb_send_code_btn {
 	padding: 10px 12px;
-	border: 1px solid #ddd;
+	border: 1px solid #FFa338;
 }
 .safeward_tip_i {
 	position: absolute;
@@ -1873,13 +1884,17 @@ span.talk-select-country-code {
 
 .btn-outsecond {
     background-color: #fff;
-    border-color: #3dc18e;
-    color: #3dc18e
+    // border-color: #3dc18e; // 绿色
+    // color: #3dc18e;
+    border-color: #7280E8; // 淡紫
+    color: #7280E8;
 }
 .btn-outsecond.active,.btn-outsecond.focus,.btn-outsecond:active,.btn-outsecond:focus,.btn-outsecond:hover,.open>.dropdown-toggle.btn-outsecond {
-    background-color: #2ad593;
-    border-color: #2ad593;
-    color: #fff
+    // background-color: #2ad593; // 绿色
+    // border-color: #2ad593;
+    color: #fff;
+    background-color: #7280E8; // 淡紫
+    border-color: #7280E8;
 }
 
 .btn-group-lg>.btn,.btn-lg {
@@ -2187,4 +2202,37 @@ input:-moz-placeholder {
 	margin: 20px 32px 30px 32px
 }
 
+button[disabled], html input[disabled] {
+	cursor: not-allowed;
+}
+
 /* 公共 end */
+
+/* 重写Element 样式 */
+/* form start */
+.auth_form {
+    width: 530px;
+    margin: 0 auto;
+
+	.el-form-item__label{
+		line-height: 50px;
+		padding-right: 30px;
+    	margin-bottom: 10px;
+		color: #3c515e;
+    	font-weight: normal;
+	}
+	input{
+		height: 50px;
+		line-height: 50px;
+	    display: inline-block;
+	    font-size: 16px;
+	    color: #999999;
+	    border: 1px solid #e6e9ea;
+	    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.075);
+	    border-radius: 0;
+	}
+	.el-form-item__content {
+		text-align: left;
+	}
+}
+/* form end */

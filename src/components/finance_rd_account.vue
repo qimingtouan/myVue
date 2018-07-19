@@ -26,10 +26,9 @@
                                         <input placeholder="搜索充值币种" id="searCoinName" v-model="searCoinName">
                                         <a><i class="fa fa-search"></i></a>
                                     </div>
-                                    <li v-for="item in coinList" :key="item.index" :class="{'not-open': !item.isCanRecharge}" 
-                                        :data-coin="item.key" 
-                                        :data-unittag="item.unitTag" 
-                                        @click="switchCoin(item.key, currentCoin, item.isCanRecharge)">{{item.enName}}
+                                    <li v-for="item in coinList" :key="item.index"
+                                        :data-coin="item.coinNameEn" 
+                                        @click="switchCoin(item.coinNameEn, item.isCanRecharge)">{{item.coinNameEn}}
                                     </li>
                                 </ul>
                             </div>
@@ -45,9 +44,9 @@
                             </a>
                         </h6>
                         <div id="optional-list" class="optional-list">
-                            <a v-for="item in userCoinList" :key="item.index" :data-coin="item.currency" 
-                                :class="{'coin_selected': item.currency==currentCoin}"  
-                                @click="switchCoin(item.currency, currentCoin, true)">{{item.currency.toUpperCase()}}
+                            <a v-for="item in userCoinList" :key="item.index" :data-coin="item.coinNameEn" v-if="item.status == 1" 
+                                :class="{'coin_selected': item.coinNameEn.toUpperCase() == currentCoin.toUpperCase()}"  
+                                @click="switchCoin(item.coinNameEn, true)">{{item.coinNameEn.toUpperCase()}}
                             </a>
                         </div>
                     </div>
@@ -57,13 +56,13 @@
                 <div id="optional-popup">
                     <div class="popup-box">
                         <a class="close" @click="toggleOptional(false)"><i class="fa fa-close"></i></a>
-                        <h5><span class="popup_title">自选币种设置</span><span class="popup_subtitle">( 最多选择5个 )</span></h5>
+                        <h5><span class="popup_title">自选币种设置</span><span class="popup_subtitle"></span></h5>
                         <div class="separate_line"></div>
                         <ul id="popup-coins" class="coin-list">
-                            <li v-for="item in coins" :key="item.index" :class="{'not-open': !item.isCanRecharge}">
-                                <label @click="editUserCoins(item.key, coinFlags[item.key])" :class="{'choosed': coinFlags[item.key]}">
-                                    <!-- <input type="checkbox" :data-name="item.key"> -->
-                                    <i :class="'icon-'+ item.key"></i>{{item.enName}}
+                            <li v-for="item in userCoinList" :key="item.index">
+                                <label @click="editUserCoins(item.coinNameEn, item.coinId, coinFlags[item.coinNameEn])" 
+                                        :class="{'choosed': coinFlags[item.coinNameEn]}">
+                                    <img :src="item.iconPath"/>{{item.coinNameEn}}
                                 </label>
                             </li>
                         </ul>
@@ -88,17 +87,19 @@
                             <div class="inner">
                                 <div class="address_head">
                                     <p class="address_delete_wrap">
-                                        <span data-id="12111" title="删除" class="address_delete"><i class="fa fa-trash-o ft16"></i></span>
+                                        <span data-id="itemAddr.addrId" title="删除" class="address_delete" @click="delAddress(itemAddr.addrId)">
+                                            <i class="fa fa-trash-o ft16"></i>
+                                        </span>
                                     </p>
                                 </div>
                                 <div class="address_body">
                                     <p class="address_title_wrap">
-                                        <a data-id="12111" class="address_title">{{currentCoin}}_{{itemAddr.memo}}</a>
+                                        <a data-id="12111" class="address_title">{{itemAddr.addressTab}}</a>
                                     </p>
                                     <p class="address">{{itemAddr.address}}</p>
                                 </div>
                                 <div class="address_foot">
-                                    <router-link :to="'/payout/'+currentCoin" data-id="12111" target="_blank" class="btn_payout">提币</router-link>
+                                    <router-link :to="'/payout/'+currentCoin+'?addrId='+itemAddr.addrId" :data-id="itemAddr.addrId" target="_blank" class="btn_payout">提币</router-link>
                                 </div>
                             </div>
                         </li>
@@ -106,32 +107,29 @@
                 </div>
 
                 <!-- 添加地址对话框 -->
-                <el-dialog :visible.sync="addDialogVisible" width="640px" center class="add_address_dialog borderRadius10">
+                <el-dialog :visible.sync="addDialogVisible"  :before-close="handleClose" width="640px" center class="add_address_dialog borderRadius10">
                     <div slot="title" class="dialog-title">
                         <h5><span class="popup_title">添加{{currentCoin.toUpperCase()}}地址</span></h5>
                         <div class="separate_line"></div>
                     </div>
-                    <el-form :model="addAddressForm" class="add_address_form">
-                        <el-form-item label=" " :label-width="formLabelWidth">
+                    <el-form :model="addAddressForm" ref="addAddressForm" :rules="addAddressRules" class="add_address_form">
+                        <el-form-item prop="address">
                             <el-input v-model="addAddressForm.address" placeholder="接收地址" auto-complete="off" class="borderRadius10"></el-input>
                         </el-form-item>
-                        <el-form-item label=" " :label-width="formLabelWidth">
-                            <el-input v-model="addAddressForm.memo" placeholder="地址昵称" auto-complete="off" class="borderRadius10"></el-input>
+                        <el-form-item prop="addressNick">
+                            <el-input v-model="addAddressForm.addressNick" placeholder="地址昵称" auto-complete="off" class="borderRadius10"></el-input>
                         </el-form-item>
-                        <el-form-item label=" " :label-width="formLabelWidth">
-                            <el-input v-model="addAddressForm.safepwd" placeholder="资金安全码" auto-complete="off" type="password" class="borderRadius10"></el-input>
+                        <el-form-item prop="safePwd">
+                            <el-input v-model="addAddressForm.safePwd" placeholder="资金安全码" auto-complete="off" type="password" class="borderRadius10"></el-input>
                         </el-form-item>
-                        <el-form-item label=" " :label-width="formLabelWidth">
-                            <el-input v-model="addAddressForm.mobileCode" placeholder="短信验证码" auto-complete="off" class="borderRadius10"></el-input>
+                        <el-form-item prop="msgCode">
+                            <el-input v-model="addAddressForm.msgCode" placeholder="短信验证码" auto-complete="off" class="borderRadius10"></el-input>
+                            <input type="button" name="addSendCodeBtn" id="addSendCodeBtn" class="send_code_btn" v-model="addAddressForm.addSendCodeText" @click="addAddrSendCode()"/>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="addDialogVisible = false" class="add_address_btn">确 定</el-button>
+                            <el-button type="primary" id="addAddressBtn" @click="addAddressSubmit('addAddressForm')" class="add_address_btn">确 定</el-button>
                         </el-form-item>
                     </el-form>
-                    <!-- <div slot="footer" class="add_address_footer">
-                        <el-button @click="addDialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
-                    </div> -->
                 </el-dialog>
             </div>
         </div>
@@ -145,25 +143,52 @@
     export default {
         name: 'finance_rd_account',
         data() {
+            var checkSafePed = (rule, value, callback) => {
+                if (!value) {
+                    callback(new Error('请输入资金安全密码'));
+                } else {
+                    var regSafePwd = /^\d{6}$/;
+
+                    if (!regSafePwd.test(value)) {
+                        callback(new Error('资金安全密码为6位数字'));
+                    }
+                    callback();
+                }
+            };
+
             return {
                 searCoinName: '',
                 coins: [],
                 coinFlags: {},
                 userCoinList: [],
                 coinAddress: [],
+                coinObjects: {},
                 currentCoin: 'usdt',
+                currentCoinId: '',
+
                 addDialogVisible: false,
                 addAddressForm: {
                     address: '',
-                    memo: '',
-                    safepwd: '',
-                    mobileCode: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
+                    addressNick: '',
+                    safePwd: '',
+                    msgCode: '',
+                    countdown2: 60,
+                    addSendCodeText: '点击获取',
                 },
-                formLabelWidth: '0px'
+                formLabelWidth: '0px',
+
+                addAddressRules: {
+                    address: [
+                        { required: true, message: '请填写正确的接收地址', trigger: ['blur', 'change']}
+                    ],
+                    safePwd: [
+                        { required: true, message: '请输入资金安全密码', trigger: 'blur'},
+                        { validator: checkSafePed, trigger: ['blur', 'change'] }
+                    ],
+                    msgCode: [
+                        { required: true, message: '请输入验证码', trigger: ['blur', 'change']}
+                    ]
+                }
             }
         },
         computed: {
@@ -174,7 +199,7 @@
                 // 搜索过滤
                 if (this.searCoinName !== '') {
                     coins = coins.filter(function(item){
-                        return item.enName.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
+                        return item.coinNameEn.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
                     }.bind(this))
 
                 }
@@ -185,22 +210,56 @@
 
         },
         methods: {
+            // 提示弹窗
+            msgConfirm(msg, msgTitle, msgType) {
+                this.$confirm(msg, msgTitle, {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: msgType
+                }).then(() => {
+
+                }).catch(() => {
+
+                });
+            },
+
             // 查询所有币种
-            getCoinList() {
+            getCoinList(currentCoin) {
                 let _this = this;
                 $.ajax({
-                    url: './../../../static/mock/coinListMock.json',
-                    // type: "POST",
+                    url: '/web/asset/getAllDetail',
                     type: "GET",
                     dataType: "json",
                     success: function(res) {
-                        _this.coins = res.coins;
-                        for (var i = 0; i <_this.coins.length; i++) {
-                            _this.$set(_this.coinFlags, _this.coins[i].key, false);
+                        if (res.code == 200) {
+                            if (res.data && res.data.assets) {
+                                _this.coins = res.data.assets;
+                            }
+                            let coinObjs = {};
+
+                            for (var i = 0; i <_this.coins.length; i++) {
+                                let coin = _this.coins[i];
+
+                                _this.$set(_this.coinFlags, coin.coinNameEn, false); // 用于标记当前选择币种是否和自选中一致
+
+                                if(currentCoin == coin.coinNameEn) {
+                                    _this.currentCoinId = coin.coinId;
+                                }
+
+                                coinObjs[coin.coinNameEn] = {
+                                    "coinId": coin.coinId,
+                                    "coinNameEn": coin.coinNameEn
+                                };
+                            }
+
+                            _this.coinObjects = coinObjs;
+
+                        } else {
+                            _this.msgConfirm(res.msg, '', 'error');
                         }
                     },
                     error: function(err){
-                        console.log(err);
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
                     },
                     complete: function(XHR, TS) {
                         _this.getUserCoinList(); // 查询用户自选币种
@@ -208,42 +267,7 @@
                 });
             },
 
-            // 选择充值币种
-            switchCoin(clickCoin, currentCoin, isCanRecharge) {
-                let _this = this;
-                if(clickCoin == currentCoin || false == isCanRecharge) {
-                    return;
-                }
-                window.location.hash = "#/account/"+clickCoin;
-                _this.currentCoin = clickCoin;
-
-                // 查询该点击币种的账户地址
-                _this.queryCoinAddr(clickCoin);
-
-            },
-
-            // 查询当前币种的账户地址
-            queryCoinAddr(coinName) {
-                let _this = this;
-
-                $.ajax({
-                    type: "GET",
-                    url: "./../../../static/mock/payoutCoinHistoryAddr.json",
-                    dataType: "json",
-                    success: function(res) {
-                        if (res.datas && res.datas.length > 0) {
-                            _this.coinAddress = res.datas;
-                        } else {
-                            _this.coinAddress = [];
-                        }
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                });
-            },
-
-            // 自选币种设置弹窗显示/影藏
+             // 自选币种设置弹窗显示/影藏
             toggleOptional(boolean) {
                 if(boolean){
                     $("#optional-popup").show();
@@ -258,50 +282,246 @@
                 let _this = this;
                 $.ajax({
                     type: "GET",
-                    url: "./../../../static/mock/userCoinListMock.json",
-                    //contentType: "application/json",
+                    url: "/web/optional/getOptionalRecoid",
                     dataType: "json",
                     success: function(res) {
-                        if(res.isSuc && res.datas.length) {
-                            res.datas.map(function(coin) {
-                                var coinName = coin.currency;
-                                _this.coinFlags[coinName] = true;
+                        if(res.code == 200 && res.data.length) {
+                            res.data.map(function(coin) {
+                                var coinName = coin.coinNameEn.toUpperCase();
+                                if (coin.status == 1) {
+                                    _this.coinFlags[coinName] = true;
+                                } else {
+                                    _this.coinFlags[coinName] = false;
+                                }
+                                
                             });
-                            _this.userCoinList = res.datas;
+                            _this.userCoinList = res.data;
                         }
                     }
                 })
             },
 
             // 自选币种编辑(选中/去选中)
-            editUserCoins(coinName, isChoose) {
+            editUserCoins(coinName, coinId, isChoose) {
                 let _this = this;
-                let status = (isChoose == true)? '2' : '1';
-                _this.coinFlags[coinName] = !isChoose;
+                let _addUrl = "/web/optional/addOptionalRecoid/" + encodeURIComponent(coinId);
+                let _delUrl = "/web/optional/updateOptionalRecoid/" + encodeURIComponent(coinId);
                 
-                var data = {
-                    coinName: coinName,
-                    status: status
-                }
+                let _url = (isChoose == true)? _delUrl : _addUrl;
+                _this.coinFlags[coinName] = !isChoose;
+
                 $.ajax({
                     type: "POST",
-                    url: "https://vip.zb.com/user/doEditUserCoin",
-                    dataType: "jsonp",
-                    data: data,
+                    url: _url,
+                    dataType: "json",
                     success: function(res){
-                        if(res.isSuc){
-                            // JuaBox.showRight('操作成功');
-                            alert('操作成功');
+                        if(res.code == 200){
+                            _this.msgConfirm(res.msg, '', 'success');
+                        } else {
+                            _this.coinFlags[coinName] = isChoose;
+                            _this.msgConfirm(res.msg, '', 'error');
                         }
                     },
                     error: function(err){
-                        // check.attr("checked", false);
-                        // JuaBox.showRight(JSON.parse(err.responseText).des);
                         _this.coinFlags[coinName] = isChoose;
-                        alert("自选币种编辑失败！");
-                        console.log(err);
+                        _this.msgConfirm('自选币种编辑失败！', '', 'error');
                     }
                 })
+            },
+
+            // 选择充值币种
+            switchCoin(clickCoin, isCanRecharge) {
+                let _this = this;
+                let currentCoin = this.currentCoin;
+
+                if(clickCoin == currentCoin) {
+                    return;
+                }
+                window.location.hash = "#/account/"+clickCoin;
+                _this.currentCoin = clickCoin;
+
+                if(_this.coinObjects && _this.coinObjects[clickCoin]){
+                    _this.currentCoinId = _this.coinObjects[clickCoin].coinId;
+                } else {
+                    _this.currentCoinId = '';
+                }
+
+                // 查询该点击币种的账户地址
+                _this.queryCoinAddr(clickCoin);
+
+            },
+
+            // 查询当前币种的账户地址
+            queryCoinAddr(coinName) {
+                let _this = this;
+
+                $.ajax({
+                    type: "GET",
+                    url: '/web/address/getAddress/'+ coinName,
+                    dataType: "json",
+                    success: function(res) {
+                        if (res.code == 200) {
+                            if (res.data && res.data.length > 0) {
+                                _this.coinAddress = res.data;
+                            } else {
+                                _this.coinAddress = [];
+                            }
+                        } else {
+                            _this.msgConfirm(res.msg, '', 'error');
+                        }
+                    },
+                    error: function(err) {
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
+                    }
+                });
+            },
+            
+            // 删除地址
+            delAddress(addrId) {
+                let _this = this;
+                let _currentCoin = this.currentCoin;
+
+                this.$confirm('此操作将永久删除该地址, 是否继续?', '', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/web/address/delAddress/'+encodeURIComponent(addrId),
+                        dataType: 'json',
+                        success: function(res) {
+                            if (res.code == 200) {
+                                _this.queryCoinAddr(_currentCoin);
+                                _this.$message({
+                                    type: 'success',
+                                    message: '删除地址成功!'
+                                });
+                            } else {
+                                 _this.$message({
+                                    type: 'error',
+                                    message: '删除地址失败!'
+                                });
+                            }
+                        },
+                        error: function(err) {
+                            _this.msgConfirm('删除地址失败！', '', 'error');
+                        }
+                    });
+                }).catch(() => {
+
+                });
+            },
+
+            // 添加地址：发送短信验证码
+            addAddrSendCode() {
+                let _this = this;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/web/address/sendAddAddrMsg/'+this.currentCoin,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code == 200) {
+                            _this.addSetTime($('#addSendCodeBtn'));
+                        } else {
+                            _this.msgConfirm(res.msg, "", "error");
+                        }
+                    },
+                    error: function (err) {
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
+                    }
+                });
+            },
+
+            // 添加地址：发送验证码倒计时
+            addSetTime(obj) {
+                let _this = this;
+                let _obj = $(obj);
+                if (_this.addAddressForm.countdown2 == 0) {
+                    _obj.removeAttr("disabled");
+                    _this.addAddressForm.addSendCodeText = "点击获取";
+                    _this.addAddressForm.countdown2 = 60;
+                } else {
+                    _obj.attr("disabled", true);
+                    _this.addAddressForm.addSendCodeText = "已发送"+"(" + _this.addAddressForm.countdown2 + ")";
+                    _this.addAddressForm.countdown2--;
+                    _this.addAddrTimeout = setTimeout(function() {
+                        _this.addSetTime(_obj);
+                    }, 1000);
+                }
+            },
+
+            // 添加地址: 提交
+            addAddressSubmit(formName) {
+                let _this = this;
+                let _addAddressForm = this.addAddressForm;
+
+                let _address = _addAddressForm.address;
+                var _addressNick = _addAddressForm.addressNick;
+                var _safePwd = _addAddressForm.safePwd ;
+                var _msgCode  = _addAddressForm.msgCode ;
+
+                var _coinName  = this.currentCoin.toUpperCase();
+                var _codeId = this.currentCoinId;
+
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        $("#addAddressBtn").button("loading");
+
+                        let addAddressData = {
+                            "coinId": _codeId,
+                            "coinName": _coinName,
+                            "addressNick": _addressNick,
+                            "receiveAddress": _address,
+                            "safePwd": _safePwd,
+                            "msgCode": _msgCode
+                        };
+
+                        $.ajax({
+                            url: '/web/address/addAddress',
+                            type: "POST",
+                            contentType : "application/json",
+                            data: JSON.stringify(addAddressData),
+                            dataType: "json",
+                            complete: function() {
+                                $("#addAddressBtn").button("reset");
+                            },
+                            success: function(res) {
+                                if (res.code == 200) {
+                                    _this.$alert('提币地址添加成功', {
+                                        confirmButtonText: '确定',
+                                        type: 'success',
+                                        callback: action => {
+                                            _this.resetField();
+                                            _this.addDialogVisible = false;
+                                            _this.queryCoinAddr(_coinName);
+                                        }
+                                    });
+                                } else {
+                                    _this.msgConfirm(res.msg, '', 'error');
+                                }
+                            }
+                        });
+                    }
+                });
+            },
+
+            // 添加地址弹窗关闭
+            handleClose(done) {
+                this.resetField();
+                done();
+            },
+
+            // 重置添加地址弹窗
+            resetField() {
+                this.$refs.addAddressForm.resetFields();
+                $("#addSendCodeBtn").attr("disabled", false);
+                this.addAddressForm.addSendCodeText = '点击获取';
+                this.addAddressForm.countdown2 = 60;
+                if (this.addAddrTimeout) {
+                    clearTimeout(this.addAddrTimeout)
+                }
             }
 
         },
@@ -324,7 +544,7 @@
 
             let _currentCoin = _this.currentCoin;
 
-            _this.getCoinList(); // 查询所有币种和用户自选币种
+            _this.getCoinList(_currentCoin); // 查询所有币种和用户自选币种
             _this.queryCoinAddr(_currentCoin); // 查询当前币种地址
         },
         mounted() {
@@ -416,6 +636,34 @@
         border-color: #ffa338;
     }
 
+    input.send_code_btn {
+        position: absolute;
+        top: 0px;
+        right: 0;
+        cursor: pointer;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 10px;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 15px;
+        background: #ffa338;
+        font-size: 12px;
+        color: #ffffff;
+        text-align: center;
+        border: none;
+        text-decoration: none;
+        outline: none;
+    }
+    input.send_code_btn:hover {
+        background-color: #F8932C;
+    }
+
+    button[disabled], input[disabled] {
+        cursor: not-allowed;
+    }
+
     /* 重写 Element 对话框样式 */
     .add_address_form {
         padding: 0 75px;
@@ -430,5 +678,9 @@
         font-size: 20px;
         margin-left: 80px;
         margin-top: 10px;
+    }
+    .add_address_btn:hover {
+        color: #fff;
+        background: #7280e8;
     }
 </style>

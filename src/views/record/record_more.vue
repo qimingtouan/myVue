@@ -1,505 +1,509 @@
 <template>
 <div class="wrapper">
-    <header-asset></header-asset>
-    <div class="container">
-        <div class="bk-tabList">
-            <div class="nowcoin-show">
-                <span>当前搜索的交易对：<b>btc/usdt</b></span>
-                <div style="float:right; ">
-                    <a class="btn btn-primary btn-sm btn-backtrans" href="##" target="_self"><i class="fa fa-exchange fa-fw"></i>返回交易</a>
-
+	<header>
+		<div class="header_img">
+		<header-nav :activeItem = 'activeItem'></header-nav>
+		</div>
+	</header>
+    <section >
+        <div class="moveup">
+        <div class="container">
+         <div class="bk-band clearfix" >
+            <tab-nav></tab-nav>
+		</div>
+            <div class="bk-tabList">
+                <div class="nowcoin-show">
+                    <span>当前交易对：<b>{{currentCoin}}</b></span>
+                    <div style="display:inline-block;margin-left:50px">
+                       <button @click="onBack" class="back_btn">返回交易</button>
+                    </div>
                 </div>
-            </div>
-            <div class="search_more">
-                <el-form :inline="true" :model="searchInfo" size="small">
-                    <el-form-item label="交易对">
-                        <el-input v-model="searchInfo.base" class="coin_input" @change="changeUpper"></el-input>
-                    </el-form-item>
-                    <el-form-item label="/">
-                    <el-select v-model="searchInfo.qoute" class="entrust_input">
-                            <el-option label="BTC" value="btc"></el-option>
-                            <el-option label="USDT" value="usdt"></el-option>
-                            <el-option label="ETH" value="eth"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="类型">
-                        <el-select v-model="searchInfo.entrust" placeholder="委托类型" class="entrust_input">
-                            <el-option label="限价委托" value="shanghai"></el-option>
-                            <el-option label="历史委托" value="beijing"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <!-- <el-form-item label="类型">
-                        <el-select v-model="searchInfo.trade" placeholder="交易类型" class="trade_input">
-                            <el-option label="不限" value="default"></el-option>
-                            <el-option label="买入" value="buy"></el-option>
-                            <el-option label="卖出" value="sell"></el-option>
-                        </el-select>
-                    </el-form-item> -->
-                    <el-form-item label="时间">
-                        <el-date-picker
-                        v-model="searchInfo.time"
-                        type="datetimerange"
-                        range-separator="至"
-                        start-placeholder="开始日期"
-                        end-placeholder="结束日期">
-                    </el-date-picker></el-form-item>
-                    <el-form-item>
-                    <el-button type="primary" @click="onSubmit">查询</el-button>
-                    </el-form-item>
-                </el-form>            
-    <p></p>
-<el-table :data="tableData5" style="width: 100%" @expand-change = "expandChange" ref="tableList" height="700px">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-            <el-table
-                :data="tableData"
-                stripe
-                style="width: 100%">
-                <el-table-column
-                prop="date"
-                label="日期"
-                width="180">
+                <div class="search_more">
+                    <el-form :inline="true" :model="searchInfo" size="small" class="border_line">
+                        <div class="btn_choose">
+                            <span class="btn_entrust" :class="{activeBtn:btnIsActive[0]}" @click="changeTab(0)">限价委托</span>
+                            <span class="btn_entrust" :class="{activeBtn:btnIsActive[1]}" @click="changeTab(1)">历史委托</span>
+                        </div>
+                        <el-form-item label="时间">
+                            <el-date-picker
+                                v-model="searchInfo.time"
+                                type="daterange"
+                                unlink-panels
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                :picker-options="pickerOptions" >
+                            </el-date-picker>
+                        </el-form-item>
+                            <el-form-item label="交易状态">
+                                <!-- <el-select v-model="searchInfo.status"  class="entrust_input">
+                                    <el-option label="不限" value="0"></el-option>
+                                    <el-option label="完成" value="1"></el-option>
+                                    <el-option label="未完成" value="3"></el-option>
+                                    <el-option label="已撤单" value="2"></el-option>
+                                </el-select> -->
+                            </el-form-item>
+                            <el-form-item label="交易类型">
+                                <el-select v-model="searchInfo.trade"  class="trade_input">
+                                    <el-option label="不限" value="0"></el-option>
+                                    <el-option label="买入" value="1"></el-option>
+                                    <el-option label="卖出" value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button  @click="onReset" icon="el-icon-refresh">重置</el-button>
+                            </el-form-item>
+                    </el-form>            
+            <el-table :data="tableData" style="width: 100%" @expand-change = "expandChange" ref="tableList" height="600px" row-key="id" :expand-row-keys="expandRows">
+                <el-table-column type="expand">
+                <template slot-scope="props">
+                        <el-table
+                            :data="detailData"
+                            stripe
+                            style="width: 100%">
+                            <el-table-column
+                            prop="date"
+                            label="成交时间"
+                            width="180">
+                            </el-table-column>
+                            <el-table-column
+                            prop="amount"
+                            label="成交数量"
+                            width="180">
+                            </el-table-column>
+                            <el-table-column
+                            prop="price"
+                            label="成交价格">
+                            </el-table-column>
+                            <el-table-column
+                            prop="tradeMoney"
+                            label="成交总额">
+                             </el-table-column>
+                            <el-table-column
+                            prop="fees"
+                            label="手续费">
+                            </el-table-column>
+                        </el-table>          
+                </template>
+                </el-table-column>
+                <el-table-column label="委托时间" prop="time">
+                </el-table-column>
+                <el-table-column label="委托数量/已成交" prop="amount_trade">
+                <template slot-scope="scope">
+                 <div :class="[scope.row.tradeType =='1'?buy_color:sell_color]"><img src="../../assets/img/sell_01.png" alt="" v-if="scope.row.tradeType =='2'" class="trade_img"><img src="../../assets/img/buy_01.png" alt="" v-else class="trade_img"><span>{{scope.row["amount_trade"]}}</span></div>
+                </template>
+                </el-table-column>
+                <el-table-column label="委托价格/成交均价" prop="price_average">
+
+                </el-table-column>
+                <el-table-column label="成交总额" prop="tradeMoney">
+                </el-table-column>
+               <el-table-column label="状态" prop="isFinish">
+                </el-table-column>
+                <el-table-column label="订单来源" prop="from">
                 </el-table-column>
                 <el-table-column
-                prop="name"
-                label="姓名"
-                width="180">
+                label="操作"
+                width="100">
+                <template slot-scope="scope">
+                    <el-button @click="showDetail(scope.row.id)" type="text" size="small" v-if="scope.row.status == '1'" :class="[scope.row.tradeType =='1'?buy_color:sell_color]">明细</el-button>
+                    <el-button type="text" size="small" v-if="scope.row.status == '0'" :class="[scope.row.tradeType =='1'?buy_color:sell_color]"  @click="cancelTrade(scope.row.id)">撤单</el-button>
+                </template>
                 </el-table-column>
-                <el-table-column
-                prop="address"
-                label="地址">
-                </el-table-column>
-            </el-table>          
-      </template>
-    </el-table-column>
-    <el-table-column label="商品 ID" prop="id">
-    </el-table-column>
-    <el-table-column label="商品名称" prop="name">
-    </el-table-column>
-    <el-table-column label="描述" prop="desc">
-    </el-table-column>
-     <el-table-column
-      label="操作"
-      width="100">
-      <template slot-scope="scope">
-        <el-button @click="handleClick(scope)" type="text" size="small">查看</el-button>
-        <el-button type="text" size="small">编辑</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+                <div slot="empty">
+                    <div class="bk-norecord" v-if="!isLogin">
+                        <p class="notLogin"><i class="bk-ico info"></i>您还没有登录 
+                        </p>
+                        <div>
+                            <a class="notLogin_btn" href="/views/login/login.html">登录</a> |<a class="notLogin_btn" href="/views/register/register.html">注册</a> 
+                        </div>
+                    </div>
+                    <div class="bk-norecord" v-if="tableData.length == 0 && isLogin">
+                        <p class="notLogin"><i class="bk-ico info"></i>暂时没有相关记录 
+                        </p>
+                    </div>
+                </div>
+            </el-table>
             </div>
         </div>
     </div>
-</div>
+    <div style="margin-top:40px">
+        <footer-nav></footer-nav>
+    </div>
+        
+    </div>
 
+</section>
+</div>
 </template>
 <script>
-import headerAsset from '@/components/assetHeaderNav'
+import tabNav from "@/components/tabNav";
+import footerNav from "@/components/footerNav";
+import formatTime from "@/assets/js/formatTime";
+import headerNav from "@/components/trade_header.vue";
 export default {
-    name: "more",
-    components:{headerAsset},
-    data() {
-        return {
-            searchInfo:{
-                time:"",
-                trade:"",
-                entrust:"",
-                base:"",
-                qoute:""
-            },        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
-        tableData5: [{
-          id: '12987122',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987123',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987125',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }, {
-          id: '12987125',
-          name: '好滋好味鸡蛋仔',
-          category: '江浙小吃、小吃零食',
-          desc: '荷兰优质淡奶，奶香浓而不腻',
-          address: '上海市普陀区真北路',
-          shop: '王小虎夫妻店',
-          shopId: '10333'
-        }]
-        };
-    },
-    props:[],
-    computed: {
-            
-     
-            
-    },
-    methods: {
-         "expandChange" (row,expandRows){
-            if(expandRows.length>1){
-                expandRows.forEach((element,index) => {
-                    if(index < expandRows.length - 1){
-                        this.$refs.tableList.toggleRowExpansion(element,false)
-                    }
-                });
+  name: "more",
+  components: { tabNav, footerNav,headerNav },
+  data() {
+    return {
+      btnIsActive: [true, false],
+      searchInfo: {
+        time: [],
+        trade: "0",
+        status: "0",
+        base: "",
+        qoute: ""
+      },
+      activeItem:[false,false,true,false],
+      expandRows: [],
+      status: ["未成交", "已成交"],
+      isCancel: ["已完成", "已撤单"],
+      buy_color: "buy_color",
+      sell_color: "sell_color",
+      showData: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-
-        },
-        changeUpper(val){
-            console.log(val)
-            this.searchInfo.base = val.toUpperCase();
-        },
-        onSubmit(){
-            console.log(this.searchInfo.base+"/"+this.searchInfo.qoute)
-        },
-        handleClick(a){
-            console.log(a)
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一年",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      detailData: []
+    };
+  },
+  props: [],
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    },
+    currentCoin() {
+      return this.$store.state.currentCoin;
+    },
+    tableData() {
+      let showData = JSON.parse(JSON.stringify(this.showData));
+      showData = showData.filter(item => {
+        let flag = true;
+        if (this.searchInfo.status != 0) {
+          flag = item.isFinish == this.searchInfo.status;
         }
+        if (this.searchInfo.time.length != 0) {
+          flag =
+            item.time <= this.searchInfo.time[1].getTime() &&
+            item.time >= this.searchInfo.time[0].getTime();
+        }
+        if (this.searchInfo.trade != 0) {
+          flag = flag && item.tradeType == this.searchInfo.trade;
+        }
+        item.time = formatTime(new Date(item.time));
+        return flag;
+      });
+      console.log(this.searchInfo);
 
-    },
-    watch: {
-     
-    },
-    created() {
-       
-    },
-    mounted() {
-    
+      return showData;
     }
+  },
+  methods: {
+    expandChange(row, expandRows) {
+      console.log(row);
+      // if(expandRows.length>1){
+      //     expandRows.forEach((element,index) => {
+      //         if(index < expandRows.length - 1){
+      //             this.$refs.tableList.toggleRowExpansion(element,false)
+      //         }
+      //     });
+      // }
+      this.showDetail(row.id);
+    },
+    showDetail(id) {
+      if (this.expandRows.indexOf(id) < 0) {
+        this.expandRows = [];
+        this.expandRows.push(id);
+      } else {
+        this.expandRows = [];
+      }
+      let url = "/wap/market/orderDetails/" + id;
+      this.$ajax.get(url).then(
+        function(res) {
+          let detailData = [];
+          if (res.data.code <= 200) {
+            detailData = res.data.data.map(function(item) {
+              let temp = {};
+              temp.date = item.time;
+              temp.amount = item.amount;
+              temp.price = item.price;
+              temp.tradeMoney = item.vol;
+              temp.fees = item.fee;
+              return temp;
+            });
+          }
+          this.detailData = detailData;
+        }.bind(this)
+      );
+    },
+    cancelTrade(orderid) {
+      let url = `/wap/market/cancel/${orderid}`;
+      this.$confirm("此操作将撤销未成交的部分, 是否继续?", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$ajax.get(url).then(
+            function(res) {
+              let detailData = [];
+              if (res.data.code <= 200) {
+                this.$message({
+                  type: "success",
+                  message: "撤销成功!"
+                });
+                // this.refresh()
+              }
+              this.detailData = detailData;
+            }.bind(this)
+          );
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消撤销，再考虑一下。"
+          });
+        });
+    },
+    onReset(){
+        this.searchInfo.status = "0";
+        this.searchInfo.time = [];
+        this.searchInfo.trade = "0";
+    },
+    onBack(){
+        let url = "/views/goods/goods_trade.html#"+this.currentCoin
+        window.location.href = url;
+    },
+    getData(index) {
+      let url = "/wap/market/getOrderAll/" + this.currentCoin+"/0/"+index;
+      if(!this.isLogin){
+          console.log(`未登录，不发请求.url:${url}`)
+          return
+      }
+      this.$ajax.get(url).then(
+        function(res) {
+          console.log(res.data.data);
+          let showData = [];
+          if (res.data.code <= 200 && res.data.data) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              let temp = {},
+                item = res.data.data[i];
+              //status = 1;交易完成->已成交(type =1)，已撤单(type = 2
+              temp.time = item.time * 1000;
+              temp["amount_trade"] = item.totalAmount + "/" + item.tradeAmount;
+              temp["price_average"] =
+                item.tradeAmount == 0
+                  ? item.price + "/" + 0
+                  : item.price + "/" + item.getPrice / item.tradeAmount;
+              temp.tradeMoney = item.getPrice;
+              temp.from = item.sources;
+              temp.tradeType = item.tradeType;
+              temp.id = item.id;
+              temp.status = item.status;
+              if (item.status == "1") {
+                temp.isFinish = item.type;
+              } else {
+                temp.isFinish = 3;
+              }
+              showData.push(temp);
+            }
+            this.showData = showData;
+          }
+        }.bind(this)
+      );
+    },
+    changeTab(index){
+        this.btnIsActive = [false,false];
+        this.btnIsActive[index] = true;
+        this.getData(index)
+    }
+  },
+  watch: {},
+  created() {
+    this.$store.commit("checkLogin");
+    this.getData(0);
+  },
+  mounted() {}
 };
 </script>
 
 <style  lang="less">
-@buyer-color :#de211d;
-@seller-color:#0ebb74;
-.wrapper{
-    background-color:#f5f5f5
+@buyer-color :#FB5555;
+@seller-color:#27AE60;
+@dark-color:#1f1d1d;
+@dark-btn:#2f2c2c;
+@light-color:#fff;
+.buy_color{
+    color: #FB5555;
 }
-.bk-tabList{
-    background-color: #fff;
+.sell_color{
+    color: @seller-color;
 }
-.search_more{
-    padding: 20px;
+a {
+  text-decoration: none;
+  color: #fff;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.wrapper {
+  background-color: #f5f5f5;
+}
+.moveup {
+  top: 116px;
+  border-radius: 10px;
+  position: relative;
+}
+.bk-band {
+  position: relative;
+}
+.bk-tabList {
+  background-color: #fff;
+  margin-top: 40px;
+}
+.search_more {
+  padding: 10px;
 }
 .nowcoin-show {
-    text-align: left;
-    font-size: 14px;
-    padding: 10px 10px 5px 10px;
-    color: #666;
+  text-align: left;
+  font-size: 14px;
+  padding: 10px 40px 50px 40px;
+  color: #666;
 }
 
 .nowcoin-show b {
-    font-size: 18px;
-    font-weight: bold;
-    color: #e00;
-    text-transform: uppercase;
+  font-size: 18px;
+  font-weight: bold;
+  color: #e00;
+  text-transform: uppercase;
 }
 
-.bk-toolBar {
-    position: relative;
-    line-height: 36px;
-    height: 36px;
-    background-color: #2a333a;
-    color: #dbe1e7;
-
-    ul li {
-    	cursor: pointer;
-	    display: inline-block;
-	    height: 100%;
-	    color: #dbe1e7;
-	    text-transform: uppercase;
-	    a {
-		    color: #7c8187;
-		    display: block;
-		    padding: 0 20px;
-		    position: relative;
-		    z-index: 1200
-		}
-    }
-    >ul>li.logined {
-		min-width: 176px;
-    	text-align: left
-    }
-    >ul>li:first-child {
-    	margin-left: 0
-    }
-    >ul>li:last-child {
-	    margin-right: 0
-	}
-	>ul>li:hover>a, >ul>li:focus>a {
-	    background-color: #fff;
-	    color: #2f383d;
-	    height: 100%;
-	    text-decoration: none
-	}
-
-	#menuNew .badge {
-	    background-color: #169bd7;
-	    font-weight: normal;
-	    margin-left: 5px;
-	    padding: 3px 6px
-	}
-}
 .hide {
-    display: none!important;
+  display: none !important;
 }
 
-
-.navbar-black .bk-menuBar {
-    background-color: #fdfdfd;
-    border-bottom: 1px solid #eaebeb
-}
-.bk-nav .navbar-header {
-    padding: 0;
-    position: relative;
-    z-index: 100;
-
-    img{
-    	height: 47px;
-    	width: auto
-    }
-    a.navbar-brand {
-    	padding: 0;
-	    padding-top: 1px;
-	    width: auto;
-	    height: 53px;
-	    display: block;
-	    background-repeat: no-repeat;
-	    background-position: left center;
-	    overflow: hidden;
-	    background-size: 65%;
-    }
-}
-.bk-nav {
-	.bk-sec-menu {
-		border: 4px solid rgba(251,212,207,0.25);
-		border-top: 0;
-		padding: 0;
-	}
-	.bk-secd-menu:after {
-		content: "";
-		width: 18px;
-		height: 12px;
-		display: block;
-		position: absolute;
-		top: -11px;
-		right: 50%;
-		margin-right: -9px;
-		background-image: url('./../../assets/img/dropdown_arrow.png');
-		background-repeat: none;
-		z-index: 1025; 
-	}
-	.bk-secd-menu:before {
-		content: "";
-		width: 100%;
-		height: 100%;
-		display: block;
-		position: absolute;
-		top: 0;
-		right: 0;
-		border: 1px solid #eee;
-		z-index: 1020 
-	}
-	.bk-secd-menu {
-		width: 180px;
-		right: -30px;
-
-		li a img {
-			height: 16px;
-			width: auto;
-			margin-top: -1px;
-			vertical-align: middle;
-			display: inline-block;
-			margin-right: 3px
-		}
-	}
-}
-@media(min-width: 769px) {
-	.navbar {
-        border-radius:0
-    }
-    .navbar-static-top {
-    	padding-left: 0;
-		padding-right: 0;
-		border-radius: 0;
-    }
-    .navbar-nav>li {
-    	min-width: 0;
-    	height: 80px;
-    	padding: 20px 10px 0;
-    }
-    .en .navbar-nav>li {
-        padding-left: 10px;
-        padding-right: 10px
-    }
-    .bk-secd-menu {
-    	background-color: transparent;
-    	border-image: none;
-    	border: 0;
-    	border-radius: 0;
-    	-webkit-box-shadow: none;
-    	box-shadow: none;
-    	width: 400px;
-    	right: -140px;
-
-    	.bk-secd-menu-list {
-    		min-height: 200px;
-    		border-left: 1px solid #eaebeb;
-    		padding: 0 10px;
-    		display: table-cell;
-    		vertical-align: top;
-    		float: none;
-
-    		li.sxb a {
-				margin: 15px auto;
-				height: 26px;
-				line-height: 26px;
-				padding: 0;
-				border-radius: 17px;
-				background-color: #3a3a3a;
-				color: #edfbfe;
-				text-align: center;
-    		}
-    		li.sxb a:hover {
-				background-color: #009cde;
-				color: #fff;
-    		}
-    	}
-    	.bk-secd-menu-list:first-child {
-    		border-left: none;
-    	}
-    	.bk-secd-menu-list:last-child {
-    		padding-right: 0;
-    	}
-
-    	li {
-    		position: relative;
-    		z-index: 1025;
-    		text-align: left;
-    		width: 16.6%;
-    		float: left;
-    		padding-left: 6px;
-    		a {
-    			display: inline-block;
-    			padding: 7px 0 7px 15px;
-    			font-size: 12px;
-    			line-height: 26px;
-    			color: #333;
-    			white-space: normal;
-    			word-break: keep-all;
-    			text-align: left;
-    			padding-left: 15px;
-    			text-decoration: none;
-    		}
-    	}
-    	li:focus, li:hover {
-			color: #333;
-			background-color: #fdf2f1;
-			text-decoration: none;
-    	}
-    }
-	.bk-secd-menu.allblock li,.bk-secd-menu.allblock li a {
-		width: 100%;
-		text-align: center;
-		padding-left: 0
-	}
-	.bk-nav.navbar-black .bk-navbar .nav {
-		>li>a {
-			color: #4b4c4d;
-		}
-		>li>a.active, >li>a:focus, >li>a:hover, .open>a, .open>a:focus, .open>a:hover {
-			color: #de211d
-		}
-	}
-    .bk-navbar {
-    	position: relative;
-    	.nav>li>a {
-			color: #fff;
-			max-height: 80px;
-			padding-bottom: 5px;
-			overflow: hidden;
-			font-size: 14px;
-			font-weight: normal;
-			z-index: 1005;
-			border: 0;
-			padding: 15px 5px 25px;
-			display: inline-block;
-		}
-		.nav>li>a.active, .nav>li>a:focus, .nav>li>a:hover, .nav>li>a.active:focus, .nav>li>a.active:hover, .nav>li:focus>a.active, .nav>li:hover>a.active,
-		.nav .open>a, .nav .open>a:focus, .nav .open>a:hover, .nav .open>a.active:focus, .nav .open>a.active:hover {
-			color: #c42320;
-			background-color: transparent;
-	    }
-		.nav>li.quit {
-			min-width: 0;
-			padding-left: 0;
-			padding-right: 0;
-			>a {
-				padding: 15px 0;
-			}
-		}
-    }
-    .bk-nav .navbar-header a.navbar-brand {
-        margin-left: 0;
-        margin-top: 15px
-    }
-    .bk-nav {
-    	.bk-secd-menu {
-    		min-width: 180px;
-    		width: 100%;
-    		padding: 10px;
-    		background-color: #fff;
-    		border: 1px solid #eaebeb;
-    		z-index: 1015;
-    		font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
-    		-webkit-font-smoothing: antialiased;
-    		-moz-osx-font-smoothing: grayscale;
-    	}
-    	.bk-toolBar .bk-secd-menu {
-    		z-index: 1100;
-    	}
-    }
-
-}
 .regbtn {
-    position: relative
+  position: relative;
+}
+.btn_choose {
+  position: relative;
+  top: 0;
+  display: inline-block;
+  margin-right: 20px;
+  span{
+      cursor: pointer
+  }
+}
+.btn_entrust {
+  background-color: #f5f5f5;
+  display: inline-block;
+  padding: 0 20px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 16px;
+  color: #4353d0;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.activeBtn {
+  color: #fff;
+  background-color: #4353d0;
+}
+.entrust_input,
+.trade_input {
+  width: 110px;
+}
+.border_line {
+  border-bottom: 1px solid #ddd;
+}
+.coin_input {
+  width: 60px;
+}
+.roof {
+  height: 80px;
+  line-height: 80px;
+  background: rgba(0, 0, 0, 0.1);
+}
+header {
+  background: linear-gradient(to bottom, #3a4ac6, #586af4);
+  position: absolute;
+  width: 100%;
+}
+.header_img {
+  height: 520px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-image: url(./../../assets/img/pic_01.png);
+  background-position: 90% center;
 }
 
-
-.entrust_input , .trade_input{
-    width: 110px;
+.el-form-item--mini.el-form-item,
+.el-form-item--small.el-form-item {
+  margin-bottom: 0;
 }
-.coin_input{
-    width:60px;
+.el-form--inline .el-form-item {
+  vertical-align: unset;
+}
+.el-form--inline .el-form-item__content {
+  vertical-align: unset;
+}
+.bk-norecord a{
+    color: #4353d0
+}
+.back_btn{
+    width: 90px;
+    height: 40px;
+    background-color: #FFB72B;
+    border: 0 none;
+    color: #A87614;
+    border-radius: 5px;
+    font-size: 14px;
+    &:hover{
+        color: #fff;
+    }
+}
+.trade_img{
+    margin-top: -3px;
+    margin-right: 5px;
 }
 </style>

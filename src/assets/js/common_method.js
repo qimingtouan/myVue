@@ -1,7 +1,7 @@
 // define(function(require, exports, module) {
     var method = {};
     method.fixNumber = function(value, unit) {
-        var value = isNaN(value) ? "0" : parseFloat(value).toFixed(11);
+        var value = isNaN(value) ? "0" : parseFloat(value).toFixed(20);
         var unit = unit || 0;
         var isInt = value.indexOf(".") == -1 ? true : false;
         var intNum = value.split(".")[0];
@@ -54,6 +54,9 @@
     ;
     method.fixDecimal = function(value, unit) {
         var $this = this;
+        if (!value) {
+            value = 0;
+        }
         var result = $this.fixNumber(value, unit);
         if (unit > 0) {
             result = parseFloat(result)
@@ -122,7 +125,7 @@
         return t.split("").reverse().join("") + "." + r
     }
     ;
-    method.isEmail = function(str) {
+    method.isEmail = function(str) { // 判断是否为邮箱
         var regExp = new RegExp("^([a-z0-9A-Z]+[-|_|.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?.)+[a-zA-Z]{2,}$");
         return regExp.test(str)
     }
@@ -132,27 +135,27 @@
         return regExp.test(str)
     }
     ;
-    method.isAllNumber = function(str) {
+    method.isAllNumber = function(str) { // 判断是否为纯数字
         var regExp = new RegExp("^[0-9]*$");
         return regExp.test(str)
     }
     ;
-    method.hasLetter = function(str) {
+    method.hasLetter = function(str) { // 是否包含字母
         var regExp = new RegExp("[a-zA-Z]");
         return regExp.test(str)
     }
     ;
-    method.hasNumber = function(str) {
+    method.hasNumber = function(str) { // 是否包含数字
         var regExp = new RegExp("[0-9]");
         return regExp.test(str)
     }
     ;
-    method.hasChinese = function(str) {
+    method.hasChinese = function(str) { // 是否包含中文
         var regExp = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
         return regExp.test(str)
     }
     ;
-    method.hasOther = function(str) {
+    method.hasOther = function(str) { // 是否包含符号
         var regExp = new RegExp("[`~!@#$%^&*()=|{}':;',\\[\\].<>/?~！@#￥……％&*（）——|{}【】‘；：”“'。，、？]");
         return regExp.test(str)
     }

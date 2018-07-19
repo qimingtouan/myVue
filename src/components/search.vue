@@ -70,7 +70,7 @@ export default {
 @seller-color:#0ebb74;
 .search_coin {
     float: right;
-    width: 220px;
+    width: 200px;
     height: 29px;
     border: 1px solid #ddd;
     background: #FFF;

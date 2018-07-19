@@ -23,13 +23,13 @@
                 <div class="col-xs-4">
                   <div class="footer-contact">
                     <h5> <span class="navTitle">{{footerData[2].title}}</span></h5>
-                    <p class="link" v-for="item in footerData[2].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+                    <p class="link" v-for="(item,index) in footerData[2].content" :key="item.index"><a :href="footerData[2].linkTo[index]" target="_blank">{{item}}</a></p>
                   </div>
                 </div>
                 <div class="col-xs-4">
                   <div class="footer-contact">
                     <h5> <span class="navTitle">{{footerData[3].title}}</span></h5>
-                    <p class="link" v-for="item in footerData[3].content" :key="item.index"><a href="" target="_blank">{{item}}</a></p>
+                    <p class="link" v-for="(item,index) in footerData[3].content" :key="item.index"><a :href="footerData[3].linkTo[index]" target="_blank">{{item}}</a></p>
                   </div>
                 </div>
               </div>
@@ -51,25 +51,15 @@
           
           </div>
         </div>
-        <div class="friendly-link">
-          <div class="container">
-            <div class="row">
-                <div class="col-xs-12 friendly-content">
-                    <p >
-                        友情链接： AlCoin &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   BitKan  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   熊猫矿机   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   比特币挖矿     玩币族     价值区块链     链向财经     比特币家园     AToken    钱包     区块网     非小号     币源社区     
-  MyToken vvpool    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 分叉币矿池&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      SBTC  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    链世界 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     币报道  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    加密数字货币   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   币区势&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      链闻   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   比特币之家 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     好币网  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    区块链之家  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    区块链中文网     &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 九个亿财经&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-  比特街   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   挖币网    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  巴比特   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   果味财经    &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  链外     保险柜     OKEx钱包 （原币行钱包） 
-                    </p>
-                </div>
-            </div>
-          </div>
-        </div>
         <div class="copyright">
           <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <p >
-                        <span >{{footerCopyright}}</span> 
+                    <p class="copytitle">
+                        BITRR NETWORK TECHNOLOGY LIMITED
+                    </p>
+                    <p>
+                       Copyright © 2018 - BITRR.IO All Rights Reserved 
                     </p>
                 </div>
             </div>
@@ -99,11 +89,13 @@
             },
             {
                 title:"客户服务",
-                content:["使用教程","常见问题","服务协议","交易费率"]
+                content:["使用教程","常见问题","服务协议","交易费率"],
+                linkTo:["/views/service/service.html#/guide","/views/service/service.html#/question","/views/service/service.html#/protocol","/views/service/service.html#/fees"]
             },
             {
                 title:"其它",
-                content:["官方公告","上币申请"]
+                content:["官方公告","上币申请"],
+                linkTo:["/views/notice/notice.html","/views/apply/apply.html"]
             },
 
         ]
@@ -134,12 +126,16 @@
       margin-bottom: 21px;
       a{
         color: #FDFDFD;
+        cursor: pointer;
+      }
+      a:hover{
+        text-decoration: underline;
       }
     }
  
   }
   .footer-contact{
-  
+    text-align: left;
   }
   .contact_img{
     display: inline-block;
@@ -158,7 +154,7 @@
   }
   .down_title{
     display: inline-block;
-    padding: 14px 0;
+    padding: 10px 0;
     width: 75%;
     min-width: 145px;
     text-align: center;
@@ -173,10 +169,14 @@
 
   }
   .copyright{
-    height: 49px;
-    line-height: 49px;
+    height: 80px;
+    line-height: 24px;
     text-align: center;
-    color: #fff;
+    color: #fdfdfd;
+    .copytitle{
+      padding-top: 10px;
+      border-top: 1px solid #37414a
+    }
   }
 }
 </style>

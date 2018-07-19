@@ -68,10 +68,18 @@
             }
         },
         methods: {
-            
+            isLogin() { 
+                let _principal = this.$cookie.get("BCKJ_PRINCIPAL");
+                if (_principal) {
+                    return true;
+                }
+                return false;
+            }
         },
         created() {
-            
+            if(!this.isLogin()) {
+                window.location.href = '/views/login/login.html'
+            }
         },
         mounted() {
         }

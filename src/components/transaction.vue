@@ -1,557 +1,418 @@
 <template>
     <div class="deal_wrapper">
-        <div class="buy">
-            <h3>买入</h3>
+        <div  class="buy_area">
             <div class="canUse">
-                <span class="trade_left">可用:
-                    <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
-                </span>
-                <span class="trade_right">可买:
-                    <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
-                </span>
+                <div class="cnaUse_left">可用 <span class="coin">{{canUse}} {{currentCoin.split("/")[0]}}</span></div>  
+                <div class="cnaUse_right">可买<span class="coin">{{canBuy}} {{currentCoin.split("/")[0]}}</span></div>
             </div>
-            <div>
-                <div style="color:#6d7b82;">
-                    <label>
-                        买入价:
-                        <input type="text" placeholder="" class="input_price" v-model="buy_price">
-                    </label>
-                    <div class="buyprice-cny" id="computedbuyPrice">≈ ￥5.45</div>
-                </div>
-                <p>
-                    <label>
-                        买入量:
-                        <input type="text" placeholder="" class="input_amount" v-model="buy_amount">
-                    </label>
-                </p>
-            </div>
-            <div class="range_wrap" tabindex="0" @click="showProgress" ref="progressbar">
-                <div class="range_paths_wrap">
-                    <div class="range_path"></div>
-                </div>
-                <div class="range_track_wrap">
-                    <div class="range_track" :style="{width: range_width_buy+'%'}"></div>
-                    <div class="range_handle" :style="{left: range_width_buy+'%'}"></div>
-                </div>
-                <div class="range_points_wrap">
-                    <div class="range_point" :class="{active:isActiveForBuy[0]}" data-point-ratio="0" style="left: 0%;"></div>
-                    <div class="range_point" :class="{active:isActiveForBuy[1]}" data-point-ratio="25" style="left: 25%;"></div>
-                    <div class="range_point" :class="{active:isActiveForBuy[2]}"  data-point-ratio="50" style="left: 50%;"></div>
-                    <div class="range_point" :class="{active:isActiveForBuy[3]}" data-point-ratio="75" style="left: 75%;"></div>
-                    <div class="range_point" :class="{active:isActiveForBuy[4]}" data-point-ratio="100" style="left: 100%;"></div>
-                </div>
+							<div class="form-subline">
+								<label class="control-label" for="buyUnitPrice">
+									<span class="buyDefaultLabel">买入价</span> ({{currentCoin.split("/")[0]}})
+								</label>
+								<div class="input-group">
+									<input type="text" class="form-control bk-buy-form " v-model="buyPrice" name="buyUnitPrice">
+								</div>
+							</div>
+							
+							<div class="form-subline">
+								<label class="control-label" for="buyNumber">买入量 ({{currentCoin.split("/")[0]}})</label>
+								<div class="input-group">
+									<input type="text" class="form-control bk-buy-form " v-model="buyNumber" name="buyNumber">
+								</div>
+							</div>
 
-            </div>
-                <div class=" has-feedback">
-                    <label class="control-label" for="realBuyAccount" style="position:static;">预计交易额：
-                        <b class="text-primary" id="realBuyAccount">{{buytrade}}</b> {{currentCoin.split("/")[1]}}</label>
-                </div>
-                <div class="btn_buy">
-                    <button id="buyBtn" type="button" data-loading-text="Loading..." class="btn btn-primary btn-block btn-hg" @click="buyFun">
-                        
-                        <i class="bk-ico buycart"></i>立即买入
-                    </button>
-                </div>
-        </div>
-        <div class="line"></div>
-        <div class="sell">
-                <h3>卖出</h3>
+							<div class="range range_buy" id="buySlider">
+								<el-slider v-model="buybar" @change="dragBar(buybar,0)"> </el-slider>
+								<div class="el-slider__stop" style="left: 25%; top:16px"></div>
+								<div class="el-slider__stop" style="left: 50%; top:16px"></div>
+								<div class="el-slider__stop" style="left: 75%; top:16px"></div>
+							</div>
+
+							<div class="">
+								<label class="control-label" for="realBuyAccount">预计交易额：<b class="text-buy" id="realBuyAccount">{{buyTrade}}</b> {{currentCoin.split("/")[1]}}</label>	
+								
+							</div>
+      				<div>
+                <button id="buyBtn" type="button" class="Abtn btn-primary btn-block " @click="buyFun">
+                  立即买入
+                </button>
+					  	</div>
+						</div>
+
+            	<div class="sell_area">
                 <div class="canUse">
-                    <span class="trade_left">可用:
-                        <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
-                    </span>
-                    <span class="trade_right">可买:
-                        <span class="coin">10 {{currentCoin.split("/")[0]}}</span>
-                    </span>
+                    <div>可用 <span>10</span>USDT </div>  <div>可买<span>{{canSell}}</span>BTC</div>
                 </div>
-                <div>
-                    <div>
-                        <label>
-                            卖出价:
-                            <input type="text" placeholder="" class="input_price" v-model="sell_price">
+                    <div class="form-subline">
+                        <label class="control-label" for="sellUnitPrice">
+                        <span class="sellDefaultLabel">卖出价</span> ({{currentCoin.split("/")[1]}})
                         </label>
-                        <div class="buyprice-cny" id="computedbuyPrice">≈ ￥5.45</div>
-                    </div>
-                    <p>
-                        <label>
-                            卖出量:
-                            <input type="text" placeholder="" class="input_amount" v-model="sell_amount">
-                        </label>
-                    </p>
-                </div>
-                <div class="range_wrap" data-ratio="75" tabindex="0" @click ="sellProgress">
-                    <div class="range_paths_wrap">
-                        <div class="range_path"></div>
-                    </div>
-                    <div class="range_track_wrap">
-                    <div class="range_track sell_color" :style="{width: range_width_sell+'%'}"></div>
-                    <div class="range_handle" :style="{left: range_width_sell+'%'}"></div>
-                    </div>
-                    <div class="range_points_wrap">
-                        <div class="range_point" :class="{active_sell:isActiveForSell[0]}" style="left: 0%;" ></div>
-                        <div class="range_point" :class="{active_sell:isActiveForSell[1]}" data-point-ratio="25" style="left: 25%;" ></div>
-                        <div class="range_point" :class="{active_sell:isActiveForSell[2]}"  data-point-ratio="50" style="left: 50%;" ></div>
-                        <div class="range_point" :class="{active_sell:isActiveForSell[3]}" data-point-ratio="75" style="left: 75%;" ></div>
-                        <div class="range_point" :class="{active_sell:isActiveForSell[4]}" data-point-ratio="100" style="left: 100%;" ></div>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-second bk-sell-form" v-model="sellPrice">
+                        </div>
                     </div>
                     
-                </div>
-                <div class=" has-feedback">
-                        <label class="control-label" for="realBuyAccount" style="position:static;">预计交易额：
-                            <b class="text-primary" id="realBuyAccount">{{selltrade}}</b> {{currentCoin.split("/")[1]}}</label>
+                    <div class="form-subline">
+                        <label class="control-label" for="sellNumber">卖出量 ({{currentCoin.split("/")[0]}})</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-second bk-sell-form" v-model="sellNumber" name="sellNumber">
+                        </div>
                     </div>
-                    <div class="btn_buy">
-                        <button id="buyBtn" type="button" data-loading-text="Loading..." class="btn btn-second  btn-block btn-hg" @click="sellFun">
-                            <i class="bk-ico buycart"></i>立即卖出
-                        </button>
+
+                    <div class="range range_sell" id="sellSlider">
+                    <el-slider v-model="sellbar" @change='dragBar(sellbar,1)'> </el-slider>
+                    <div class="el-slider__stop" style="left: 25%; top:16px"></div>
+                    <div class="el-slider__stop" style="left: 50%; top:16px"></div>
+                    <div class="el-slider__stop" style="left: 75%; top:16px"></div>
                     </div>
+
+                    <div class="">
+                        <label class="control-label" for="realSellAccount">预计交易额：<b class="text-sell" id="realSellAccount">{{sellTrade}}</b> {{currentCoin.split("/")[1]}}</label>
+                    </div>
+                <div >
+                  <button id="sellBtn" type="button" class="Abtn btn-second btn-block" @click="sellFun">
+                    立即卖出
+                  </button>
+		</div>
         </div>
+
+
+
 
     </div>
 </template>
 <script>
+import method from "@/assets/js/common_method.js";
 export default {
   name: "transaction",
   data() {
     return {
-      nav: ["时间", "方向","价格","数量"],
-      title:"实时成交",
-      canUse:10,
-      sell_price:"",
-      buy_price:"",
-      sell_amount:"",
-      selected_price:"",
-      buy_amount:"",
-      buybar:0,
-      sellbar:0,
-      isActiveForBuy:[false,false,false,false,false],
-      isActiveForSell:[false,false,false,false,false],
-      isDrag:false,
-      userId:100,
-      selltrade:"0.00",
-      
+      nav: ["时间", "方向", "价格", "数量"],
+      title: "实时成交",
+      canUse: "--",
+      canSell: "--",
+      canBuy:"--",
+      sellPrice: "",
+      buyPrice: "",
+      sellNumber: "",
+      selected_price: "",
+      buyNumber: "",
+      buybar: 0,
+      sellbar: 0,
+      canUseQuote: "--",
+      canUseBase: "--",
     };
   },
   props: ["tradeData"],
   computed: {
-      setPrice(){
-          console.log(1)
-          return this.$store.state.count;
-      },
-      range_width_buy:{
-        get: function () {
-            return this.buybar.toFixed(3);
-        },
-        set: function (newValue) {
-            this.buybar = newValue;
-            let temp = this.range_width_buy;
-            this.isActiveForBuy = this.isActiveForBuy.map(function(val,index){
-                if(index < Math.floor(temp/25)+1){
-                    val = true;
-                }else{
-                    val = false;
-                }
-                return val
-            })
-        }
-      },
-      range_width_sell:{
-        get: function () {
-            console.log(this.buybar)
-            return this.sellbar.toFixed(3);
-        },
-        set: function (newValue) {
-            this.sellbar = newValue;
-            let temp = this.range_width_sell;
-            this.isActiveForSell = this.isActiveForSell.map(function(val,index){
-                if(index < Math.floor(temp/25)+1){
-                    val = true;
-                }else{
-                    val = false;
-                }
-                return val
-            })
-        }
-      },
-    currentCoin(){
-        return this.$store.state.currentCoin;
+    setPrice() {
+      console.log(1);
+      return this.$store.state.count;
     },
-    buytrade(){
-        if(this.buy_price !="" && this.buy_amount !=""){
-            return this.buy_price*this.buy_amount
+    isLogin(){
+          return this.$store.state.isLogin;
+    },
+    currentCoin() {
+      return this.$store.state.currentCoin;
+    },
+    nowprice(){
+      return this.$store.state.nowprice;
+    },
+    buyTrade: {
+      get() {
+        if (this.isLogin) {
+          if (this.buyPrice != "" && this.buyNumber != "") {
+            return (this.buyPrice * this.buyNumber).toFixed(2);
+          }
         }
-        return "0.00"
+        return "0.00";
+      },
+      set() {
+        if (this.isLogin) {
+          this.buyPrice = this.buyPrice.toString().replace(/[^\d|\.]/g, "");
+          this.buyNumber = this.buyNumber.toString().replace(/[^\d|\.]/g, "");
+          if (Number(this.buyNumber) > this.canUse) {
+            this.buyNumber = this.canUse;
+          }
+          this.buybar = this.buyNumber / this.canUse * 100;
+        }
+      }
+    },
+    sellTrade: {
+      get() {
+        if (this.isLogin) {
+          if (this.sellPrice != "" && this.sellNumber != "") {
+            return (this.sellPrice * this.sellNumber).toFixed(2);
+          }
+        }
+        return "0.00";
+      },
+      set() {
+        if (this.isLogin) {
+          this.sellPrice = this.sellPrice.toString().replace(/[^\d|\.]/g, "");
+          this.sellNumber = this.sellNumber.toString().replace(/[^\d|\.]/g, "");
+          if (Number(this.sellNumber) > this.canSell) {
+            this.sellNumber = this.canSell;
+          }
+          this.sellbar = this.sellNumber / this.canSell * 100;
+        }
+      }
     }
   },
-  watch:{
-      buy_amount(val,oldval){
-          val*=1;
-          oldval*=1;
-          if(val>this.canUse){
-              val = this.canUse;
-              this.buy_amount = val
-          }
-        //防止相互调用showProgress->buy_amount->range_width_buy
-        if(val.toFixed(3) != oldval.toFixed(3)){
-            this.range_width_buy = val/this.canUse*100
-        }    
-      },
-      sell_amount(val,oldval){
-          val*=1;
-          oldval*=1;
-          if(val>this.canUse){
-              val = this.canUse;
-              this.sell_amount = val
-          }
-        //防止相互调用showProgress->buy_amount->range_width_buy
-        if(val.toFixed(3) != oldval.toFixed(3)){
-            this.range_width_sell = val/this.canUse*100
-        }    
-      },
-      setPrice (val ,oldval){
-          this.buy_price = this.$store.state.selectedPrice;
-      }
+  watch: {
+    // buyNumber(val, oldval) {
+    //   if (Number(val) > this.canUse) {
+    //     val = this.canUse;
+    //     this.buyNumber = val;
+    //   }
+    //   this.buybar = val / this.canUse * 100;
+    // },
+    // sellNumber(val, oldval) {
+    //   if (Number(val) > this.canSell) {
+    //     val = this.canSell;
+    //     this.sellNumber = val;
+    //   }
+    //   this.sellbar = val / this.canUse * 100;
+    // },
+    setPrice(val, oldval) {
+      this.buy_price = this.$store.state.selectedPrice;
+    }
   },
   methods: {
-     showProgress(evt){
-         console.log(evt.target.className)
-         if(evt.target.className == "range_point" || evt.target.className == "range_point active"){
-             this.range_width_buy = evt.target.dataset.pointRatio*1;
-         }else if(evt.target.className == "range_wrap"|| evt.target.className == "range_track" || evt.target.className == "range_path"){
-            this.range_width_buy = evt.offsetX/2.5;    
-         }
-         this.buy_amount = this.range_width_buy*this.canUse/100;
-
-     },
-     sellProgress(evt){
-         console.log(evt.target.className)
-         if(evt.target.className == "range_point" || evt.target.className == "range_point active"){
-             this.range_width_sell = evt.target.dataset.pointRatio*1;
-         }else if(evt.target.className == "range_wrap"|| evt.target.className == "range_track" || evt.target.className == "range_path"){
-            this.range_width_sell = evt.offsetX/2.5;    
-         }
-         this.sell_amount = this.range_width_sell*this.canUse/100;
-     },
-      sellFun(){
-        let data= {
-            "baseCurrency": this.currentCoin.split("/")[0],
-            "price": this.sell_price,
-            "quoteCurrency": this.currentCoin.split("/")[1],
-            "totalAmount": this.sell_amount,
-            "type": 0,
-            "userId":this.userId
-        };
-        this.$ajax.post('/trade/api/market/sale', data).then(function (response) {
-            if(response.data.code == 0)
-                alert("success")
-            else
-                alert(response.data.msg)
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        })
-    },
-    buyFun(){
-        let data= {
-            "baseCurrency": this.currentCoin.split("/")[0],
-            "price": this.buy_price,
-            "quoteCurrency": this.currentCoin.split("/")[1],
-            "totalMoney": this.buy_price*this.buy_amount,
-            "type": 0,
-            "userId": this.userId
-        };
-        console.log(this.buy_amount && this.buy_price)
-        if(!this.buy_amount || !this.buy_price){
-            this.$message({
-                showClose: false,
-                message: '请输入价格和数量。',
-                type: 'warning'
-            });
-            return
-        }
-        this.$confirm(`您将买入 ${this.buy_amount} 个 ${data.baseCurrency}, 是否继续?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            this.$ajax.post('/trade/api/market/buy', data).then(response => {
-                console.log(response);
-            if(response.data.code == 0){
-                this.$message({
-                    showClose: true,
-                    message: '买入成功！',
-                    type: 'success'
-                 });
-            }
-            else
-                alert(response.data.msg)
-            }).catch(function (error) {
-                console.log(error);
-            })
-        }).catch(() => {
-          this.$message({
-                showClose: false,
-                message: '取消买入！',
-                type: 'info'
-            });
+    getData() {
+      this.$ajax
+        .get("/wap/market/assest/" + this.currentCoin.toLowerCase())
+        .then(res => {
+          if (res.data.code <= 200) {
+            this.canUseQuote = method.floorNumber(
+              res.data.data.quote.available,
+              6
+            );
+            this.canUseBase = method.floorNumber(
+              res.data.data.base.available,
+              6
+            );
+            this.canBuy = method.floorNumber(
+              res.data.data.quote.available / this.nowprice,
+              6
+            );
+            this.canSell = method.floorNumber(
+              res.data.data.base.available * this.nowprice,
+              6
+            );
+          }
         });
+    },
+    sellFun() {
+      let data = {
+        coinName: this.currentCoin.split("/")[0],
+        price: this.sellPrice,
+        marketName: this.currentCoin.split("/")[1],
+        amount: this.sellNumber,
+        type: 2,
+        sources: "web"
+      };
+      if (!this.sellNumber || !this.sellPrice) {
+        this.$message({
+          showClose: false,
+          message: "请输入价格和数量。",
+          type: "warning"
+        });
+        return;
       }
+      this.$ajax
+        .post("/web/api/market/order", data)
+        .then(function(response) {
+          if (response.data.code == 200) {
+            alert("success");
+          } else {
+            alert(response.data.msg);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    buyFun() {
+      let data = {
+        coinName: this.currentCoin.split("/")[0],
+        price: this.buyPrice,
+        marketName: this.currentCoin.split("/")[1],
+        amount: this.buyNumber,
+        type: 1,
+        sources: "web"
+      };
+      console.log(this.buyNumber && this.buyPrice);
+      if (!this.buyNumber || !this.buyPrice) {
+        this.$message({
+          showClose: false,
+          message: "请输入价格和数量。",
+          type: "warning"
+        });
+        return;
+      }
+      this.$confirm(
+        `您将买入 ${this.buyNumber} 个 ${data.coinName}, 是否继续?`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      )
+        .then(() => {
+          this.$ajax
+            .post("/web/api/market/order", data)
+            .then(response => {
+              console.log(response);
+              if (response.data.code == 200) {
+                this.$message({
+                  showClose: true,
+                  message: "买入成功！",
+                  type: "success"
+                });
+              } else alert(response.data.msg);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            showClose: false,
+            message: "取消买入！",
+            type: "info"
+          });
+        });
+    },
+    dragBar(val, type) {
+      if (this.isLogin) {
+        if (type == 0) {
+          this.buyNumber = val / 10;
+        } else {
+          this.sellNumber = val / 10;
+        }
+      }
+    }
   },
   created() {
+    this.getData();
   },
   mounted() {
-      console.log(this)
+    console.log(this);
   }
 };
 </script>
 
 <style scoped lang="less">
-@buyer-color :#de211d;
-@seller-color: #0ebb74;
+@buyer-color :#FB5555;
+@seller-color: #269253;
+.form-subline .control-label {
+  font-family: "Microsoft YaHei";
+  margin-bottom: 4px;
+  color: #6d7b82;
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  z-index: 90;
+}
+.control-label {
+  text-align: left;
+  font-weight: normal;
+  padding-top: 0;
+  margin-bottom: 5px;
+}
 
-        .deal_wrapper {
-            width: 300px;
-            padding: 0 20px;
-            background-color: #202020;
-            color:#bababa;
-            height: 100%;
-        //    height: 979px;
-        }
-        
-        label input{
-            background: #202020;
-            outline: none;
-        }
-        .deal_wrapper h3 {
-            text-align: center;
-            padding:20px 0 20px 0 ;
-            margin: 0;
-        }
+.form-subline {
+  margin-bottom: 15px;
+  position: relative;
+}
+.Abtn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  border: 0 none;
+  outline: 0 none;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 44px;
+  margin-top: 10px;
+  max-width: 260px;
+  border-radius: 5px;
+}
+.btn-primary {
+  background: linear-gradient(to right, #fb5555, #ffb144);
+}
+.btn-second {
+  background: linear-gradient(to right, #27ae60, #97e54b);
+  color: #fff;
+}
+.range {
+  width: 100%;
+  height: 17px;
+  margin: 20px 0 15px 0;
+  background: none !important;
+  position: relative;
+}
+.buy_area,
+.sell_area {
+  color: #666;
+  width: 260px;
+  padding: 10px;
+  float: left;
+}
+.canUse {
+  height: 20px;
+  line-height: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  .canUse_left {
+    margin-right: 20px;
+  }
+}
+.input-group input.form-control {
+  background: #222432;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px !important;
+  text-align: right;
+  padding: 6px 12px;
+  width: 240px;
+}
+.bk-buy-form {
+  color: #fb5555;
+  font-weight: bold;
+}
 
-        .canUse {
-            line-height: 40px;
-            font-size: 14px;
-            margin-right: 24px;
-            height: 40px;
-        }
-
-        .trade_left {
-            float: left;
-
-        }
-
-        .trade_right {
-            float: right;
-        }
-
-        .range_wrap {
-            -moz-user-select: -moz-none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            outline: 0;
-            cursor: pointer;
-            padding: 7px 0 8px;
-            width: 250px;
-        }
-
-        .range_wrap .range_paths_wrap {
-            position: relative;
-            z-index: 1
-        }
-
-        .range_wrap .range_path {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 2px;
-            width: 100%;
-            background: #ccc;
-            transition: all .05s;
-            -moz-transition: all .05s;
-            -webkit-transition: all .05s;
-            -o-transition: all .05s
-        }
-
-        .range_wrap .range_track_wrap {
-            position: relative
-        }
-
-        .range_wrap .range_track {
-            z-index: 2;
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 2px;
-            width: 0;
-            background: #090;
-            transition: all .05s;
-            -moz-transition: all .05s;
-            -webkit-transition: all .05s;
-            -o-transition: all .05s
-        }
-        .range_wrap .sell-color{
-            background-color: #de211d
-        
-        }
-        .range_wrap .range_handle {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            border: 1px solid #ccc;
-            background: #FFF;
-            border-radius: 50%;
-            top: -7px;
-            z-index: 4;
-            margin-left: -4px;
-            cursor: col-resize;
-            cursor: -webkit-grab;
-            transition: left .05s;
-            -moz-transition: left .05s;
-            -webkit-transition: left .05s;
-            -o-transition: left .05s;
-        }
-
-        .range_wrap .range_points_wrap {
-            position: relative;
-            top: -3px
-        }
-
-        .range_wrap .range_point {
-            z-index: 3;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            margin: -4px 0 0 -4px;
-            text-align: center
-        }
-
-        .range_wrap .range_point:after {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #ccc;
-            border-radius: 50%;
-            vertical-align: top;
-            margin-top: 4px
-        }
-
-        .range_wrap .range_point:hover:after {
-            width: 16px;
-            height: 16px;
-            margin-top: 0;
-            transition: all .05s;
-            -moz-transition: all .05s;
-            -webkit-transition: all .05s;
-            -o-transition: all .05s
-        }
-
-        .range_wrap .range_point.active:after {
-            background: #090
-        }
-        .range_wrap .range_point.active_sell:after {
-            background: #de211d
-        }
-
-        .range_wrap.click {
-            cursor: -webkit-grabbing
-        }
-
-        .range_wrap.click .range_handle {
-            cursor: -webkit-grabbing
-        }
-
-        .range_wrap.focus .range_handle {
-            border-color: #090
-        }
-        .range_wrap .sell_color {
-            background-color: #de211d
-        }
-
-        .range_wrap .range_handle {
-            background: #e6e6e6;
-            border-color: #d6d2d2
-        }
-
-        .range_wrap .range_point:after {
-            background: #d6d6d6
-        }
-
-        .range_wrap .range_path {
-            background: #a0a0a0
-        }
-
-        .control-label {
-            display: block;
-            font-family: "Microsoft YaHei";
-            margin-bottom: 4px;
-            color: #6d7b82;
-            padding: 20px 0;
-        }
-        .btn-block {
-            display: block;
-            width: 100%
-        }
-
-        .btn-block+.btn-block {
-            margin-top: 5px
-        }
-
-        .btn.btn-hg {
-            height: auto;
-            font-size: 18px;
-
-            line-height: 30px;
-            border-radius: 5px
-        }
-
-        .btn-primary {
-            background-color: #de211d;
-            border-color: #de211d;
-            color: #FFF;
-        }
-        .btn-second {
-            background-color: #3dc18e;
-            border-color: #3dc18e;
-            color: #fff
-        }
-
-        label {
-            font-size: 16px;
-            color: #666;
-        }
-
-        .input_price, .input_amount {
-
-            width: 200px;
-            height: 36px;
-            line-height: 36px;
-            border: solid #565656 1px;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #999;
-            padding-left: 20px;
-        }
-
-        .btn_buy {
-            margin: 60px 10px;
-            
-        }
-        .line{
-            width: 100%;
-            border: 1px dashed #ddd;
-            margin-right: 24px;
-        }
-        .buyprice-cny,.sellprice-cny {
-    margin-top: -10px;
-    text-align: right;
-    margin-right: 15px;
-    color: #666;
-    margin-bottom: 10px
+.bk-sell-form {
+  color: #269253;
+  font-weight: bold;
+}
+.range_buy .el-slider__bar {
+  background-color: #fb5555;
+}
+.range_sell .el-slider__bar {
+  background-color: #269253;
+}
+.range .el-slider__runway {
+  background-color: #666666;
+}
+.text-buy {
+  color: #fb5555;
+}
+.text-sell {
+  color: #269253;
 }
 </style>

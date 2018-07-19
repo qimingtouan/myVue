@@ -13,6 +13,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI);
 
+import VueCookie from 'vue-cookie'
+Vue.use(VueCookie);
+
 Vue.prototype.$ajax = axios
 
 Vue.config.productionTip = false

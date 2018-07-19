@@ -9,7 +9,7 @@ body {
     font-family: "Microsoft YaHei",Arial,sans-serif;
     color: #99abb7;
     font-size: 12px;
-    background-color: #f5f5f5;
+    background-color: #f7f7f7;
     text-align: center;
     margin: 0 auto;
 }
@@ -26,7 +26,7 @@ a {
 }
 a:focus, a:hover {
     /* color: #f33a36; */  /* 红色悬浮 */
-    color: #f8931e;  /* 黄色悬浮 */
+    color: #F8932C;  /* 黄色悬浮 */
     text-decoration: underline
 }
 a:active, a:hover {
@@ -400,7 +400,7 @@ input {
 		position: absolute;
 		left: 0;
 		bottom: -1px;
-		background-color: #de211d
+		background-color: #FFA338
 	}
 	i.fa-sort-desc {
 		vertical-align: top;
@@ -678,14 +678,16 @@ td>.bk-norecord {
 	right: 0;
 	top: 0;
 	cursor: pointer;
-	// padding: 10px; //下面是黄色基调
 	padding: 5px 8px;
 	margin: 5px;
 	height: 30px;
 	border-radius: 15px;
 	background: rgba(255,163,56,1);
 	color: rgba(255,255,255,1);
-
+	text-decoration: none;
+}
+.btn-copy:hover {
+	background: #F8932C;
 }
 .paysendbtn {
 	text-align: left
@@ -942,6 +944,7 @@ td>.bk-norecord {
 }
 #receiveAddress {
 	font-size: 14px!important;
+	cursor: pointer;
 }
 .keyPreImgText {
 	text-align: center;
@@ -993,7 +996,7 @@ td>.bk-norecord {
 				top: 2px;
 			}
 		}
-		i {
+		img {
 			width: 16px;
 			height: 16px;
 			display: inline-block;
@@ -1386,13 +1389,14 @@ td>.bk-norecord {
 
 .btn-outline {
 	background-color: #fff;
-	border-color: #f42500;
-	color: #de211d;
+	border-color: #7280E8;
+	color: #4353D0;
 }
 .btn-outline.active, .btn-outline.focus, .btn-outline:active, .btn-outline:focus, .btn-outline:hover, .open>.dropdown-toggle.btn-outline {
-	background-color: #de211d;
-	border-color: #de211d;
+	background-color: #7280E8;
+	border-color: #7280E8;
 	color: #fff;
+	outline: none;
 }
 
 a.btn.disabled,fieldset[disabled] a.btn {
@@ -1457,7 +1461,7 @@ a.btn.disabled,fieldset[disabled] a.btn {
 
 .form-control.form-second {
 	height: auto;
-	padding: 6px 15px;
+	padding: 5px 15px;
 	line-height: 30px;
 	font-size: 16px;
 	border-radius: 0!important;
@@ -1648,7 +1652,23 @@ input:-moz-placeholder {
 .add_address_dialog {
 
 }
-/*  */
+
+/* Element 表格 */
+.el-table__empty-block {
+    min-height: 100px;
+    padding: 36px 0;
+    line-height: 2em;
+    background-color: #fdfdfd;
+    text-align: center;
+    color: #6d7b82;
+
+    .el-table__empty-text {
+    	color: #6d7b82!important;
+    	font-size: 12px;
+    }
+}
+/* Element end */
+
 /* 资产页面 隐藏小额币种下拉框样式重写 */
 .hide_coin_select {
 	.el-input__inner {

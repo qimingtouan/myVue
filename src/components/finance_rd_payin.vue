@@ -28,8 +28,7 @@
                                                     <input placeholder="搜索充值币种" id="searCoinName" v-model="searCoinName">
                                                     <a><i class="fa fa-search"></i></a>
                                                 </div>
-                                                <li v-for="item in coinList" :key="item.index" :class="{'not-open': !item.isCanRecharge}" :data-coin="item.key" 
-                                                    :data-unittag="item.unitTag" @click="switchCoin(item.key, currentCoin, item.isCanRecharge)">{{item.enName}}</li>
+                                                <li v-for="item in coinList" :key="item.index" :class="{'not-open': !item.canRecharge}" :data-coin="item.coinNameEn" @click="switchCoin(item.coinNameEn, currentCoin, item.canRecharge)">{{item.coinNameEn}}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -44,9 +43,9 @@
                                         </a>
                                     </h6>
                                     <div id="optional-list" class="optional-list">
-                                        <a v-for="item in userCoinList" :key="item.index" :data-coin="item.currency" 
-                                            :class="{'coin_selected': item.currency==currentCoin}" 
-                                            @click="switchCoin(item.currency, currentCoin, true)">{{item.currency.toUpperCase()}}
+                                        <a v-for="item in userCoinList" :key="item.index" :data-coin="item.coinNameEn" v-if="item.status == 1" 
+                                            :class="{'coin_selected': item.coinNameEn.toUpperCase() == currentCoin.toUpperCase()}" 
+                                            @click="switchCoin(item.coinNameEn, currentCoin, true)">{{item.coinNameEn.toUpperCase()}}
                                         </a>
                                     </div>
                                 </div>
@@ -56,7 +55,7 @@
                                     <h6>钱包地址</h6>
                                     <div class="address-field">
                                         <span id="keyPreCopy" class="key-pre">{{coinAddress}}</span>
-                                        <a v-if="!coinAddress" id="getAddr" class="btn-copy" @click="getCoinAddr()">获取地址</a>
+                                        <a v-if="!coinAddress" id="getAddr" class="btn-copy" @click="getCoinAddr(currentCoin)">获取地址</a>
                                         <a v-if="coinAddress" id="copyadd" class="btn-copy" 
                                             v-clipboard:copy="coinAddress" 
                                             v-clipboard:success="onCopySuccess" 
@@ -77,13 +76,13 @@
             <div id="optional-popup">
                 <div class="popup-box">
                     <a class="close" @click="toggleOptional(false)"><i class="fa fa-close"></i></a>
-                    <h5><span class="popup_title">自选币种设置</span><span class="popup_subtitle">( 最多选择5个 )</span></h5>
+                    <h5><span class="popup_title">自选币种设置</span><span class="popup_subtitle"></span></h5>
                     <div class="separate_line mb10"></div>
                     <ul id="popup-coins" class="coin-list">
-                        <li v-for="item in coins" :key="item.index" :class="{'not-open': !item.isCanRecharge}">
-                            <label @click="editUserCoins(item.key, coinFlags[item.key])" :class="{'choosed': coinFlags[item.key]}">
-                                <!-- <input type="checkbox" :data-name="item.key"> -->
-                                <i :class="'icon-'+ item.key"></i>{{item.enName}}
+                        <li v-for="item in userCoinList" :key="item.index">
+                            <label @click="editUserCoins(item.coinNameEn, item.coinId, coinFlags[item.coinNameEn])" 
+                                    :class="{'choosed': coinFlags[item.coinNameEn]}">
+                                <img :src="item.iconPath"/>{{item.coinNameEn}}
                             </label>
                         </li>
                     </ul>
@@ -92,15 +91,15 @@
 
             <!-- 安全提示 -->
             <div class="ctips user_main_title3">
-                <div style="position:absolute; top:2px; right:10px;">
-                    <a href="#">
-                        <img src="https://s.zb.com/statics/img/v2/common/techpic_payin2.png" style="width:120px;">
+                <div style="position:absolute; top:18px; left:30px;">
+                    <a href="#" style="display: block;" title="充币教程">
+                        <img src="../assets/img/tipicon_payin.png">
                     </a>
                 </div>
-                <p>
+                <p class="nb_ctips_text">
                     <span>安全提示</span><br>
-                    <b class="ft14 text_red">禁止充值除<span class="text_uppercase text_red font14">{{currentCoin}}</span>之外的其他资产，任何非<span class="text_uppercase text_red ft14">{{currentCoin}}</span>资产充值将不可找回</b><br>
-                    <em>* 1. 往该地址充值，汇款完成，等待网络自动确认（1个确认）后系统自动到账</em><br>
+                    <b class="ft14 text_red">禁止充值除<span class="text_uppercase text_red ft14">{{currentCoin}}</span>之外的其他资产，任何非<span class="text_uppercase text_red ft14">{{currentCoin}}</span>资产充值将不可找回</b><br>
+                    <em>* 1. 往该地址充值，汇款完成，等待网络自动确认（{{confirmRecharge}} 个确认）后系统自动到账</em><br>
                     <em>* 2. 为了快速到账，充值时可以适当提高网络手续费</em><br>
                 </p>
                 <div class="close" title="关闭">×</div>
@@ -109,19 +108,18 @@
             <!-- 表格：充币记录 -->
             <div class="bk-onelist recordlistcont">
                 <div id="shopslist" class="table-responsive">
-                    <input type="hidden" id="currentPage" v-model="currentPage">
-                    <input type="hidden" id="currentTab" v-model="currentTab">
+                    <input type="hidden" id="lastRecordId" v-model="lastRecordId">
                     <input type="hidden" id="coint" v-model="currentCoin">
                     <!-- 当前价格（隐藏） -->
                     <input type="hidden" id="currentPrice" value="">
                     <table id="ListTable" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th width="170px">时间</th>
-                                <th width="240px">类型</th>
-                                <th width="78px">金额<span class="text_uppercase">({{currentCoin}})</span></th>
-                                <th width="80px">确认次数</th>
-                                <th width="105px">状态</th>
+                                <th width="20%">时间</th>
+                                <th width="20%">类型</th>
+                                <th width="30%">金额<span class="text_uppercase">({{currentCoin}})</span></th>
+                                <th width="15%">确认次数</th>
+                                <th width="15%">状态</th>
                             </tr>
                         </thead>
 
@@ -139,28 +137,25 @@
 
                         <tbody>
                             <tr v-for="item in listTableData" :key="item.index">
-                                <td>{{item.showDate}}</td>
+                                <td>{{item.time}}</td>
                                 <td>
-                                    <div class="td_purple">{{item.typeName}}</div>
+                                    <div class="td_purple">{{item.type}}</div>
                                 </td>
                                 <td>
-                                    <div>{{item.chargeAmount}}</div>
+                                    <div>{{M.fixDecimal(item.amount, item.scale)}}</div>
                                 </td>
-                                <td>{{item.confirmTimes}}</td>
-                                <td v-if="item.chargeStatus == 0">
-                                    <i i class="fa fa-check success" aria-hidden="true"></i>成功
-                                </td>
-                                <td v-if="item.chargeStatus == 1">
-                                    <i i class="fa fa-times fail" aria-hidden="true"></i>失败
-                                </td>
+                                <td>{{item.confirmation}}</td>
+                                <td v-if="item.status == 1"><i class="fa fa-check success" aria-hidden="true"></i>成功</td>
+                                <td v-if="item.status == 0"><i class="el-icon-loading mr5" aria-hidden="true"></i>进行中</td>
+                                <td v-if="item.status == -1"><i class="fa fa-times fail" aria-hidden="true"></i>失败</td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <script type="text/javascript">
-                        formatNum();
-                    </script> -->
+
                     <div class="bk-moreBtn" style="display: none;" id="moreBtnWrap">
-                        <button id="morebtn" class="btn btn-outline" type="button" @click="initListTable(currentPage.pageIndex+1, currentCoin)"><i class="fa fa-angle-down fa-fw"></i>更多</button>
+                        <button id="morebtn" class="btn btn-outline" type="button" @click="initListTable(currentCoin, lastRecordId)">
+                            <i class="fa fa-angle-down fa-fw"></i>更多
+                        </button>
                     </div>
                 </div>
             </div>
@@ -169,6 +164,7 @@
 </template>
 
 <script>
+    import M from './../assets/js/common_method'
     export default {
         name: 'finance_rd_payin',
         data() {
@@ -177,11 +173,12 @@
                 coins: [],
                 coinFlags: {},
                 userCoinList: [],
-                currentPage: 1,
-                currentTab: 'all',
-                currentCoin: 'usdt',
+                currentCoin: 'USDT',
+                lastRecordId: '',
                 listTableData: [],
-                coinAddress: ''
+                coinAddress: '',
+                confirmRecharge: '--',
+                confirmList: {}
             }
         },
         computed: {
@@ -192,7 +189,7 @@
                 // 搜索过滤
                 if (this.searCoinName !== '') {
                     coins = coins.filter(function(item){
-                        return item.enName.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
+                        return item.coinNameEn.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
                     }.bind(this))
 
                 }
@@ -203,22 +200,49 @@
 
         },
         methods: {
+            // 提示弹窗
+            msgConfirm(msg, msgTitle, msgType) {
+                this.$confirm(msg, msgTitle, {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: msgType
+                }).then(() => {
+
+                }).catch(() => {
+
+                });
+            },
+
             // 查询所有币种
-            getCoinList() {
+            getCoinList(currentCoin) {
                 let _this = this;
                 $.ajax({
-                    url: './../../../static/mock/coinListMock.json',
-                    // type: "POST",
+                    url: '/web/asset/getAllDetail',
                     type: "GET",
                     dataType: "json",
                     success: function(res) {
-                        _this.coins = res.coins;
-                        for (var i = 0; i <_this.coins.length; i++) {
-                            _this.$set(_this.coinFlags, _this.coins[i].key, false);
+                        if (res.code == 200) {
+                            if (res.data && res.data.assets) {
+                                _this.coins = res.data.assets;
+                                // _this.assetAmount = res.data.total; 
+                            }
+                            for (var i = 0; i <_this.coins.length; i++) {
+                                _this.$set(_this.coinFlags, _this.coins[i].coinNameEn, false);
+                                _this.$set(_this.confirmList, _this.coins[i].coinNameEn, _this.coins[i].sysRechargeBlock);
+                            }
+
+                            if (_this.confirmList && _this.confirmList[currentCoin]) {
+                                _this.confirmRecharge = _this.confirmList[currentCoin];
+                            } else {
+                                _this.confirmRecharge = '--';
+                            }
+                        } else {
+                            _this.msgConfirm(res.msg, '', 'error');
                         }
+
                     },
                     error: function(err){
-                        console.log(err);
+                       _this.msgConfirm('呀，出错啦。。。', '', 'error');
                     },
                     complete: function(XHR, TS) {
                         _this.getUserCoinList(); // 查询用户自选币种
@@ -233,15 +257,22 @@
                     return;
                 }
                 window.location.hash = "#/payin/"+clickCoin;
+
                 _this.currentCoin = clickCoin;
-                _this.currentPage = 1;
+                _this.lastRecordId = '';
                 _this.listTableData = [];
+
+                if (_this.confirmList && _this.confirmList[currentCoin]) {
+                    _this.confirmRecharge = _this.confirmList[currentCoin];
+                } else {
+                    _this.confirmRecharge = '--';
+                }
 
                 // 查询该点击币种的钱包地址
                 _this.queryCoinAddr(clickCoin);
 
                 // 查询该点击币种的充值记录
-                _this.initListTable(1, clickCoin);
+                _this.initListTable(clickCoin);
             },
 
             // 查询当前币种的钱包地址
@@ -249,18 +280,22 @@
                 let _this = this;
                 $.ajax({
                     type: "GET",
-                    url: "./../../../static/mock/userCoinAddrMock.json",
+                    url: "/web/rechange/getCionAddressByCoinName/"+ coinName,
                     dataType: "json",
                     success: function(res) {
-                        if(res.isSuc) {
-                            _this.coinAddress = coinName+ "_" + res.data;
-                        } else {
-                            alert(res.des);
+                        if(res.code == 200) {
+                            if (res.data && res.data.cryptoAddress) {
+                                _this.coinAddress = res.data.cryptoAddress;   
+                            } else {
+                                _this.coinAddress = '';
+                            }
+
+                        // } else {
+                        //     _this.msgConfirm(res.msg, '', 'error');
                         }
                     },
                     error: function(err) {
-                        //alert('网络访问出错，请稍后重试。');
-                        console.log(err);
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
                     }
                 });
             },
@@ -268,49 +303,88 @@
             // 获取当前币种充值地址
             getCoinAddr(coinName) {
                 let _this = this;
-                _this.coinAddress = coinName + "_ABCDefGHijkLMnOpQrStuvWxyZ";
+                $.ajax({
+                    type: "GET",
+                    url: "/web/rechange/allotCionAddress/" + coinName,
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.code == 200) {
+                            _this.$alert('获取钱包地址成功', {
+                                confirmButtonText: '确定',
+                                type: 'success',
+                                callback: action => {
+                                    if (res.data && res.data.address) {   
+                                        _this.coinAddress = res.data.address; 
+                                    }
+                                }
+                            });
+                        } else {
+                            _this.$alert(res.msg, {
+                                confirmButtonText: '确定',
+                                type: 'error',
+                                callback: action => {
+                                    
+                                }
+                            });
+                        }
+                    }
+                });
             },
 
             // 地址复制成功
             onCopySuccess(e) {
-                console.log(e);
-                alert("复制成功：" + e.text);
+                this.$alert('复制成功！', {
+                    confirmButtonText: '确定',
+                    type: 'success',
+                    callback: action => {
+
+                    }   
+                });
             },
             // 地址复制失败
             onCopyError(e) {
-                alert("无法复制文本");
-                console.error(e);
+                this.$alert('无法复制文本', {
+                    confirmButtonText: '确定',
+                    type: 'error',
+                    callback: action => {
+
+                    }
+                });
             },
 
             // 当前币种充值记录
-            initListTable(currentPage, currentCoin){
+            initListTable(currentCoin, lastRecordId){
                 let _this = this;
-                let currentTab = _this.currentTab;
-                $.ajax({
-                    // url: "https://vip.zb.com/u/payin/chargerecord/coinAjax?tab=" + currentTab + "&page=" + currentPage + "&pageSize=10&coint=" + currentCoin,
-                    url: "./../../../static/mock/payinDetailMock.json",
-                    type: "GET",
-                    dataType: "json",
-                    success: function(json){
-                        if (json.isSuc) {
-                            _this.currentPage = json.datas.pageIndex;
+                let payInRecordUrl = "/web/rechange/getAssetRecharge?coinName="+encodeURIComponent(currentCoin);
+                if (lastRecordId) {
+                    payInRecordUrl += "&lastId=" + encodeURIComponent(lastRecordId);
+                }
 
-                            if ((!json.datas.list || json.datas.list.length <= 0)) {
-                                if (currentPage == 1) {
+                $.ajax({
+                    type: "GET",
+                    url: payInRecordUrl,
+                    dataType: "json",
+                    success: function(res){
+                        if (res.code == 200) {
+                            if ((!res.data || res.data.length <= 0)) {
+                                if (!lastRecordId) {
                                     _this.listTableData = [];
                                 }
                                 $('#moreBtnWrap').hide();
                             } else {
-                                _this.listTableData = _this.listTableData.concat(json.datas.list);
+                                _this.listTableData = _this.listTableData.concat(res.data);
+
+                                let _length = _this.listTableData.length;
+                                _this.lastRecordId = _this.listTableData[_length-1].id;
+
                                 $('#moreBtnWrap').show();
                             }
                         } else {
-                            alert(json.des);
+                            _this.msgConfirm(res.msg, '', 'error');
                         }
                     },
                     error: function(err) {
-                        // alert('网络访问出错，请稍后重试。');
-                        console.log(err);
+                        _this.msgConfirm('呀，出错啦。。。', '', 'error');
                     }
                 });
             },
@@ -330,48 +404,49 @@
                 let _this = this;
                 $.ajax({
                     type: "GET",
-                    url: "./../../../static/mock/userCoinListMock.json",
-                    //contentType: "application/json",
+                    url: "/web/optional/getOptionalRecoid",
                     dataType: "json",
                     success: function(res) {
-                        if(res.isSuc && res.datas.length) {
-                            res.datas.map(function(coin) {
-                                var coinName = coin.currency;
-                                _this.coinFlags[coinName] = true;
+                        if(res.code == 200 && res.data.length) {
+                            res.data.map(function(coin) {
+                                var coinName = coin.coinNameEn.toUpperCase();
+                                if (coin.status == 1) {
+                                    _this.coinFlags[coinName] = true;
+                                } else {
+                                    _this.coinFlags[coinName] = false;
+                                }
+                                
                             });
-                            _this.userCoinList = res.datas;
+                            _this.userCoinList = res.data;
                         }
                     }
                 })
             },
 
             // 自选币种编辑(选中/去选中)
-            editUserCoins(coinName, isChoose) {
+            editUserCoins(coinName, coinId, isChoose) {
                 let _this = this;
-                let status = (isChoose == true)? '2' : '1';
+                let _addUrl = "/web/optional/addOptionalRecoid/" + encodeURIComponent(coinId);
+                let _delUrl = "/web/optional/updateOptionalRecoid/" + encodeURIComponent(coinId);
+                
+                let _url = (isChoose == true)? _delUrl : _addUrl;
                 _this.coinFlags[coinName] = !isChoose;
                 
-                var data = {
-                    coinName: coinName,
-                    status: status
-                }
                 $.ajax({
                     type: "POST",
-                    url: "https://vip.zb.com/user/doEditUserCoin",
-                    dataType: "jsonp",
-                    data: data,
+                    url: _url,
+                    dataType: "json",
                     success: function(res){
-                        if(res.isSuc){
-                            // JuaBox.showRight('操作成功');
-                            alert('操作成功');
+                        if(res.code == 200){
+                            _this.msgConfirm(res.msg, '', 'success');
+                        } else {
+                            _this.coinFlags[coinName] = isChoose;
+                            _this.msgConfirm(res.msg, '', 'error');
                         }
                     },
                     error: function(err){
-                        // check.attr("checked", false);
-                        // JuaBox.showRight(JSON.parse(err.responseText).des);
                         _this.coinFlags[coinName] = isChoose;
-                        alert("自选币种编辑失败！");
-                        console.log(err);
+                        _this.msgConfirm('自选币种编辑失败！', '', 'error');
                     }
                 })
             }
@@ -381,19 +456,21 @@
         },
         created() {
             let _this = this;
+            _this.M = M;
+
             let _routerCoin = _this.$route.params[0];
-            console.log(_this.$route.params);
+            
             if (_routerCoin) {
-                _this.currentCoin = _routerCoin;
+                _this.currentCoin = _routerCoin.toUpperCase();
             } else {
-                _this.currentCoin = 'usdt';
+                _this.currentCoin = 'USDT';
             }
 
             let _currentCoin = _this.currentCoin;
 
-            _this.getCoinList(); // 查询所有币种和用户自选币种
+            _this.getCoinList(_currentCoin); // 查询所有币种和用户自选币种
             _this.queryCoinAddr(_currentCoin); // 查询当前币种地址
-            _this.initListTable(1, _currentCoin); // 当前币种充值记录
+            _this.initListTable(_currentCoin); // 当前币种充值记录
         },
         mounted() {
         }
@@ -414,6 +491,18 @@
 
     .popup-box .coin-list li label.choosed {
         border-color: #ffa338;
+    }
+
+    .nb_ctips_text {
+        margin-left: 180px;
+    }
+
+    .text_red {
+        color: rgba(251,85,85,1);
+    }
+
+    .td_purple {
+        color: #aeb1d0;
     }
 
 </style>

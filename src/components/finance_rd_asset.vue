@@ -18,7 +18,7 @@
                             <div class="col-sm-6">
                                 <div>
                                     <div class="asset-title">
-                                        <h6>现货资产折合</h6>
+                                        <h6>账户资产折合</h6>
                                     </div>
                                     <div class="asset-amount">
                                         <div class="amount">
@@ -84,41 +84,46 @@
                                     </div>
                                 </div>
                                 <!-- 加载图标 Loading -->
-                                <div class="caption loading" style="display: none;">
+                                <div class="caption loading" v-if="coinListLoading">
                                     <div class="bk-norecord">
                                         <p>
-                                            <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><br>
+                                            <!-- <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i><br> -->
+                                            <i class="el-icon-loading fa-spin fa-2x fa-fw"></i><br>
                                             <span>Loading...</span>
                                         </p>
                                     </div>
                                 </div>
 
+                                <div class="caption" v-if="coinList.length == 0 && !coinListLoading">
+                                    <div class="bk-norecord"><p><i class="bk-ico info"></i>暂时没有相关记录。</p></div>    
+                                </div>
                                 <div class="tbody">
                                     <div class="tr sdiv-0 showdiv" v-for="item in coinList" :key="item.index">
                                         <div class="td coin-name">
                                             <div class="cell">
-                                                <i :class="'icon-' + item.enName"></i>
-                                                <span>{{item.enName}}</span>
+                                                <!-- <i :class="'icon-' + item.enName"></i> -->
+                                                <img :src="item.iconPath" class="asset_coin_img"/>
+                                                <span>{{item.coinNameEn}}</span>
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell">
-                                                <span class="num">{{M.fixDecimal(item.available, item.unitDecimal)}}</span>{{item.enName}}
+                                                <span class="num">{{M.fixDecimal(item.available, item.scale)}}</span>{{item.coinNameEn}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell">
-                                                <span class="num">{{M.fixDecimal(item.freez, item.unitDecimal)}}</span>{{item.enName}}
+                                                <span class="num">{{M.fixDecimal(item.freez, item.scale)}}</span>{{item.coinNameEn}}
                                             </div>
                                         </div>
                                         <div class="td actions">
-                                            <div class="cell">
-                                                <!-- <a :class="{'btn-gray': !item.isCanRecharge}" class="btn btn-sm btn-primary" href="#" target="_self"><i class="bk-ico incoin"></i>充值</a> -->
-                                                <router-link :to="'/payin/'+item.key" :class="{'btn-gray': !item.isCanRecharge}" class="btn btn-sm btn-primary">
+                                            <div class="cell" :id="item.coinId">
+                                                <router-link :to="'/payin/'+item.coinNameEn" :class="{'btn-gray': !item.canRecharge}" class="btn btn-sm btn-primary">
                                                     <i class="bk-ico incoin" aria-hidden="true"></i>充值
                                                 </router-link>
-                                                <a :class="{'btn-gray': !item.isCanWithdraw}" class="btn btn-sm btn-second" href="#" target="_self"><i class="bk-ico outcoin"></i>提现</a>
-                                                <!-- <a v-if="item.canLoan" class="btn btn-sm btn-loan" href="#" target="_self"><i class="bk-ico loan fa fa-balance-scale"></i>交易</a> -->
+                                                <router-link :to="'/payout/'+item.coinNameEn" :class="{'btn-gray': !item.canWithdraw}" class="btn btn-sm btn-second">
+                                                    <i class="bk-ico outcoin" aria-hidden="true"></i>提现
+                                                </router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -140,8 +145,8 @@
                         <table id="billDetail" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th width="15%">时间</th>
-                                    <th width="30%" style="text-align:left;">类别</th>
+                                    <th width="20%">时间</th>
+                                    <th width="25%" style="text-align:left;">类别</th>
                                     <th width="40%" style="text-align:left;">发生金额</th>
                                     <th width="15%">状态</th>
                                 </tr>
@@ -157,7 +162,7 @@
                                 </tr>
                                 <tr></tr>
                             </tbody>
-                            <tbody v-if="false">
+                            <!-- <tbody v-if="false">
                                 <tr>
                                     <td>2018-06-04 09:29:06</td>
                                     <td>
@@ -180,29 +185,31 @@
                                     <td>成功</td>
                                 </tr>
                                 <tr></tr>
-                            </tbody>
+                            </tbody> -->
 
                             <tbody>
                                 <tr v-for="item in billDetailData.list" :key="item.index">
-                                    <td>{{item.showDate}}</td>
+                                    <td>{{item.time}}</td>
                                     <td>
-                                        <div class="td_purple">{{item.typeName}}</div>
-                                        <div class="td_wrap">流水号:{{item.id}}</div>
+                                        <div class="td_purple">{{item.type}}</div>
+                                        <!-- <div class="td_wrap">流水号:{{item.id}}</div> -->
                                     </td>
                                     <td>
-                                        <div>{{item.showRmb}}</div>
-                                        <div class="td_wrap" v-if="item.showDaos != '…'">{{item.showDaos}}</div>
+                                        <div>{{item.sumDesc}}</div>
                                     </td>
-                                    <td><i i class="fa fa-check success" aria-hidden="true"></i>成功</td>
+                                    <td v-if="item.status == 1"><i class="fa fa-check success" aria-hidden="true"></i>成功</td>
+                                    <td v-if="item.status == 0"><i class="el-icon-loading mr5" aria-hidden="true"></i>进行中</td>
+                                    <td v-if="item.status == -1"><i class="fa fa-times fail" aria-hidden="true"></i>失败</td>
                                 </tr>
                                 
                                 <tr></tr>
                             </tbody>
                         </table>
-                        <input type="hidden" id="pageIndex" v-model="billDetailData.pageIndex">
-                        <input type="hidden" id="currency" v-model="currency">
-                        <div class="bk-moreBtn">
-                            <button id="morebtn" class="btn btn-outline" type="button" style="display: none;" @click="billDetail(billDetailData.pageIndex+1)"><i class="fa fa-angle-down fa-fw"></i>更多</button>
+                        <input type="hidden" id="lastRecordId" v-model="billDetailData.lastRecordId">
+                        <div class="bk-moreBtn"  style="display: none;" id="moreBtnWrap">
+                            <button id="morebtn" class="btn btn-outline" type="button" @click="billDetail(billDetailData.lastRecordId)">
+                                <i class="fa fa-angle-down fa-fw"></i>更多
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -235,13 +242,14 @@
                     value: '10000',
                     label: '小于10000'
                 }],
-                assetAmount: '',
+                assetAmount: '--',
                 coins: [],
+                coinListLoading: true,
+                billDetaiLoading: true,
                 billDetailData: {
                     list: [], 
-                    pageIndex: 1
-                },
-                currency: 'all'
+                    lastRecordId: ''
+                }
             }
         },
         computed: {
@@ -251,7 +259,7 @@
                 // 搜索过滤
                 if (this.searCoinName !== '') {
                     coins = coins.filter(function(item){
-                        return item.enName.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
+                        return item.coinNameEn.toUpperCase().indexOf(this.searCoinName.toUpperCase()) !== -1;
                     }.bind(this))
 
                 }
@@ -264,7 +272,6 @@
 
                 }
 
-                console.log(coins)
                 return coins;
             }      
         },
@@ -283,31 +290,34 @@
         },
         methods: {
             // 查询最近资金记录
-            billDetail(pageIndex) {
-                console.log(pageIndex);
+            billDetail(lastRecordId) {
                 let _this = this;
-                let currency = _this.currency;
-                $.ajax({
-                    url: './../../../static/mock/billDetailMock.json',
-                    type: 'GET',
-                    data: {pageIndex : pageIndex, currency : currency},
-                    dataType: 'json',
-                    success: function(json) {
-                        if (json.isSuc) {
-                            // _this.billDetailData.pageIndex = json.datas.pageIndex;
-                            _this.billDetailData.pageIndex += 1;
+                let billDetailUrl = "/web/asset/getRecord";
+                if (lastRecordId) {
+                    billDetailUrl += "?lastRecordId=" + encodeURIComponent(lastRecordId);
+                }
 
-                            if ((!json.datas.list || json.datas.list.length <= 0)) {
-                                if (pageIndex == 1) {
+                $.ajax({
+                    type: 'GET',
+                    url: billDetailUrl,
+                    dataType: 'json',
+                    success: function(res) {
+                        if (res.code == 200) {
+                            if ((!res.data || res.data.length <= 0)) {
+                                if (!lastRecordId) { // 第一次查询，表格为空
                                     _this.billDetailData.list = [];
                                 }
-                                $('#morebtn').hide();
+                                $('#moreBtnWrap').hide();
                             } else {
-                                _this.billDetailData.list = _this.billDetailData.list.concat(json.datas.list);
-                                $('#morebtn').show();
+                                _this.billDetailData.list = _this.billDetailData.list.concat(res.data);
+
+                                let _length = _this.billDetailData.list.length;
+                                _this.billDetailData.lastRecordId = _this.billDetailData.list[_length-1].recordId;
+
+                                $('#moreBtnWrap').show();
                             }
                         } else {
-                            alert(json.des);
+                            alert(res.msg);
                         }
                     },
                     error: function() {
@@ -323,21 +333,29 @@
         created() {
             let _this = this;
             _this.M = M;
+
+            _this.coinListLoading = true;
             $.ajax({
-                url: './../../../static/mock/coinListMock.json',
-                // type: "POST",
+                url: '/web/asset/getAllDetail',
                 type: "GET",
                 dataType: "json",
+                 complete: function() {
+                    _this.coinListLoading = false;
+                },
                 success: function(res) {
-                    _this.coins = res.coins;
-                    _this.assetAmount = res.total;
+                    if (res.code == 200) {
+                        if (res.data) {
+                            _this.coins = res.data.assets;
+                            // _this.assetAmount = res.data.total; 
+                        }
+                    }
                 },
                 error: function(err){
                     console.log(err);
                 }
             });
 
-            _this.billDetail(1);
+            _this.billDetail();
         },
         mounted() {
           console.log(this.coins)
@@ -365,5 +383,14 @@
     }
     .search_coin_wrap {
         text-align: right;
+    }
+
+    .asset-table .asset_coin_img {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: middle;
+        margin-top: -2px
     }
 </style>

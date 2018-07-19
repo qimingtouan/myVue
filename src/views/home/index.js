@@ -12,12 +12,40 @@ import Vuex from 'vuex'
 import store from './../../vuex/store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.prototype.$ajax = axios
 Vue.use(ElementUI);
+axios.interceptors.request.use(function (config) {
+  console.log(config.url)
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+axios.interceptors.response.use((response) => {
+  console.log(response)
+  if( response.data.code <= 200){
+    return response;
+  }else{
+    if(response.data.code == 10000){
+      //未登录
+
+    }
+    vm.$alert(response.data.msg, 'ERROR', {
+      confirmButtonText: '确定',
+      type:"error"
+    });
+    return Promise.reject(response);
+  }
+}, function (error) {
+  console.log(error)
+  return Promise.reject(error);
+});
+
+Vue.prototype.$ajax = axios
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+let vm = new Vue({
   el: '#app',
   router,
   store,
